@@ -24,5 +24,10 @@ namespace PartSellerWPF
         {
             InitializeComponent();
         }
+
+        private void MainFrame_FragmentNavigation(object sender, FragmentNavigationEventArgs e)
+        {
+
+        }
     }
 }

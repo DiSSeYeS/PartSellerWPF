@@ -5,8 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PartSellerWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="450" MinWidth="800" Height="600" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="300*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Frame x:Name="MainFrame" 
+                 Grid.Row="1" 
+                 FragmentNavigation="MainFrame_FragmentNavigation" 
+                 NavigationUIVisibility="Hidden" 
+                 Margin="10"
+                 BorderThickness="1"
+                 BorderBrush="Black"
+                 />
         
+        <TextBox x:Name="SearchTextBox"
+                 Grid.Row="0"
+                 FontSize="22"
+                 TextAlignment="Center"
+                 Margin="200,10"
+                 BorderThickness="1"
+                 BorderBrush="Black"
+                 />
     </Grid>
 </Window>
