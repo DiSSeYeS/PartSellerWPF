@@ -22,8 +22,7 @@
                  NavigationUIVisibility="Hidden" 
                  Margin="10"
                  BorderThickness="1"
-                 BorderBrush="Black"
-                 />
+                 BorderBrush="Black"/>
 
         <TextBox x:Name="SearchTextBox"
                  Grid.Row="0"
@@ -31,8 +30,8 @@
                  TextAlignment="Center"
                  Margin="200,10"
                  BorderThickness="1"
-                 BorderBrush="Black"
-                 />
+                 BorderBrush="Black"/>
+        
         <Button x:Name="btnAccount" 
                 Background="Transparent" 
                 Grid.Row="0" BorderThickness="0" 
@@ -60,11 +59,30 @@
                     Content="Каталог" 
                     Click="btnCatalog_Click"/>
 
-        <Button Grid.Row="2" 
+        <Button x:Name="btnBack"
+                Grid.Row="2" 
                 Style="{StaticResource RoundedButton}" 
                 Margin="10,0,0,10" 
                 Width="175" 
                 HorizontalAlignment="Left"
-                Content="Button"/>
+                Content="Назад"
+                Click="btnBack_Click"/>
+        
+        <Button x:Name="btnFilters"
+                Grid.Row="2" 
+                Style="{StaticResource RoundedButton}" 
+                Margin="0,0,10,10" 
+                Width="175" 
+                HorizontalAlignment="Right"
+                Content="Фильтры"
+                Click="btnFilters_Click"/>
+
+        <Button x:Name="btnSearch"
+                Grid.Row="2" 
+                Style="{StaticResource RoundedButton}" 
+                Margin="200,0,200,10" 
+                Content="Поиск"
+                Click="btnSearch_Click"/>
+
     </Grid>
 </Window>
