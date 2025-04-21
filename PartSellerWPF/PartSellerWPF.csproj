@@ -67,8 +67,64 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\CasePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CoolingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CPUPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DiskPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\GPUPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MotherboardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RAMPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SupplyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\CasePage.xaml.cs">
+      <DependentUpon>CasePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CoolingPage.xaml.cs">
+      <DependentUpon>CoolingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CPUPage.xaml.cs">
+      <DependentUpon>CPUPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DiskPage.xaml.cs">
+      <DependentUpon>DiskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\GPUPage.xaml.cs">
+      <DependentUpon>GPUPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MotherboardPage.xaml.cs">
+      <DependentUpon>MotherboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RAMPage.xaml.cs">
+      <DependentUpon>RAMPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SupplyPage.xaml.cs">
+      <DependentUpon>SupplyPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
