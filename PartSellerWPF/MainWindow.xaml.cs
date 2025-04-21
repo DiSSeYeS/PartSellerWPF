@@ -29,5 +29,20 @@ namespace PartSellerWPF
         {
 
         }
+
+        private void btnAccount_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCart_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCatalog_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

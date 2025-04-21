@@ -24,7 +24,7 @@
                  BorderThickness="1"
                  BorderBrush="Black"
                  />
-        
+
         <TextBox x:Name="SearchTextBox"
                  Grid.Row="0"
                  FontSize="22"
@@ -33,5 +33,33 @@
                  BorderThickness="1"
                  BorderBrush="Black"
                  />
+        <Button x:Name="btnAccount" 
+                Background="Transparent" 
+                Grid.Row="0" BorderThickness="0" 
+                Click="btnAccount_Click" 
+                Width="50" Height="50" 
+                HorizontalAlignment="Right" 
+                Margin="0,0,125,0">
+            <Image Source="https://grizly.club/uploads/posts/2022-12/1670955047_grizly-club-p-chelovek-ikonka-png-1.png" Width="50" Height="50"/>
+        </Button>
+        <Button x:Name="btnCart" 
+        Background="Transparent" 
+        Grid.Row="0" BorderThickness="0" 
+        Click="btnCart_Click" 
+        Width="50" Height="50" 
+        HorizontalAlignment="Right" 
+        Margin="0,0,25,0">
+            <Image Source="https://cdn-icons-png.freepik.com/512/1413/1413908.png" Width="50" Height="50"/>
+        </Button>
+        <Border CornerRadius="20" Grid.Row="0" Background="LightBlue" Margin="10,10,0,10" Width="175" HorizontalAlignment="Left">
+            <Button x:Name="btnCatalog" 
+                    Content="Каталог" 
+                    Click="btnCatalog_Click"
+                    FontSize="24"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    >
+            </Button>
+        </Border>
     </Grid>
 </Window>
