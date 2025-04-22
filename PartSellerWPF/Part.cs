@@ -29,6 +29,7 @@ namespace PartSellerWPF
         public Nullable<int> DiskID { get; set; }
         public Nullable<int> CoolingID { get; set; }
         public Nullable<int> CaseID { get; set; }
+        public string Image { get; set; }
     
         public virtual Case Case { get; set; }
         public virtual Cooling Cooling { get; set; }

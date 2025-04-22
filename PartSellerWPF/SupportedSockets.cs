@@ -12,20 +12,13 @@ namespace PartSellerWPF
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class SupportedSockets
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
-        {
-            this.OrderItem = new HashSet<OrderItem>();
-        }
-    
         public int ID { get; set; }
-        public int PartID { get; set; }
-        public decimal Price { get; set; }
+        public int CoolerID { get; set; }
+        public int SocketID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItem { get; set; }
-        public virtual Part Part { get; set; }
+        public virtual Cooling Cooling { get; set; }
+        public virtual Socket Socket { get; set; }
     }
 }

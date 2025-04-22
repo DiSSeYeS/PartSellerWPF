@@ -23,11 +23,14 @@ namespace PartSellerWPF
         public int ID { get; set; }
         public int BrandID { get; set; }
         public string Model { get; set; }
-        public string Type { get; set; }
-        public string MemoryCount { get; set; }
+        public int RAMTypeID { get; set; }
+        public int MemoryCountGB { get; set; }
+        public int MemoryFrequencyMHz { get; set; }
+        public int Count { get; set; }
     
         public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Part> Part { get; set; }
+        public virtual RAMType RAMType { get; set; }
     }
 }

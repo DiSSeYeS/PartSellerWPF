@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище CSModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Brand">
           <Key>
             <PropertyRef Name="ID" />
@@ -21,8 +21,18 @@
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="Height" Type="int" Nullable="false" />
-          <Property Name="SupplyWidth" Type="int" Nullable="false" />
-          <Property Name="SupplyHeight" Type="int" Nullable="false" />
+          <Property Name="Length" Type="int" Nullable="false" />
+          <Property Name="SupplyLength" Type="int" Nullable="false" />
+          <Property Name="GPULength" Type="int" Nullable="false" />
+          <Property Name="CoolerLength" Type="int" Nullable="false" />
+          <Property Name="FormFactorTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CoolerType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Cooling">
           <Key>
@@ -31,13 +41,13 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CoolerTypeID" Type="int" Nullable="false" />
           <Property Name="Speed" Type="int" Nullable="false" />
           <Property Name="Socket" Type="nvarchar" MaxLength="50" />
-          <Property Name="Width" Type="int" />
-          <Property Name="Height" Type="int" />
-          <Property Name="Length" Type="int" />
-          <Property Name="RPM" Type="int" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="Length" Type="int" Nullable="false" />
+          <Property Name="RPM" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CPU">
           <Key>
@@ -48,8 +58,13 @@
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Voltage" Type="int" Nullable="false" />
           <Property Name="Socket" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Cores" Type="int" />
-          <Property Name="Frequency" Type="int" />
+          <Property Name="Cores" Type="int" Nullable="false" />
+          <Property Name="Threads" Type="int" Nullable="false" />
+          <Property Name="Frequency" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="L1" Type="int" Nullable="false" />
+          <Property Name="L2" Type="int" Nullable="false" />
+          <Property Name="HasTurboBoost" Type="int" Nullable="false" />
+          <Property Name="MaxFrequency" Type="decimal" Precision="3" Scale="2" />
         </EntityType>
         <EntityType Name="Disk">
           <Key>
@@ -58,8 +73,22 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DiskTypeID" Type="int" Nullable="false" />
           <Property Name="Space" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DiskType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FormFactor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="GPU">
           <Key>
@@ -84,12 +113,16 @@
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Socket" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Chipset" Type="nvarchar" MaxLength="50" />
-          <Property Name="RAMType" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="RAMSlots" Type="int" />
-          <Property Name="Voltage" Type="int" />
-          <Property Name="Width" Type="int" />
-          <Property Name="Height" Type="int" />
+          <Property Name="Chipset" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RAMTypeID" Type="int" Nullable="false" />
+          <Property Name="RAMSlots" Type="int" Nullable="false" />
+          <Property Name="MaxRAMCount" Type="int" Nullable="false" />
+          <Property Name="MaxRAMFrequency" Type="int" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="SATASlots" Type="int" Nullable="false" />
+          <Property Name="M2Slots" Type="int" Nullable="false" />
+          <Property Name="NVMe" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -123,6 +156,7 @@
           <Property Name="DiskID" Type="int" />
           <Property Name="CoolingID" Type="int" />
           <Property Name="CaseID" Type="int" />
+          <Property Name="Image" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -140,7 +174,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PartID" Type="int" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Image" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RAM">
           <Key>
@@ -149,8 +182,24 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RAMTypeID" Type="int" Nullable="false" />
+          <Property Name="MemoryCountGB" Type="int" Nullable="false" />
+          <Property Name="MemoryFrequencyMHz" Type="int" Nullable="false" />
+          <Property Name="Count" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RAMType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="MemoryCount" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Socket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Supply">
           <Key>
@@ -163,6 +212,14 @@
           <Property Name="Width" Type="int" />
           <Property Name="Height" Type="int" />
           <Property Name="Length" Type="int" />
+        </EntityType>
+        <EntityType Name="SupportedSockets">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CoolerID" Type="int" Nullable="false" />
+          <Property Name="SocketID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -339,6 +396,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Case_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="1" />
+          <End Role="Case" Type="Self.Case" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Case">
+              <PropertyRef Name="FormFactorTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cooling_Brand">
           <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
           <End Role="Cooling" Type="Self.Cooling" Multiplicity="*" />
@@ -348,6 +417,18 @@
             </Principal>
             <Dependent Role="Cooling">
               <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cooling_CoolerType">
+          <End Role="CoolerType" Type="Self.CoolerType" Multiplicity="1" />
+          <End Role="Cooling" Type="Self.Cooling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CoolerType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Cooling">
+              <PropertyRef Name="CoolerTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -375,6 +456,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Disk_DiskType">
+          <End Role="DiskType" Type="Self.DiskType" Multiplicity="1" />
+          <End Role="Disk" Type="Self.Disk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DiskType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Disk">
+              <PropertyRef Name="DiskTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GPU_Brand">
           <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
           <End Role="GPU" Type="Self.GPU" Multiplicity="*" />
@@ -396,6 +489,18 @@
             </Principal>
             <Dependent Role="Motherboard">
               <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboard_RAMType">
+          <End Role="RAMType" Type="Self.RAMType" Multiplicity="1" />
+          <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Motherboard">
+              <PropertyRef Name="RAMTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -423,6 +528,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RAM_RAMType">
+          <End Role="RAMType" Type="Self.RAMType" Multiplicity="1" />
+          <End Role="RAM" Type="Self.RAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RAM">
+              <PropertyRef Name="RAMTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Supply_Brand">
           <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
           <End Role="Supply" Type="Self.Supply" Multiplicity="*" />
@@ -435,12 +552,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище CSModelContainer">
+        <Association Name="FK_SupportedSockets_Cooling">
+          <End Role="Cooling" Type="Self.Cooling" Multiplicity="1" />
+          <End Role="SupportedSockets" Type="Self.SupportedSockets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cooling">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedSockets">
+              <PropertyRef Name="CoolerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedSockets_Socket">
+          <End Role="Socket" Type="Self.Socket" Multiplicity="1" />
+          <End Role="SupportedSockets" Type="Self.SupportedSockets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedSockets">
+              <PropertyRef Name="SocketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelContainer">
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Case" EntityType="Self.Case" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CoolerType" EntityType="Self.CoolerType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cooling" EntityType="Self.Cooling" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CPU" EntityType="Self.CPU" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Disk" EntityType="Self.Disk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DiskType" EntityType="Self.DiskType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormFactor" EntityType="Self.FormFactor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GPU" EntityType="Self.GPU" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Motherboard" EntityType="Self.Motherboard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
@@ -449,7 +593,10 @@
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RAM" EntityType="Self.RAM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RAMType" EntityType="Self.RAMType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Socket" EntityType="Self.Socket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply" EntityType="Self.Supply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportedSockets" EntityType="Self.SupportedSockets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Order__UserId__5AEE82B9" Association="Self.FK__Order__UserId__5AEE82B9">
@@ -504,8 +651,16 @@
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Case" EntitySet="Case" />
           </AssociationSet>
+          <AssociationSet Name="FK_Case_FormFactor" Association="Self.FK_Case_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="Case" EntitySet="Case" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cooling_Brand" Association="Self.FK_Cooling_Brand">
             <End Role="Brand" EntitySet="Brand" />
+            <End Role="Cooling" EntitySet="Cooling" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cooling_CoolerType" Association="Self.FK_Cooling_CoolerType">
+            <End Role="CoolerType" EntitySet="CoolerType" />
             <End Role="Cooling" EntitySet="Cooling" />
           </AssociationSet>
           <AssociationSet Name="FK_CPU_Brand" Association="Self.FK_CPU_Brand">
@@ -516,12 +671,20 @@
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Disk" EntitySet="Disk" />
           </AssociationSet>
+          <AssociationSet Name="FK_Disk_DiskType" Association="Self.FK_Disk_DiskType">
+            <End Role="DiskType" EntitySet="DiskType" />
+            <End Role="Disk" EntitySet="Disk" />
+          </AssociationSet>
           <AssociationSet Name="FK_GPU_Brand" Association="Self.FK_GPU_Brand">
             <End Role="Brand" EntitySet="Brand" />
             <End Role="GPU" EntitySet="GPU" />
           </AssociationSet>
           <AssociationSet Name="FK_Motherboard_Brand" Association="Self.FK_Motherboard_Brand">
             <End Role="Brand" EntitySet="Brand" />
+            <End Role="Motherboard" EntitySet="Motherboard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboard_RAMType" Association="Self.FK_Motherboard_RAMType">
+            <End Role="RAMType" EntitySet="RAMType" />
             <End Role="Motherboard" EntitySet="Motherboard" />
           </AssociationSet>
           <AssociationSet Name="FK_Part_Case" Association="Self.FK_Part_Case">
@@ -532,16 +695,28 @@
             <End Role="Brand" EntitySet="Brand" />
             <End Role="RAM" EntitySet="RAM" />
           </AssociationSet>
+          <AssociationSet Name="FK_RAM_RAMType" Association="Self.FK_RAM_RAMType">
+            <End Role="RAMType" EntitySet="RAMType" />
+            <End Role="RAM" EntitySet="RAM" />
+          </AssociationSet>
           <AssociationSet Name="FK_Supply_Brand" Association="Self.FK_Supply_Brand">
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Supply" EntitySet="Supply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedSockets_Cooling" Association="Self.FK_SupportedSockets_Cooling">
+            <End Role="Cooling" EntitySet="Cooling" />
+            <End Role="SupportedSockets" EntitySet="SupportedSockets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedSockets_Socket" Association="Self.FK_SupportedSockets_Socket">
+            <End Role="Socket" EntitySet="Socket" />
+            <End Role="SupportedSockets" EntitySet="SupportedSockets" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="CSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Brand">
           <Key>
             <PropertyRef Name="ID" />
@@ -566,10 +741,22 @@
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Width" Type="Int32" Nullable="false" />
           <Property Name="Height" Type="Int32" Nullable="false" />
-          <Property Name="SupplyWidth" Type="Int32" Nullable="false" />
-          <Property Name="SupplyHeight" Type="Int32" Nullable="false" />
+          <Property Name="Length" Type="Int32" Nullable="false" />
+          <Property Name="SupplyLength" Type="Int32" Nullable="false" />
+          <Property Name="GPULength" Type="Int32" Nullable="false" />
+          <Property Name="CoolerLength" Type="Int32" Nullable="false" />
+          <Property Name="FormFactorTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Case_Brand" FromRole="Case" ToRole="Brand" />
+          <NavigationProperty Name="FormFactor" Relationship="Self.FK_Case_FormFactor" FromRole="Case" ToRole="FormFactor" />
           <NavigationProperty Name="Part" Relationship="Self.FK_Part_Case" FromRole="Case" ToRole="Part" />
+        </EntityType>
+        <EntityType Name="CoolerType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cooling" Relationship="Self.FK_Cooling_CoolerType" FromRole="CoolerType" ToRole="Cooling" />
         </EntityType>
         <EntityType Name="Cooling">
           <Key>
@@ -578,15 +765,17 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CoolerTypeID" Type="Int32" Nullable="false" />
           <Property Name="Speed" Type="Int32" Nullable="false" />
           <Property Name="Socket" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Width" Type="Int32" />
-          <Property Name="Height" Type="Int32" />
-          <Property Name="Length" Type="Int32" />
-          <Property Name="RPM" Type="Int32" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="Length" Type="Int32" Nullable="false" />
+          <Property Name="RPM" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Cooling_Brand" FromRole="Cooling" ToRole="Brand" />
+          <NavigationProperty Name="CoolerType" Relationship="Self.FK_Cooling_CoolerType" FromRole="Cooling" ToRole="CoolerType" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__CoolingID__5441852A" FromRole="Cooling" ToRole="Part" />
+          <NavigationProperty Name="SupportedSockets" Relationship="Self.FK_SupportedSockets_Cooling" FromRole="Cooling" ToRole="SupportedSockets" />
         </EntityType>
         <EntityType Name="CPU">
           <Key>
@@ -597,8 +786,13 @@
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Voltage" Type="Int32" Nullable="false" />
           <Property Name="Socket" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Cores" Type="Int32" />
-          <Property Name="Frequency" Type="Int32" />
+          <Property Name="Cores" Type="Int32" Nullable="false" />
+          <Property Name="Threads" Type="Int32" Nullable="false" />
+          <Property Name="Frequency" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="L1" Type="Int32" Nullable="false" />
+          <Property Name="L2" Type="Int32" Nullable="false" />
+          <Property Name="HasTurboBoost" Type="Int32" Nullable="false" />
+          <Property Name="MaxFrequency" Type="Decimal" Precision="3" Scale="2" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_CPU_Brand" FromRole="CPU" ToRole="Brand" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__CPUID__5535A963" FromRole="CPU" ToRole="Part" />
         </EntityType>
@@ -609,10 +803,27 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DiskTypeID" Type="Int32" Nullable="false" />
           <Property Name="Space" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Disk_Brand" FromRole="Disk" ToRole="Brand" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__DiskID__5629CD9C" FromRole="Disk" ToRole="Part" />
+          <NavigationProperty Name="DiskType" Relationship="Self.FK_Disk_DiskType" FromRole="Disk" ToRole="DiskType" />
+        </EntityType>
+        <EntityType Name="DiskType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Disk" Relationship="Self.FK_Disk_DiskType" FromRole="DiskType" ToRole="Disk" />
+        </EntityType>
+        <EntityType Name="FormFactor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Case" Relationship="Self.FK_Case_FormFactor" FromRole="FormFactor" ToRole="Case" />
         </EntityType>
         <EntityType Name="GPU">
           <Key>
@@ -639,14 +850,19 @@
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Socket" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Chipset" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RAMType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RAMSlots" Type="Int32" />
-          <Property Name="Voltage" Type="Int32" />
-          <Property Name="Width" Type="Int32" />
-          <Property Name="Height" Type="Int32" />
+          <Property Name="Chipset" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RAMTypeID" Type="Int32" Nullable="false" />
+          <Property Name="RAMSlots" Type="Int32" Nullable="false" />
+          <Property Name="MaxRAMCount" Type="Int32" Nullable="false" />
+          <Property Name="MaxRAMFrequency" Type="Int32" Nullable="false" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="SATASlots" Type="Int32" Nullable="false" />
+          <Property Name="M2Slots" Type="Int32" Nullable="false" />
+          <Property Name="NVMe" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Motherboard_Brand" FromRole="Motherboard" ToRole="Brand" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__Motherboar__5812160E" FromRole="Motherboard" ToRole="Part" />
+          <NavigationProperty Name="RAMType" Relationship="Self.FK_Motherboard_RAMType" FromRole="Motherboard" ToRole="RAMType" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -685,6 +901,7 @@
           <Property Name="DiskID" Type="Int32" />
           <Property Name="CoolingID" Type="Int32" />
           <Property Name="CaseID" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Case" Relationship="Self.FK_Part_Case" FromRole="Part" ToRole="Case" />
           <NavigationProperty Name="Cooling" Relationship="Self.FK__Part__CoolingID__5441852A" FromRole="Part" ToRole="Cooling" />
           <NavigationProperty Name="CPU" Relationship="Self.FK__Part__CPUID__5535A963" FromRole="Part" ToRole="CPU" />
@@ -712,7 +929,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PartID" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderItem" Relationship="Self.FK__OrderItem__Produ__52593CB8" FromRole="Product" ToRole="OrderItem" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Product__PartID__5BE2A6F2" FromRole="Product" ToRole="Part" />
         </EntityType>
@@ -723,10 +939,30 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="MemoryCount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RAMTypeID" Type="Int32" Nullable="false" />
+          <Property Name="MemoryCountGB" Type="Int32" Nullable="false" />
+          <Property Name="MemoryFrequencyMHz" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_RAM_Brand" FromRole="RAM" ToRole="Brand" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__RAMID__59063A47" FromRole="RAM" ToRole="Part" />
+          <NavigationProperty Name="RAMType" Relationship="Self.FK_RAM_RAMType" FromRole="RAM" ToRole="RAMType" />
+        </EntityType>
+        <EntityType Name="RAMType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Motherboard" Relationship="Self.FK_Motherboard_RAMType" FromRole="RAMType" ToRole="Motherboard" />
+          <NavigationProperty Name="RAM" Relationship="Self.FK_RAM_RAMType" FromRole="RAMType" ToRole="RAM" />
+        </EntityType>
+        <EntityType Name="Socket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="SupportedSockets" Relationship="Self.FK_SupportedSockets_Socket" FromRole="Socket" ToRole="SupportedSockets" />
         </EntityType>
         <EntityType Name="Supply">
           <Key>
@@ -741,6 +977,16 @@
           <Property Name="Length" Type="Int32" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Supply_Brand" FromRole="Supply" ToRole="Brand" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__SupplyID__59FA5E80" FromRole="Supply" ToRole="Part" />
+        </EntityType>
+        <EntityType Name="SupportedSockets">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CoolerID" Type="Int32" Nullable="false" />
+          <Property Name="SocketID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cooling" Relationship="Self.FK_SupportedSockets_Cooling" FromRole="SupportedSockets" ToRole="Cooling" />
+          <NavigationProperty Name="Socket" Relationship="Self.FK_SupportedSockets_Socket" FromRole="SupportedSockets" ToRole="Socket" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -858,6 +1104,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Case_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="1" />
+          <End Role="Case" Type="Self.Case" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Case">
+              <PropertyRef Name="FormFactorTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Part_Case">
           <End Role="Case" Type="Self.Case" Multiplicity="0..1" />
           <End Role="Part" Type="Self.Part" Multiplicity="*" />
@@ -870,6 +1128,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Cooling_CoolerType">
+          <End Role="CoolerType" Type="Self.CoolerType" Multiplicity="1" />
+          <End Role="Cooling" Type="Self.Cooling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CoolerType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Cooling">
+              <PropertyRef Name="CoolerTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Part__CoolingID__5441852A">
           <End Role="Cooling" Type="Self.Cooling" Multiplicity="0..1" />
           <End Role="Part" Type="Self.Part" Multiplicity="*" />
@@ -879,6 +1149,18 @@
             </Principal>
             <Dependent Role="Part">
               <PropertyRef Name="CoolingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedSockets_Cooling">
+          <End Role="Cooling" Type="Self.Cooling" Multiplicity="1" />
+          <End Role="SupportedSockets" Type="Self.SupportedSockets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cooling">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedSockets">
+              <PropertyRef Name="CoolerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -906,6 +1188,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Disk_DiskType">
+          <End Role="DiskType" Type="Self.DiskType" Multiplicity="1" />
+          <End Role="Disk" Type="Self.Disk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DiskType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Disk">
+              <PropertyRef Name="DiskTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Part__GPUID__571DF1D5">
           <End Role="GPU" Type="Self.GPU" Multiplicity="0..1" />
           <End Role="Part" Type="Self.Part" Multiplicity="*" />
@@ -927,6 +1221,18 @@
             </Principal>
             <Dependent Role="Part">
               <PropertyRef Name="MotherboardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Motherboard_RAMType">
+          <End Role="RAMType" Type="Self.RAMType" Multiplicity="1" />
+          <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Motherboard">
+              <PropertyRef Name="RAMTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1014,12 +1320,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RAM_RAMType">
+          <End Role="RAMType" Type="Self.RAMType" Multiplicity="1" />
+          <End Role="RAM" Type="Self.RAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAMType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RAM">
+              <PropertyRef Name="RAMTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedSockets_Socket">
+          <End Role="Socket" Type="Self.Socket" Multiplicity="1" />
+          <End Role="SupportedSockets" Type="Self.SupportedSockets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedSockets">
+              <PropertyRef Name="SocketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Brand" EntityType="Self.Brand" />
           <EntitySet Name="Case" EntityType="Self.Case" />
+          <EntitySet Name="CoolerType" EntityType="Self.CoolerType" />
           <EntitySet Name="Cooling" EntityType="Self.Cooling" />
           <EntitySet Name="CPU" EntityType="Self.CPU" />
           <EntitySet Name="Disk" EntityType="Self.Disk" />
+          <EntitySet Name="DiskType" EntityType="Self.DiskType" />
+          <EntitySet Name="FormFactor" EntityType="Self.FormFactor" />
           <EntitySet Name="GPU" EntityType="Self.GPU" />
           <EntitySet Name="Motherboard" EntityType="Self.Motherboard" />
           <EntitySet Name="Order" EntityType="Self.Order" />
@@ -1028,7 +1361,10 @@
           <EntitySet Name="Payment" EntityType="Self.Payment" />
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="RAM" EntityType="Self.RAM" />
+          <EntitySet Name="RAMType" EntityType="Self.RAMType" />
+          <EntitySet Name="Socket" EntityType="Self.Socket" />
           <EntitySet Name="Supply" EntityType="Self.Supply" />
+          <EntitySet Name="SupportedSockets" EntityType="Self.SupportedSockets" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="User" EntityType="Self.User" />
           <AssociationSet Name="FK_Case_Brand" Association="Self.FK_Case_Brand">
@@ -1063,13 +1399,25 @@
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Supply" EntitySet="Supply" />
           </AssociationSet>
+          <AssociationSet Name="FK_Case_FormFactor" Association="Self.FK_Case_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="Case" EntitySet="Case" />
+          </AssociationSet>
           <AssociationSet Name="FK_Part_Case" Association="Self.FK_Part_Case">
             <End Role="Case" EntitySet="Case" />
             <End Role="Part" EntitySet="Part" />
           </AssociationSet>
+          <AssociationSet Name="FK_Cooling_CoolerType" Association="Self.FK_Cooling_CoolerType">
+            <End Role="CoolerType" EntitySet="CoolerType" />
+            <End Role="Cooling" EntitySet="Cooling" />
+          </AssociationSet>
           <AssociationSet Name="FK__Part__CoolingID__5441852A" Association="Self.FK__Part__CoolingID__5441852A">
             <End Role="Cooling" EntitySet="Cooling" />
             <End Role="Part" EntitySet="Part" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedSockets_Cooling" Association="Self.FK_SupportedSockets_Cooling">
+            <End Role="Cooling" EntitySet="Cooling" />
+            <End Role="SupportedSockets" EntitySet="SupportedSockets" />
           </AssociationSet>
           <AssociationSet Name="FK__Part__CPUID__5535A963" Association="Self.FK__Part__CPUID__5535A963">
             <End Role="CPU" EntitySet="CPU" />
@@ -1079,6 +1427,10 @@
             <End Role="Disk" EntitySet="Disk" />
             <End Role="Part" EntitySet="Part" />
           </AssociationSet>
+          <AssociationSet Name="FK_Disk_DiskType" Association="Self.FK_Disk_DiskType">
+            <End Role="DiskType" EntitySet="DiskType" />
+            <End Role="Disk" EntitySet="Disk" />
+          </AssociationSet>
           <AssociationSet Name="FK__Part__GPUID__571DF1D5" Association="Self.FK__Part__GPUID__571DF1D5">
             <End Role="GPU" EntitySet="GPU" />
             <End Role="Part" EntitySet="Part" />
@@ -1086,6 +1438,10 @@
           <AssociationSet Name="FK__Part__Motherboar__5812160E" Association="Self.FK__Part__Motherboar__5812160E">
             <End Role="Motherboard" EntitySet="Motherboard" />
             <End Role="Part" EntitySet="Part" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboard_RAMType" Association="Self.FK_Motherboard_RAMType">
+            <End Role="RAMType" EntitySet="RAMType" />
+            <End Role="Motherboard" EntitySet="Motherboard" />
           </AssociationSet>
           <AssociationSet Name="FK__Order__UserId__5AEE82B9" Association="Self.FK__Order__UserId__5AEE82B9">
             <End Role="User" EntitySet="User" />
@@ -1115,15 +1471,23 @@
             <End Role="Part" EntitySet="Part" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <AssociationSet Name="FK_RAM_RAMType" Association="Self.FK_RAM_RAMType">
+            <End Role="RAMType" EntitySet="RAMType" />
+            <End Role="RAM" EntitySet="RAM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedSockets_Socket" Association="Self.FK_SupportedSockets_Socket">
+            <End Role="Socket" EntitySet="Socket" />
+            <End Role="SupportedSockets" EntitySet="SupportedSockets" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище CSModelContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="Brand">
-            <EntityTypeMapping TypeName="CSModel.Brand">
+            <EntityTypeMapping TypeName="Model.Brand">
               <MappingFragment StoreEntitySet="Brand">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1131,25 +1495,36 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Case">
-            <EntityTypeMapping TypeName="CSModel.Case">
+            <EntityTypeMapping TypeName="Model.Case">
               <MappingFragment StoreEntitySet="Case">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="SupplyWidth" ColumnName="SupplyWidth" />
-                <ScalarProperty Name="SupplyHeight" ColumnName="SupplyHeight" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="SupplyLength" ColumnName="SupplyLength" />
+                <ScalarProperty Name="GPULength" ColumnName="GPULength" />
+                <ScalarProperty Name="CoolerLength" ColumnName="CoolerLength" />
+                <ScalarProperty Name="FormFactorTypeID" ColumnName="FormFactorTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoolerType">
+            <EntityTypeMapping TypeName="Model.CoolerType">
+              <MappingFragment StoreEntitySet="CoolerType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cooling">
-            <EntityTypeMapping TypeName="CSModel.Cooling">
+            <EntityTypeMapping TypeName="Model.Cooling">
               <MappingFragment StoreEntitySet="Cooling">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CoolerTypeID" ColumnName="CoolerTypeID" />
                 <ScalarProperty Name="Speed" ColumnName="Speed" />
                 <ScalarProperty Name="Socket" ColumnName="Socket" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
@@ -1160,7 +1535,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CPU">
-            <EntityTypeMapping TypeName="CSModel.CPU">
+            <EntityTypeMapping TypeName="Model.CPU">
               <MappingFragment StoreEntitySet="CPU">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1168,23 +1543,44 @@
                 <ScalarProperty Name="Voltage" ColumnName="Voltage" />
                 <ScalarProperty Name="Socket" ColumnName="Socket" />
                 <ScalarProperty Name="Cores" ColumnName="Cores" />
+                <ScalarProperty Name="Threads" ColumnName="Threads" />
                 <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="L1" ColumnName="L1" />
+                <ScalarProperty Name="L2" ColumnName="L2" />
+                <ScalarProperty Name="HasTurboBoost" ColumnName="HasTurboBoost" />
+                <ScalarProperty Name="MaxFrequency" ColumnName="MaxFrequency" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Disk">
-            <EntityTypeMapping TypeName="CSModel.Disk">
+            <EntityTypeMapping TypeName="Model.Disk">
               <MappingFragment StoreEntitySet="Disk">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="DiskTypeID" ColumnName="DiskTypeID" />
                 <ScalarProperty Name="Space" ColumnName="Space" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DiskType">
+            <EntityTypeMapping TypeName="Model.DiskType">
+              <MappingFragment StoreEntitySet="DiskType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormFactor">
+            <EntityTypeMapping TypeName="Model.FormFactor">
+              <MappingFragment StoreEntitySet="FormFactor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="GPU">
-            <EntityTypeMapping TypeName="CSModel.GPU">
+            <EntityTypeMapping TypeName="Model.GPU">
               <MappingFragment StoreEntitySet="GPU">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1200,23 +1596,27 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Motherboard">
-            <EntityTypeMapping TypeName="CSModel.Motherboard">
+            <EntityTypeMapping TypeName="Model.Motherboard">
               <MappingFragment StoreEntitySet="Motherboard">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Socket" ColumnName="Socket" />
                 <ScalarProperty Name="Chipset" ColumnName="Chipset" />
-                <ScalarProperty Name="RAMType" ColumnName="RAMType" />
+                <ScalarProperty Name="RAMTypeID" ColumnName="RAMTypeID" />
                 <ScalarProperty Name="RAMSlots" ColumnName="RAMSlots" />
-                <ScalarProperty Name="Voltage" ColumnName="Voltage" />
+                <ScalarProperty Name="MaxRAMCount" ColumnName="MaxRAMCount" />
+                <ScalarProperty Name="MaxRAMFrequency" ColumnName="MaxRAMFrequency" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="SATASlots" ColumnName="SATASlots" />
+                <ScalarProperty Name="M2Slots" ColumnName="M2Slots" />
+                <ScalarProperty Name="NVMe" ColumnName="NVMe" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Order">
-            <EntityTypeMapping TypeName="CSModel.Order">
+            <EntityTypeMapping TypeName="Model.Order">
               <MappingFragment StoreEntitySet="Order">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1227,7 +1627,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderItem">
-            <EntityTypeMapping TypeName="CSModel.OrderItem">
+            <EntityTypeMapping TypeName="Model.OrderItem">
               <MappingFragment StoreEntitySet="OrderItem">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
@@ -1237,7 +1637,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Part">
-            <EntityTypeMapping TypeName="CSModel.Part">
+            <EntityTypeMapping TypeName="Model.Part">
               <MappingFragment StoreEntitySet="Part">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CPUID" ColumnName="CPUID" />
@@ -1248,11 +1648,12 @@
                 <ScalarProperty Name="DiskID" ColumnName="DiskID" />
                 <ScalarProperty Name="CoolingID" ColumnName="CoolingID" />
                 <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Payment">
-            <EntityTypeMapping TypeName="CSModel.Payment">
+            <EntityTypeMapping TypeName="Model.Payment">
               <MappingFragment StoreEntitySet="Payment">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
@@ -1262,28 +1663,45 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="CSModel.Product">
+            <EntityTypeMapping TypeName="Model.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PartID" ColumnName="PartID" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RAM">
-            <EntityTypeMapping TypeName="CSModel.RAM">
+            <EntityTypeMapping TypeName="Model.RAM">
               <MappingFragment StoreEntitySet="RAM">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="RAMTypeID" ColumnName="RAMTypeID" />
+                <ScalarProperty Name="MemoryCountGB" ColumnName="MemoryCountGB" />
+                <ScalarProperty Name="MemoryFrequencyMHz" ColumnName="MemoryFrequencyMHz" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RAMType">
+            <EntityTypeMapping TypeName="Model.RAMType">
+              <MappingFragment StoreEntitySet="RAMType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="MemoryCount" ColumnName="MemoryCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Socket">
+            <EntityTypeMapping TypeName="Model.Socket">
+              <MappingFragment StoreEntitySet="Socket">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Supply">
-            <EntityTypeMapping TypeName="CSModel.Supply">
+            <EntityTypeMapping TypeName="Model.Supply">
               <MappingFragment StoreEntitySet="Supply">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1295,8 +1713,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SupportedSockets">
+            <EntityTypeMapping TypeName="Model.SupportedSockets">
+              <MappingFragment StoreEntitySet="SupportedSockets">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CoolerID" ColumnName="CoolerID" />
+                <ScalarProperty Name="SocketID" ColumnName="SocketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="CSModel.sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1307,7 +1734,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="CSModel.User">
+            <EntityTypeMapping TypeName="Model.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

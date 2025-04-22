@@ -12,20 +12,18 @@ namespace PartSellerWPF
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class DiskType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public DiskType()
         {
-            this.OrderItem = new HashSet<OrderItem>();
+            this.Disk = new HashSet<Disk>();
         }
     
         public int ID { get; set; }
-        public int PartID { get; set; }
-        public decimal Price { get; set; }
+        public string Type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItem { get; set; }
-        public virtual Part Part { get; set; }
+        public virtual ICollection<Disk> Disk { get; set; }
     }
 }

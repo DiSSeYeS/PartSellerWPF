@@ -18,21 +18,25 @@ namespace PartSellerWPF
         public Cooling()
         {
             this.Part = new HashSet<Part>();
+            this.SupportedSockets = new HashSet<SupportedSockets>();
         }
     
         public int ID { get; set; }
         public int BrandID { get; set; }
         public string Model { get; set; }
-        public string Type { get; set; }
+        public int CoolerTypeID { get; set; }
         public int Speed { get; set; }
         public string Socket { get; set; }
-        public Nullable<int> Width { get; set; }
-        public Nullable<int> Height { get; set; }
-        public Nullable<int> Length { get; set; }
-        public Nullable<int> RPM { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int Length { get; set; }
+        public int RPM { get; set; }
     
         public virtual Brand Brand { get; set; }
+        public virtual CoolerType CoolerType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Part> Part { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupportedSockets> SupportedSockets { get; set; }
     }
 }

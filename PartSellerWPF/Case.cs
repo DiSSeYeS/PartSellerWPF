@@ -25,10 +25,14 @@ namespace PartSellerWPF
         public string Model { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public int SupplyWidth { get; set; }
-        public int SupplyHeight { get; set; }
+        public int Length { get; set; }
+        public int SupplyLength { get; set; }
+        public int GPULength { get; set; }
+        public int CoolerLength { get; set; }
+        public int FormFactorTypeID { get; set; }
     
         public virtual Brand Brand { get; set; }
+        public virtual FormFactor FormFactor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Part> Part { get; set; }
     }

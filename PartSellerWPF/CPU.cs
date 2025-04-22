@@ -25,8 +25,13 @@ namespace PartSellerWPF
         public string Model { get; set; }
         public int Voltage { get; set; }
         public string Socket { get; set; }
-        public Nullable<int> Cores { get; set; }
-        public Nullable<int> Frequency { get; set; }
+        public int Cores { get; set; }
+        public int Threads { get; set; }
+        public decimal Frequency { get; set; }
+        public int L1 { get; set; }
+        public int L2 { get; set; }
+        public int HasTurboBoost { get; set; }
+        public Nullable<decimal> MaxFrequency { get; set; }
     
         public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

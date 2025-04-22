@@ -4,44 +4,57 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="45c741a97d39430493c405ee2f00a58b" Name="Diagram1" ZoomLevel="63">
-        <EntityTypeShape EntityType="CSModel.Brand" Width="1.5" PointX="0.75" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Case" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Cooling" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.CPU" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Disk" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.GPU" Width="1.5" PointX="3" PointY="17.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Motherboard" Width="1.5" PointX="3" PointY="21.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Order" Width="1.5" PointX="7.5" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.OrderItem" Width="1.5" PointX="9.75" PointY="16.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Part" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Payment" Width="1.5" PointX="9.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Product" Width="1.5" PointX="7.5" PointY="16.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.RAM" Width="1.5" PointX="3" PointY="25.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.Supply" Width="1.5" PointX="3" PointY="28.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CSModel.User" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
-        <AssociationConnector Association="CSModel.FK_Case_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK_Cooling_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK_CPU_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK_Disk_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK_GPU_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK_Motherboard_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK_RAM_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK_Supply_Brand" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK_Part_Case" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Part__CoolingID__5441852A" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Part__CPUID__5535A963" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Part__DiskID__5629CD9C" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Part__GPUID__571DF1D5" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Part__Motherboar__5812160E" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Order__UserId__5AEE82B9" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__OrderItem__Order__59063A47" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Payment__OrderID__5BE2A6F2" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__OrderItem__Produ__52593CB8" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Part__RAMID__59063A47" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Part__SupplyID__59FA5E80" ManuallyRouted="false" />
-        <AssociationConnector Association="CSModel.FK__Product__PartID__5BE2A6F2" ManuallyRouted="false" />
+      <Diagram DiagramId="aee01e14db464eb8885abf2c5516980a" Name="Diagram1" ZoomLevel="54">
+        <EntityTypeShape EntityType="Model.Brand" Width="1.5" PointX="0.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Case" Width="1.5" PointX="3" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CoolerType" Width="1.5" PointX="3.75" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Cooling" Width="1.5" PointX="6" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CPU" Width="1.5" PointX="3" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Disk" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.DiskType" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.FormFactor" Width="1.5" PointX="0.75" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.GPU" Width="1.5" PointX="3" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Motherboard" Width="1.5" PointX="6" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Order" Width="1.5" PointX="10.5" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.OrderItem" Width="1.5" PointX="12.75" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Part" Width="1.5" PointX="8.25" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Payment" Width="1.5" PointX="12.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="10.5" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.RAM" Width="1.5" PointX="6" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.RAMType" Width="1.5" PointX="3.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Socket" Width="1.5" PointX="6" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Supply" Width="1.5" PointX="3" PointY="42.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SupportedSockets" Width="1.5" PointX="8.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="8.25" PointY="22.75" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_Case_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Cooling_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_CPU_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Disk_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_GPU_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Motherboard_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_RAM_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Supply_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Case_FormFactor" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Part_Case" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Cooling_CoolerType" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Part__CoolingID__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SupportedSockets_Cooling" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Part__CPUID__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Part__DiskID__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Disk_DiskType" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Part__GPUID__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Part__Motherboar__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Motherboard_RAMType" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Order__UserId__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__OrderItem__Order__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Payment__OrderID__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__OrderItem__Produ__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Part__RAMID__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Part__SupplyID__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Product__PartID__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_RAM_RAMType" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SupportedSockets_Socket" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
