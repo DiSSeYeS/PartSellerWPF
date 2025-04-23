@@ -13,10 +13,10 @@ namespace PartSellerWPF
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ComponentsSellerDBEntities : DbContext
+    public partial class Entities : DbContext
     {
-        public ComponentsSellerDBEntities()
-            : base("name=ComponentsSellerDBEntities")
+        public Entities()
+            : base("name=Entities")
         {
         }
     

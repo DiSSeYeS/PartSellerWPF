@@ -1344,7 +1344,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ComponentsSellerDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Brand" EntityType="Self.Brand" />
           <EntitySet Name="Case" EntityType="Self.Case" />
           <EntitySet Name="CoolerType" EntityType="Self.CoolerType" />
@@ -1485,7 +1485,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище CSDBModelContainer" CdmEntityContainer="ComponentsSellerDBEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CSDBModelContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="Brand">
             <EntityTypeMapping TypeName="CSDBModel.Brand">
               <MappingFragment StoreEntitySet="Brand">
