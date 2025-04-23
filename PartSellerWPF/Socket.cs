@@ -17,6 +17,7 @@ namespace PartSellerWPF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Socket()
         {
+            this.CPU = new HashSet<CPU>();
             this.Motherboard = new HashSet<Motherboard>();
             this.SupportedSockets = new HashSet<SupportedSockets>();
         }
@@ -24,6 +25,8 @@ namespace PartSellerWPF
         public int ID { get; set; }
         public string Name { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CPU> CPU { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Motherboard> Motherboard { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

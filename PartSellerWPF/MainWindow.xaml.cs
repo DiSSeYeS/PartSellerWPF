@@ -22,7 +22,7 @@ namespace PartSellerWPF
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();   
         }
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
@@ -30,7 +30,7 @@ namespace PartSellerWPF
             if (e.Content is Page page)
             {
                 this.Title = $"ComponentSeller - {page.Title}";
-                // btnBack.Visibility = page is Pages.PartnersPage ? Visibility.Hidden : Visibility.Visible;
+                // btnBack.Visibility = page is Pages.(?) ? Visibility.Hidden : Visibility.Visible;
             }
         }
 
@@ -48,7 +48,7 @@ namespace PartSellerWPF
 
         private void btnCart_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void btnCatalog_Click(object sender, RoutedEventArgs e)

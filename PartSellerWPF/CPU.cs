@@ -24,7 +24,7 @@ namespace PartSellerWPF
         public int BrandID { get; set; }
         public string Model { get; set; }
         public int Voltage { get; set; }
-        public string Socket { get; set; }
+        public int SocketID { get; set; }
         public int Cores { get; set; }
         public int Threads { get; set; }
         public decimal Frequency { get; set; }
@@ -36,5 +36,6 @@ namespace PartSellerWPF
         public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Part> Part { get; set; }
+        public virtual Socket Socket { get; set; }
     }
 }

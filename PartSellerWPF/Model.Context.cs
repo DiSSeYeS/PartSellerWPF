@@ -19,7 +19,8 @@ namespace PartSellerWPF
         public Entities()
             : base("name=Entities")
         {
-        }    
+        }
+
         public static Entities GetContext()
         {
             if (_context == null)
@@ -28,6 +29,7 @@ namespace PartSellerWPF
             }
             return _context;
         }
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

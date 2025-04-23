@@ -30,8 +30,6 @@ namespace PartSellerWPF
         public virtual ICollection<Order> Order { get; set; }
         public virtual Role Role { get; set; }
 
-        // NOT AUTO GENERATED
-
         public bool CheckPassword(string password)
         {
             return this.Password == password;

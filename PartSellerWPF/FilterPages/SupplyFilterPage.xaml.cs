@@ -13,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PartSellerWPF.Pages
+namespace PartSellerWPF.FilterPages
 {
     /// <summary>
-    /// Логика взаимодействия для CPUPage.xaml
+    /// Логика взаимодействия для SupplyFilterPage.xaml
     /// </summary>
-    public partial class CPUPage : Page
+    public partial class SupplyFilterPage : Page
     {
-        public CPUPage()
+        public SupplyFilterPage()
         {
             InitializeComponent();
         }
     }
 }
-    
-

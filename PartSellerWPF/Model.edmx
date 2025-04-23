@@ -57,7 +57,7 @@
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Voltage" Type="int" Nullable="false" />
-          <Property Name="Socket" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SocketID" Type="int" Nullable="false" />
           <Property Name="Cores" Type="int" Nullable="false" />
           <Property Name="Threads" Type="int" Nullable="false" />
           <Property Name="Frequency" Type="decimal" Precision="3" Scale="2" Nullable="false" />
@@ -452,6 +452,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CPU_Socket">
+          <End Role="Socket" Type="Self.Socket" Multiplicity="1" />
+          <End Role="CPU" Type="Self.CPU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CPU">
+              <PropertyRef Name="SocketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Disk_Brand">
           <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
           <End Role="Disk" Type="Self.Disk" Multiplicity="*" />
@@ -700,6 +712,10 @@
             <End Role="Brand" EntitySet="Brand" />
             <End Role="CPU" EntitySet="CPU" />
           </AssociationSet>
+          <AssociationSet Name="FK_CPU_Socket" Association="Self.FK_CPU_Socket">
+            <End Role="Socket" EntitySet="Socket" />
+            <End Role="CPU" EntitySet="CPU" />
+          </AssociationSet>
           <AssociationSet Name="FK_Disk_Brand" Association="Self.FK_Disk_Brand">
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Disk" EntitySet="Disk" />
@@ -826,7 +842,7 @@
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Voltage" Type="Int32" Nullable="false" />
-          <Property Name="Socket" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SocketID" Type="Int32" Nullable="false" />
           <Property Name="Cores" Type="Int32" Nullable="false" />
           <Property Name="Threads" Type="Int32" Nullable="false" />
           <Property Name="Frequency" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
@@ -836,6 +852,7 @@
           <Property Name="MaxFrequency" Type="Decimal" Precision="3" Scale="2" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_CPU_Brand" FromRole="CPU" ToRole="Brand" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__CPUID__5535A963" FromRole="CPU" ToRole="Part" />
+          <NavigationProperty Name="Socket" Relationship="Self.FK_CPU_Socket" FromRole="CPU" ToRole="Socket" />
         </EntityType>
         <EntityType Name="Disk">
           <Key>
@@ -1012,6 +1029,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CPU" Relationship="Self.FK_CPU_Socket" FromRole="Socket" ToRole="CPU" />
           <NavigationProperty Name="Motherboard" Relationship="Self.FK_Motherboard_Socket" FromRole="Socket" ToRole="Motherboard" />
           <NavigationProperty Name="SupportedSockets" Relationship="Self.FK_SupportedSockets_Socket" FromRole="Socket" ToRole="SupportedSockets" />
         </EntityType>
@@ -1226,6 +1244,18 @@
             </Principal>
             <Dependent Role="Part">
               <PropertyRef Name="CPUID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CPU_Socket">
+          <End Role="Socket" Type="Self.Socket" Multiplicity="1" />
+          <End Role="CPU" Type="Self.CPU" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CPU">
+              <PropertyRef Name="SocketID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1501,6 +1531,10 @@
             <End Role="CPU" EntitySet="CPU" />
             <End Role="Part" EntitySet="Part" />
           </AssociationSet>
+          <AssociationSet Name="FK_CPU_Socket" Association="Self.FK_CPU_Socket">
+            <End Role="Socket" EntitySet="Socket" />
+            <End Role="CPU" EntitySet="CPU" />
+          </AssociationSet>
           <AssociationSet Name="FK__Part__DiskID__5629CD9C" Association="Self.FK__Part__DiskID__5629CD9C">
             <End Role="Disk" EntitySet="Disk" />
             <End Role="Part" EntitySet="Part" />
@@ -1627,7 +1661,7 @@
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Voltage" ColumnName="Voltage" />
-                <ScalarProperty Name="Socket" ColumnName="Socket" />
+                <ScalarProperty Name="SocketID" ColumnName="SocketID" />
                 <ScalarProperty Name="Cores" ColumnName="Cores" />
                 <ScalarProperty Name="Threads" ColumnName="Threads" />
                 <ScalarProperty Name="Frequency" ColumnName="Frequency" />
