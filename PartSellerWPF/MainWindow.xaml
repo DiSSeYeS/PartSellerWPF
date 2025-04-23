@@ -18,7 +18,7 @@
 
         <Frame x:Name="MainFrame" 
                  Grid.Row="1" 
-                 FragmentNavigation="MainFrame_FragmentNavigation" 
+                 Navigated="MainFrame_Navigated" 
                  NavigationUIVisibility="Hidden" 
                  Margin="10"
                  BorderThickness="1"

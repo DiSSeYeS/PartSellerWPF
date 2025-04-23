@@ -17,12 +17,15 @@ namespace PartSellerWPF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Socket()
         {
+            this.Motherboard = new HashSet<Motherboard>();
             this.SupportedSockets = new HashSet<SupportedSockets>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Motherboard> Motherboard { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupportedSockets> SupportedSockets { get; set; }
     }

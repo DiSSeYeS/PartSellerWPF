@@ -25,14 +25,25 @@ namespace PartSellerWPF
             InitializeComponent();
         }
 
-        private void MainFrame_FragmentNavigation(object sender, FragmentNavigationEventArgs e)
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
-
+            if (e.Content is Page page)
+            {
+                this.Title = $"ComponentSeller - {page.Title}";
+                // btnBack.Visibility = page is Pages.PartnersPage ? Visibility.Hidden : Visibility.Visible;
+            }
         }
 
         private void btnAccount_Click(object sender, RoutedEventArgs e)
         {
-
+            if (AuthManager.IsLoggedIn)
+            {
+                MainFrame.Navigate(new Pages.AccountPage());
+            }
+            else
+            {
+                MainFrame.Navigate(new Pages.AuthPage());
+            }
         }
 
         private void btnCart_Click(object sender, RoutedEventArgs e)
@@ -47,7 +58,10 @@ namespace PartSellerWPF
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-
+            if (MainFrame.CanGoBack)
+            {
+                MainFrame.GoBack();
+            }
         }
 
         private void btnFilters_Click(object sender, RoutedEventArgs e)

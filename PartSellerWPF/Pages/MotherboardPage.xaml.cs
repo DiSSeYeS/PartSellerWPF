@@ -24,5 +24,20 @@ namespace PartSellerWPF.Pages
         {
             InitializeComponent();
         }
+
+        public List<Motherboard> GetMotherboardsBySocket(string socketName)
+        {
+            using (var db = Entities.GetContext())
+            {
+                return db.Motherboard
+                    .Join(db.Socket,
+                          m => m.SocketID,
+                          s => s.ID,
+                          (m, s) => new { Motherboard = m, Socket = s })
+                    .Where(x => x.Socket.Name == socketName)
+                    .Select(x => x.Motherboard)
+                    .ToList();
+            }
+        }
     }
 }

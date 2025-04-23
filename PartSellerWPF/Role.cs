@@ -12,33 +12,18 @@ namespace PartSellerWPF
     using System;
     using System.Collections.Generic;
     
-    public partial class Motherboard
+    public partial class Role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Motherboard()
+        public Role()
         {
-            this.Part = new HashSet<Part>();
+            this.User = new HashSet<User>();
         }
     
         public int ID { get; set; }
-        public int BrandID { get; set; }
-        public string Model { get; set; }
-        public int SocketID { get; set; }
-        public string Chipset { get; set; }
-        public int RAMTypeID { get; set; }
-        public int RAMSlots { get; set; }
-        public int MaxRAMCount { get; set; }
-        public int MaxRAMFrequency { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int SATASlots { get; set; }
-        public int M2Slots { get; set; }
-        public int NVMe { get; set; }
+        public string Name { get; set; }
     
-        public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Part> Part { get; set; }
-        public virtual RAMType RAMType { get; set; }
-        public virtual Socket Socket { get; set; }
+        public virtual ICollection<User> User { get; set; }
     }
 }

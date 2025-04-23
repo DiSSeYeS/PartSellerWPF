@@ -112,7 +112,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Socket" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SocketID" Type="int" Nullable="false" />
           <Property Name="Chipset" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RAMTypeID" Type="int" Nullable="false" />
           <Property Name="RAMSlots" Type="int" Nullable="false" />
@@ -194,6 +194,13 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Socket">
           <Key>
             <PropertyRef Name="ID" />
@@ -239,6 +246,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK__Order__UserId__5AEE82B9">
           <End Role="User" Type="Self.User" Multiplicity="1" />
@@ -504,6 +512,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Motherboard_Socket">
+          <End Role="Socket" Type="Self.Socket" Multiplicity="1" />
+          <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Motherboard">
+              <PropertyRef Name="SocketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Part_Case">
           <End Role="Case" Type="Self.Case" Multiplicity="0..1" />
           <End Role="Part" Type="Self.Part" Multiplicity="*" />
@@ -576,6 +596,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище CSDBModelContainer">
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Case" EntityType="Self.Case" Schema="dbo" store:Type="Tables" />
@@ -594,6 +626,7 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RAM" EntityType="Self.RAM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RAMType" EntityType="Self.RAMType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Socket" EntityType="Self.Socket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply" EntityType="Self.Supply" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupportedSockets" EntityType="Self.SupportedSockets" Schema="dbo" store:Type="Tables" />
@@ -687,6 +720,10 @@
             <End Role="RAMType" EntitySet="RAMType" />
             <End Role="Motherboard" EntitySet="Motherboard" />
           </AssociationSet>
+          <AssociationSet Name="FK_Motherboard_Socket" Association="Self.FK_Motherboard_Socket">
+            <End Role="Socket" EntitySet="Socket" />
+            <End Role="Motherboard" EntitySet="Motherboard" />
+          </AssociationSet>
           <AssociationSet Name="FK_Part_Case" Association="Self.FK_Part_Case">
             <End Role="Case" EntitySet="Case" />
             <End Role="Part" EntitySet="Part" />
@@ -710,6 +747,10 @@
           <AssociationSet Name="FK_SupportedSockets_Socket" Association="Self.FK_SupportedSockets_Socket">
             <End Role="Socket" EntitySet="Socket" />
             <End Role="SupportedSockets" EntitySet="SupportedSockets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -849,7 +890,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Socket" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SocketID" Type="Int32" Nullable="false" />
           <Property Name="Chipset" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RAMTypeID" Type="Int32" Nullable="false" />
           <Property Name="RAMSlots" Type="Int32" Nullable="false" />
@@ -863,6 +904,7 @@
           <NavigationProperty Name="Brand" Relationship="Self.FK_Motherboard_Brand" FromRole="Motherboard" ToRole="Brand" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__Motherboar__5812160E" FromRole="Motherboard" ToRole="Part" />
           <NavigationProperty Name="RAMType" Relationship="Self.FK_Motherboard_RAMType" FromRole="Motherboard" ToRole="RAMType" />
+          <NavigationProperty Name="Socket" Relationship="Self.FK_Motherboard_Socket" FromRole="Motherboard" ToRole="Socket" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -956,12 +998,21 @@
           <NavigationProperty Name="Motherboard" Relationship="Self.FK_Motherboard_RAMType" FromRole="RAMType" ToRole="Motherboard" />
           <NavigationProperty Name="RAM" Relationship="Self.FK_RAM_RAMType" FromRole="RAMType" ToRole="RAM" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
         <EntityType Name="Socket">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Motherboard" Relationship="Self.FK_Motherboard_Socket" FromRole="Socket" ToRole="Motherboard" />
           <NavigationProperty Name="SupportedSockets" Relationship="Self.FK_SupportedSockets_Socket" FromRole="Socket" ToRole="SupportedSockets" />
         </EntityType>
         <EntityType Name="Supply">
@@ -1006,7 +1057,9 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Order" Relationship="Self.FK__Order__UserId__5AEE82B9" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
         </EntityType>
         <Association Name="FK_Case_Brand">
           <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
@@ -1236,6 +1289,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Motherboard_Socket">
+          <End Role="Socket" Type="Self.Socket" Multiplicity="1" />
+          <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Motherboard">
+              <PropertyRef Name="SocketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Order__UserId__5AEE82B9">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -1332,6 +1397,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SupportedSockets_Socket">
           <End Role="Socket" Type="Self.Socket" Multiplicity="1" />
           <End Role="SupportedSockets" Type="Self.SupportedSockets" Multiplicity="*" />
@@ -1362,6 +1439,7 @@
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="RAM" EntityType="Self.RAM" />
           <EntitySet Name="RAMType" EntityType="Self.RAMType" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
           <EntitySet Name="Socket" EntityType="Self.Socket" />
           <EntitySet Name="Supply" EntityType="Self.Supply" />
           <EntitySet Name="SupportedSockets" EntityType="Self.SupportedSockets" />
@@ -1443,6 +1521,10 @@
             <End Role="RAMType" EntitySet="RAMType" />
             <End Role="Motherboard" EntitySet="Motherboard" />
           </AssociationSet>
+          <AssociationSet Name="FK_Motherboard_Socket" Association="Self.FK_Motherboard_Socket">
+            <End Role="Socket" EntitySet="Socket" />
+            <End Role="Motherboard" EntitySet="Motherboard" />
+          </AssociationSet>
           <AssociationSet Name="FK__Order__UserId__5AEE82B9" Association="Self.FK__Order__UserId__5AEE82B9">
             <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
@@ -1474,6 +1556,10 @@
           <AssociationSet Name="FK_RAM_RAMType" Association="Self.FK_RAM_RAMType">
             <End Role="RAMType" EntitySet="RAMType" />
             <End Role="RAM" EntitySet="RAM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
           </AssociationSet>
           <AssociationSet Name="FK_SupportedSockets_Socket" Association="Self.FK_SupportedSockets_Socket">
             <End Role="Socket" EntitySet="Socket" />
@@ -1601,7 +1687,7 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="Socket" ColumnName="Socket" />
+                <ScalarProperty Name="SocketID" ColumnName="SocketID" />
                 <ScalarProperty Name="Chipset" ColumnName="Chipset" />
                 <ScalarProperty Name="RAMTypeID" ColumnName="RAMTypeID" />
                 <ScalarProperty Name="RAMSlots" ColumnName="RAMSlots" />
@@ -1692,6 +1778,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="CSDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Socket">
             <EntityTypeMapping TypeName="CSDBModel.Socket">
               <MappingFragment StoreEntitySet="Socket">
@@ -1740,6 +1834,7 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
