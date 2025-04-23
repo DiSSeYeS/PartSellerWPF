@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище CSDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Brand">
           <Key>
             <PropertyRef Name="ID" />
@@ -576,7 +576,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище ModelContainer">
+        <EntityContainer Name="Хранилище CSDBModelContainer">
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Case" EntityType="Self.Case" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CoolerType" EntityType="Self.CoolerType" Schema="dbo" store:Type="Tables" />
@@ -716,7 +716,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="CSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Brand">
           <Key>
             <PropertyRef Name="ID" />
@@ -1344,7 +1344,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ComponentsSellerDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Brand" EntityType="Self.Brand" />
           <EntitySet Name="Case" EntityType="Self.Case" />
           <EntitySet Name="CoolerType" EntityType="Self.CoolerType" />
@@ -1485,9 +1485,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CSDBModelContainer" CdmEntityContainer="ComponentsSellerDBEntities">
           <EntitySetMapping Name="Brand">
-            <EntityTypeMapping TypeName="Model.Brand">
+            <EntityTypeMapping TypeName="CSDBModel.Brand">
               <MappingFragment StoreEntitySet="Brand">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1495,7 +1495,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Case">
-            <EntityTypeMapping TypeName="Model.Case">
+            <EntityTypeMapping TypeName="CSDBModel.Case">
               <MappingFragment StoreEntitySet="Case">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1511,7 +1511,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CoolerType">
-            <EntityTypeMapping TypeName="Model.CoolerType">
+            <EntityTypeMapping TypeName="CSDBModel.CoolerType">
               <MappingFragment StoreEntitySet="CoolerType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1519,7 +1519,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cooling">
-            <EntityTypeMapping TypeName="Model.Cooling">
+            <EntityTypeMapping TypeName="CSDBModel.Cooling">
               <MappingFragment StoreEntitySet="Cooling">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1535,7 +1535,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CPU">
-            <EntityTypeMapping TypeName="Model.CPU">
+            <EntityTypeMapping TypeName="CSDBModel.CPU">
               <MappingFragment StoreEntitySet="CPU">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1553,7 +1553,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Disk">
-            <EntityTypeMapping TypeName="Model.Disk">
+            <EntityTypeMapping TypeName="CSDBModel.Disk">
               <MappingFragment StoreEntitySet="Disk">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1564,7 +1564,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DiskType">
-            <EntityTypeMapping TypeName="Model.DiskType">
+            <EntityTypeMapping TypeName="CSDBModel.DiskType">
               <MappingFragment StoreEntitySet="DiskType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1572,7 +1572,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FormFactor">
-            <EntityTypeMapping TypeName="Model.FormFactor">
+            <EntityTypeMapping TypeName="CSDBModel.FormFactor">
               <MappingFragment StoreEntitySet="FormFactor">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1580,7 +1580,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GPU">
-            <EntityTypeMapping TypeName="Model.GPU">
+            <EntityTypeMapping TypeName="CSDBModel.GPU">
               <MappingFragment StoreEntitySet="GPU">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1596,7 +1596,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Motherboard">
-            <EntityTypeMapping TypeName="Model.Motherboard">
+            <EntityTypeMapping TypeName="CSDBModel.Motherboard">
               <MappingFragment StoreEntitySet="Motherboard">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1616,7 +1616,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Order">
-            <EntityTypeMapping TypeName="Model.Order">
+            <EntityTypeMapping TypeName="CSDBModel.Order">
               <MappingFragment StoreEntitySet="Order">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1627,7 +1627,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderItem">
-            <EntityTypeMapping TypeName="Model.OrderItem">
+            <EntityTypeMapping TypeName="CSDBModel.OrderItem">
               <MappingFragment StoreEntitySet="OrderItem">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
@@ -1637,7 +1637,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Part">
-            <EntityTypeMapping TypeName="Model.Part">
+            <EntityTypeMapping TypeName="CSDBModel.Part">
               <MappingFragment StoreEntitySet="Part">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CPUID" ColumnName="CPUID" />
@@ -1653,7 +1653,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Payment">
-            <EntityTypeMapping TypeName="Model.Payment">
+            <EntityTypeMapping TypeName="CSDBModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
@@ -1663,7 +1663,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="Model.Product">
+            <EntityTypeMapping TypeName="CSDBModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PartID" ColumnName="PartID" />
@@ -1672,7 +1672,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RAM">
-            <EntityTypeMapping TypeName="Model.RAM">
+            <EntityTypeMapping TypeName="CSDBModel.RAM">
               <MappingFragment StoreEntitySet="RAM">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1685,7 +1685,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RAMType">
-            <EntityTypeMapping TypeName="Model.RAMType">
+            <EntityTypeMapping TypeName="CSDBModel.RAMType">
               <MappingFragment StoreEntitySet="RAMType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1693,7 +1693,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Socket">
-            <EntityTypeMapping TypeName="Model.Socket">
+            <EntityTypeMapping TypeName="CSDBModel.Socket">
               <MappingFragment StoreEntitySet="Socket">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1701,7 +1701,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Supply">
-            <EntityTypeMapping TypeName="Model.Supply">
+            <EntityTypeMapping TypeName="CSDBModel.Supply">
               <MappingFragment StoreEntitySet="Supply">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
@@ -1714,7 +1714,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SupportedSockets">
-            <EntityTypeMapping TypeName="Model.SupportedSockets">
+            <EntityTypeMapping TypeName="CSDBModel.SupportedSockets">
               <MappingFragment StoreEntitySet="SupportedSockets">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CoolerID" ColumnName="CoolerID" />
@@ -1723,7 +1723,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Model.sysdiagrams">
+            <EntityTypeMapping TypeName="CSDBModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1734,7 +1734,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="Model.User">
+            <EntityTypeMapping TypeName="CSDBModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
