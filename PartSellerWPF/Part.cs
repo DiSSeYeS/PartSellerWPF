@@ -18,6 +18,7 @@ namespace PartSellerWPF
         public Part()
         {
             this.Product = new HashSet<Product>();
+            this.Stock = new HashSet<Stock>();
         }
     
         public int ID { get; set; }
@@ -30,6 +31,7 @@ namespace PartSellerWPF
         public Nullable<int> CoolingID { get; set; }
         public Nullable<int> CaseID { get; set; }
         public string Image { get; set; }
+        public int QuantityInStock { get; set; }
     
         public virtual Case Case { get; set; }
         public virtual Cooling Cooling { get; set; }
@@ -41,5 +43,7 @@ namespace PartSellerWPF
         public virtual Supply Supply { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Product { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Stock> Stock { get; set; }
     }
 }

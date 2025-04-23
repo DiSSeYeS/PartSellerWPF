@@ -15,19 +15,9 @@ namespace PartSellerWPF
     
     public partial class Entities : DbContext
     {
-        private static Entities _context;
         public Entities()
             : base("name=Entities")
         {
-        }
-
-        public static Entities GetContext()
-        {
-            if (_context == null)
-            {
-                _context = new Entities();
-            }
-            return _context;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -54,6 +44,7 @@ namespace PartSellerWPF
         public virtual DbSet<RAMType> RAMType { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Socket> Socket { get; set; }
+        public virtual DbSet<Stock> Stock { get; set; }
         public virtual DbSet<Supply> Supply { get; set; }
         public virtual DbSet<SupportedSockets> SupportedSockets { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
