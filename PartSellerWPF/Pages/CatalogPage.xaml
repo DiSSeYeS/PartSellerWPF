@@ -9,6 +9,23 @@
       Title="CatalogPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="btnCPU" Grid.Row="0" Grid.Column="0" Margin="10" Style="{StaticResource RoundedButton}" Content="Процессоры" Click="btnCPU_Click"/>
+        <Button x:Name="btnGPU" Grid.Row="1" Grid.Column="0" Margin="10" Style="{StaticResource RoundedButton}" Content="Видеокарты" Click="btnGPU_Click"/>
+        <Button x:Name="btnRAM" Grid.Row="2" Grid.Column="0" Margin="10" Style="{StaticResource RoundedButton}" Content="Оперативная память" Click="btnRAM_Click"/>
+        <Button x:Name="btnMotherboard" Grid.Row="3" Grid.Column="0" Margin="10" Style="{StaticResource RoundedButton}" Content="Материнские платы" Click="btnMotherboard_Click"/>
+        <Button x:Name="btnSupply" Grid.Row="0" Grid.Column="1" Margin="10" Style="{StaticResource RoundedButton}" Content="Блоки питания" Click="btnSupply_Click"/>
+        <Button x:Name="btnCase" Grid.Row="1" Grid.Column="1" Margin="10" Style="{StaticResource RoundedButton}" Content="Корпусы" Click="btnCase_Click"/>
+        <Button x:Name="btnDisk" Grid.Row="2" Grid.Column="1" Margin="10" Style="{StaticResource RoundedButton}" Content="Накопители" Click="btnDisk_Click"/>
+        <Button x:Name="btnCooling" Grid.Row="4" Grid.Column="1" Margin="10" Style="{StaticResource RoundedButton}" Content="Охлаждение" Click="btnCooling_Click"/>
     </Grid>
 </Page>

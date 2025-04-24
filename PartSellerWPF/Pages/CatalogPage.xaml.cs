@@ -24,5 +24,45 @@ namespace PartSellerWPF.Pages
         {
             InitializeComponent();
         }
+
+        private void btnCPU_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new CPUPage());
+        }
+
+        private void btnGPU_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new GPUPage());
+        }
+
+        private void btnRAM_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new RAMPage());
+        }
+
+        private void btnMotherboard_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new MotherboardPage());
+        }
+
+        private void btnSupply_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new SupplyPage());
+        }
+
+        private void btnCase_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new CasePage());
+        }
+
+        private void btnDisk_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new DiskPage());
+        }
+
+        private void btnCooling_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new CoolingPage());
+        }
     }
 }

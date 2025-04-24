@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,13 +29,12 @@ namespace PartSellerWPF
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            if (e.Content is Page page && currentPage != page.Name)
+            if (e.Content is Page page && !page.Title.Equals(currentPage))
             {
                 this.Title = $"ComponentSeller - {page.Title}";
-                // btnBack.Visibility = page is Pages.(?) ? Visibility.Hidden : Visibility.Visible;
-                currentPage = page.Name;
+                currentPage = page.Title;
 
-                btnCatalog.Visibility = e.Content == new Pages.CatalogPage() ? Visibility.Hidden : Visibility.Visible;
+                // btnCatalog.Visibility = e.Content == new Pages.CatalogPage() ? Visibility.Hidden : Visibility.Visible;
                 btnCart.Visibility = e.Content == new Pages.CartPage() ? Visibility.Hidden : Visibility.Visible;
                 btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
             }
@@ -54,12 +54,18 @@ namespace PartSellerWPF
 
         private void btnCart_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new Pages.CartPage());
+            if (!currentPage.Equals("CartPage"))
+            {
+                MainFrame.Navigate(new Pages.CartPage());
+            }
         }
 
         private void btnCatalog_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new Pages.CatalogPage());
+            if (!currentPage.Equals("CatalogPage"))
+            {
+                MainFrame.Navigate(new Pages.CatalogPage());
+            }
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -68,6 +74,7 @@ namespace PartSellerWPF
             {
                 MainFrame.GoBack();
             }
+            // btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void btnFilters_Click(object sender, RoutedEventArgs e)
@@ -77,41 +84,49 @@ namespace PartSellerWPF
                 case "RAMPage":
 
                     MainFrame.Navigate(new FilterPages.RAMFilterPage());
+                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "CasePage":
 
                     MainFrame.Navigate(new FilterPages.CaseFilterPage());
+                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "SupplyPage":
 
                     MainFrame.Navigate(new FilterPages.SupplyFilterPage());
+                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "CoolingPage":
 
                     MainFrame.Navigate(new FilterPages.CoolingFilterPage());
+                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "CPUPage":
 
                     MainFrame.Navigate(new FilterPages.CPUFilterPage());
+                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "DiskPage":
 
                     MainFrame.Navigate(new FilterPages.DiskFilterPage());
+                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "GPUPage":
 
                     MainFrame.Navigate(new FilterPages.GPUFilterPage());
+                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "MotherboardPage":
 
                     MainFrame.Navigate(new FilterPages.MotherboardFilterPage());
+                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 default:
