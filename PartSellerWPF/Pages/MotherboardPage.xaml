@@ -9,6 +9,41 @@
       Title="MotherboardPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Name="dataGrid" Grid.Row="0" 
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              IsReadOnly="True"
+              Margin="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
+                <DataGridTextColumn Header="Сокет" Binding="{Binding Socket.Name}" Width="*"/>
+                <DataGridTextColumn Header="Чипсет" Binding="{Binding Chipset}" Width="*"/>
+                <DataGridTextColumn Header="Тип памяти" Binding="{Binding RAMType.Type}" Width="*"/>
+                <DataGridTextColumn Header="Кол-во слотов &#13;оперативной &#13;памяти" 
+                               Binding="{Binding RAMSlots}" Width="*"/>
+                <DataGridTextColumn Header="Макс.кол-во &#13;оперативной &#13;памяти" 
+                               Binding="{Binding MaxRAMCount}" Width="*"/>
+                <DataGridTextColumn Header="Макс.частота &#13;оперативной &#13;памяти"
+                                Binding="{Binding MaxRAMFrequency}" Width="*"/>
+                <DataGridTextColumn Header="Ширина" 
+                               Binding="{Binding Width}" Width="*"/>
+                <DataGridTextColumn Header="Высота" 
+                               Binding="{Binding Height}" Width="*"/>
+                <DataGridTextColumn Header="SATA-слоты" 
+                               Binding="{Binding SATASlots}" Width="*"/>
+                <DataGridTextColumn Header="M2-слоты" 
+                               Binding="{Binding M2Slots}" Width="*"/>
+                <DataGridTextColumn Header="Поддержка &#13;NVMe" 
+                               Binding="{Binding M2Slots}" Width="*"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

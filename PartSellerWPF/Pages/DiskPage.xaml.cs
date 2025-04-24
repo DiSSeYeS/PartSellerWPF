@@ -23,6 +23,12 @@ namespace PartSellerWPF.Pages
         public DiskPage()
         {
             InitializeComponent();
+            InitDataGrid();
+        }
+
+        private void InitDataGrid()
+        {
+            dataGrid.ItemsSource = Entities.GetContext().Disk.ToList();
         }
     }
 }

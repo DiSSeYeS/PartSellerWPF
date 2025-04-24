@@ -9,6 +9,33 @@
       Title="CasePage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Name="dataGrid" Grid.Row="0" 
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  Margin="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
+                <DataGridTextColumn Header="Высота" Binding="{Binding Height}" Width="*"/>
+                <DataGridTextColumn Header="Ширина" Binding="{Binding Width}" Width="*"/>
+                <DataGridTextColumn Header="Длина" Binding="{Binding Length}" Width="*"/>
+                <DataGridTextColumn Header="Макс.длина &#13;блока питания" 
+                                   Binding="{Binding SupplyLength}" Width="*"/>
+                <DataGridTextColumn Header="Макс.длина &#13;видеокарты" 
+                                   Binding="{Binding GPULength}" Width="*"/>
+                <DataGridTextColumn Header="Макс.высота &#13;башни"
+                                    Binding="{Binding CoolerLength}" Width="*"/>
+                <DataGridTextColumn Header="Форм-фактор" 
+                                   Binding="{Binding FormFactor.Type}" Width="*"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

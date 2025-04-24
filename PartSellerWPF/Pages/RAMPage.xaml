@@ -9,6 +9,25 @@
       Title="RAMPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Name="dataGrid" Grid.Row="0" 
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              IsReadOnly="True"
+              Margin="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding RAMType.Type}" Width="*"/>
+                <DataGridTextColumn Header="Память" Binding="{Binding MemoryCountGB}" Width="*"/>
+                <DataGridTextColumn Header="Частота" Binding="{Binding MemoryFrequencyMHz}" Width="*"/>
+                <DataGridTextColumn Header="Кол-во плашек" Binding="{Binding Count}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

@@ -23,6 +23,12 @@ namespace PartSellerWPF.Pages
         public CPUPage()
         {
             InitializeComponent();
+            InitDataGrid();
+        }
+
+        private void InitDataGrid()
+        {
+            dataGrid.ItemsSource = Entities.GetContext().CPU.ToList();
         }
     }
 }

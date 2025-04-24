@@ -23,6 +23,13 @@ namespace PartSellerWPF.Pages
         public CasePage()
         {
             InitializeComponent();
+            InitDataGrid();
         }
+
+        private void InitDataGrid()
+        {
+            dataGrid.ItemsSource = Entities.GetContext().Case.ToList();
+        }
+
     }
 }

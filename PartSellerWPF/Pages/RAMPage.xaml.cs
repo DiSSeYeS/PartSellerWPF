@@ -23,6 +23,12 @@ namespace PartSellerWPF.Pages
         public RAMPage()
         {
             InitializeComponent();
+            InitDataGrid();
+        }
+
+        private void InitDataGrid()
+        {
+            dataGrid.ItemsSource = Entities.GetContext().RAM.ToList();
         }
     }
 }

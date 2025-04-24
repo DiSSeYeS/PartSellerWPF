@@ -22,9 +22,14 @@ namespace PartSellerWPF
     public partial class MainWindow : Window
     {
         private static string currentPage;
+        private static List<string> PagesNames = new List<string>
+        {
+            "CasePage", "CoolingPage", "CPUPage", "DiskPage",
+            "GPUPage", "MotherboardPage", "RAMPage", "SupplyPage"
+        };
         public MainWindow()
         {
-            InitializeComponent();   
+            InitializeComponent();
         }
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
@@ -34,9 +39,9 @@ namespace PartSellerWPF
                 this.Title = $"ComponentSeller - {page.Title}";
                 currentPage = page.Title;
 
-                // btnCatalog.Visibility = e.Content == new Pages.CatalogPage() ? Visibility.Hidden : Visibility.Visible;
                 btnCart.Visibility = e.Content == new Pages.CartPage() ? Visibility.Hidden : Visibility.Visible;
                 btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
+                btnFilters.Visibility = PagesNames.Contains(currentPage) ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
@@ -44,11 +49,17 @@ namespace PartSellerWPF
         {
             if (AuthManager.IsLoggedIn)
             {
-                MainFrame.Navigate(new Pages.AccountPage());
+                if (!currentPage.Equals("AccountPage"))
+                {
+                    MainFrame.Navigate(new Pages.AccountPage());
+                }
             }
             else
             {
-                MainFrame.Navigate(new Pages.AuthPage());
+                if (!currentPage.Equals("AuthPage"))
+                {
+                    MainFrame.Navigate(new Pages.AuthPage());
+                }
             }
         }
 
@@ -74,7 +85,6 @@ namespace PartSellerWPF
             {
                 MainFrame.GoBack();
             }
-            // btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void btnFilters_Click(object sender, RoutedEventArgs e)

@@ -23,21 +23,12 @@ namespace PartSellerWPF.Pages
         public MotherboardPage()
         {
             InitializeComponent();
+            InitDataGrid();
         }
 
-        public List<Motherboard> GetMotherboardsBySocket(string socketName)
+        private void InitDataGrid()
         {
-            using (var db = Entities.GetContext())
-            {
-                return db.Motherboard
-                    .Join(db.Socket,
-                          m => m.SocketID,
-                          s => s.ID,
-                          (m, s) => new { Motherboard = m, Socket = s })
-                    .Where(x => x.Socket.Name == socketName)
-                    .Select(x => x.Motherboard)
-                    .ToList();
-            }
+            dataGrid.ItemsSource = Entities.GetContext().Motherboard.ToList();
         }
     }
 }

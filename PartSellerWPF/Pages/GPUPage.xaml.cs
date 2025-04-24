@@ -23,6 +23,12 @@ namespace PartSellerWPF.Pages
         public GPUPage()
         {
             InitializeComponent();
+            InitDataGrid();
+        }
+
+        private void InitDataGrid()
+        {
+            dataGrid.ItemsSource = Entities.GetContext().GPU.ToList();
         }
     }
 }

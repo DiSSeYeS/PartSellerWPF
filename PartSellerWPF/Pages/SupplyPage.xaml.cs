@@ -23,6 +23,12 @@ namespace PartSellerWPF.Pages
         public SupplyPage()
         {
             InitializeComponent();
+            InitDataGrid();
+        }
+
+        private void InitDataGrid()
+        {
+            dataGrid.ItemsSource = Entities.GetContext().Supply.ToList();
         }
     }
 }

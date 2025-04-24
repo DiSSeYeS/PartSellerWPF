@@ -23,6 +23,12 @@ namespace PartSellerWPF.Pages
         public CoolingPage()
         {
             InitializeComponent();
+            InitDataGrid();
+        }
+
+        private void InitDataGrid()
+        {
+            dataGrid.ItemsSource = Entities.GetContext().Cooling.ToList();
         }
     }
 }

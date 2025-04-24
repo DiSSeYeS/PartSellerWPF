@@ -8,7 +8,32 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CPUPage">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Name="dataGrid" Grid.Row="0" 
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              IsReadOnly="True"
+              Margin="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
+                <DataGridTextColumn Header="Вольтаж" Binding="{Binding Voltage}" Width="*"/>
+                <DataGridTextColumn Header="Сокет" Binding="{Binding Socket.Name}" Width="*"/>
+                <DataGridTextColumn Header="Частота" Binding="{Binding Frequency}" Width="*"/>
+                <DataGridTextColumn Header="Ядра" Binding="{Binding Cores}" Width="*"/>
+                <DataGridTextColumn Header="Потоки" Binding="{Binding Threads}" Width="*"/>
+                <DataGridTextColumn Header="Кэш L1" Binding="{Binding L1}" Width="*"/>
+                <DataGridTextColumn Header="Кэш L2" Binding="{Binding L2}" Width="*"/>
+                <DataGridTextColumn Header="Турбо-буст" Binding="{Binding HasTurboBoost}" Width="*"/>
+                <DataGridTextColumn Header="Макс.частота" Binding="{Binding MaxFrequency}" Width="*"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 
 </Page>
