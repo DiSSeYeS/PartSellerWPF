@@ -11,8 +11,7 @@ namespace PartSellerWPF
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-
+    
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -30,7 +29,6 @@ namespace PartSellerWPF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Order { get; set; }
         public virtual Role Role { get; set; }
-
         public bool CheckPassword(string password)
         {
             return this.Password == password;

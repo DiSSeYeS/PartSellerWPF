@@ -24,11 +24,11 @@ namespace PartSellerWPF
         public int BrandID { get; set; }
         public string Model { get; set; }
         public int SocketID { get; set; }
-        public string Chipset { get; set; }
+        public int ChipsetID { get; set; }
         public int RAMTypeID { get; set; }
         public int RAMSlots { get; set; }
-        public int MaxRAMCount { get; set; }
-        public int MaxRAMFrequency { get; set; }
+        public int MaxRAMCountGB { get; set; }
+        public int MaxRAMFrequencyMHz { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int SATASlots { get; set; }
@@ -36,6 +36,7 @@ namespace PartSellerWPF
         public int NVMe { get; set; }
     
         public virtual Brand Brand { get; set; }
+        public virtual Chipset Chipset { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Part> Part { get; set; }
         public virtual RAMType RAMType { get; set; }

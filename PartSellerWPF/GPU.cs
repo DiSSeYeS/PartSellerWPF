@@ -24,9 +24,9 @@ namespace PartSellerWPF
         public int BrandID { get; set; }
         public string Model { get; set; }
         public int Voltage { get; set; }
-        public int VideoMemory { get; set; }
-        public decimal MemoryFrequency { get; set; }
-        public decimal CoreFrequency { get; set; }
+        public int VideoMemoryGB { get; set; }
+        public decimal MemoryFrequencyMHz { get; set; }
+        public decimal CoreFrequencyMHz { get; set; }
         public Nullable<int> Width { get; set; }
         public Nullable<int> Height { get; set; }
         public Nullable<int> Length { get; set; }

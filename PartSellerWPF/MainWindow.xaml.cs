@@ -31,7 +31,7 @@ namespace PartSellerWPF
         {
             InitializeComponent();
         }
-
+        
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
             if (e.Content is Page page && !page.Title.Equals(currentPage))
@@ -42,6 +42,7 @@ namespace PartSellerWPF
                 btnCart.Visibility = e.Content == new Pages.CartPage() ? Visibility.Hidden : Visibility.Visible;
                 btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
                 btnFilters.Visibility = PagesNames.Contains(currentPage) ? Visibility.Visible : Visibility.Hidden;
+                btnApplyFilters.Visibility = currentPage.EndsWith("FilterPage") ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
@@ -93,50 +94,42 @@ namespace PartSellerWPF
             {
                 case "RAMPage":
 
-                    MainFrame.Navigate(new FilterPages.RAMFilterPage());
-                    btnFilters.Visibility = Visibility.Hidden;
+                    MainFrame.Navigate(new FilterPages.RAMFilterPage());            
 
                     break;
                 case "CasePage":
 
-                    MainFrame.Navigate(new FilterPages.CaseFilterPage());
-                    btnFilters.Visibility = Visibility.Hidden;
+                    MainFrame.Navigate(new FilterPages.CaseFilterPage());          
 
                     break;
                 case "SupplyPage":
 
-                    MainFrame.Navigate(new FilterPages.SupplyFilterPage());
-                    btnFilters.Visibility = Visibility.Hidden;
+                    MainFrame.Navigate(new FilterPages.SupplyFilterPage());   
 
                     break;
                 case "CoolingPage":
 
                     MainFrame.Navigate(new FilterPages.CoolingFilterPage());
-                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "CPUPage":
 
-                    MainFrame.Navigate(new FilterPages.CPUFilterPage());
-                    btnFilters.Visibility = Visibility.Hidden;
+                    MainFrame.Navigate(new FilterPages.CPUFilterPage()); 
 
                     break;
                 case "DiskPage":
 
                     MainFrame.Navigate(new FilterPages.DiskFilterPage());
-                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "GPUPage":
 
                     MainFrame.Navigate(new FilterPages.GPUFilterPage());
-                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 case "MotherboardPage":
 
                     MainFrame.Navigate(new FilterPages.MotherboardFilterPage());
-                    btnFilters.Visibility = Visibility.Hidden;
 
                     break;
                 default:
@@ -148,6 +141,11 @@ namespace PartSellerWPF
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnApplyFilters_Click(object sender, RoutedEventArgs e)
         {
 
         }

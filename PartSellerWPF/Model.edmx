@@ -27,6 +27,13 @@
           <Property Name="CoolerLength" Type="int" Nullable="false" />
           <Property Name="FormFactorTypeID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Chipset">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="CoolerType">
           <Key>
             <PropertyRef Name="ID" />
@@ -42,7 +49,6 @@
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CoolerTypeID" Type="int" Nullable="false" />
-          <Property Name="Speed" Type="int" Nullable="false" />
           <Property Name="Socket" Type="nvarchar" MaxLength="50" />
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="Height" Type="int" Nullable="false" />
@@ -60,7 +66,7 @@
           <Property Name="SocketID" Type="int" Nullable="false" />
           <Property Name="Cores" Type="int" Nullable="false" />
           <Property Name="Threads" Type="int" Nullable="false" />
-          <Property Name="Frequency" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FrequencyGHz" Type="decimal" Precision="3" Scale="2" Nullable="false" />
           <Property Name="L1" Type="int" Nullable="false" />
           <Property Name="L2" Type="int" Nullable="false" />
           <Property Name="HasTurboBoost" Type="int" Nullable="false" />
@@ -98,9 +104,9 @@
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Voltage" Type="int" Nullable="false" />
-          <Property Name="VideoMemory" Type="int" Nullable="false" />
-          <Property Name="MemoryFrequency" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="CoreFrequency" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="VideoMemoryGB" Type="int" Nullable="false" />
+          <Property Name="MemoryFrequencyMHz" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CoreFrequencyMHz" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Width" Type="int" />
           <Property Name="Height" Type="int" />
           <Property Name="Length" Type="int" />
@@ -113,11 +119,11 @@
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SocketID" Type="int" Nullable="false" />
-          <Property Name="Chipset" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChipsetID" Type="int" Nullable="false" />
           <Property Name="RAMTypeID" Type="int" Nullable="false" />
           <Property Name="RAMSlots" Type="int" Nullable="false" />
-          <Property Name="MaxRAMCount" Type="int" Nullable="false" />
-          <Property Name="MaxRAMFrequency" Type="int" Nullable="false" />
+          <Property Name="MaxRAMCountGB" Type="int" Nullable="false" />
+          <Property Name="MaxRAMFrequencyMHz" Type="int" Nullable="false" />
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="Height" Type="int" Nullable="false" />
           <Property Name="SATASlots" Type="int" Nullable="false" />
@@ -521,6 +527,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Motherboard_Chipset">
+          <End Role="Chipset" Type="Self.Chipset" Multiplicity="1" />
+          <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chipset">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Motherboard">
+              <PropertyRef Name="ChipsetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Motherboard_RAMType">
           <End Role="RAMType" Type="Self.RAMType" Multiplicity="1" />
           <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
@@ -644,6 +662,7 @@
         <EntityContainer Name="Хранилище CSDBModelContainer">
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Case" EntityType="Self.Case" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chipset" EntityType="Self.Chipset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CoolerType" EntityType="Self.CoolerType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cooling" EntityType="Self.Cooling" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CPU" EntityType="Self.CPU" Schema="dbo" store:Type="Tables" />
@@ -754,6 +773,10 @@
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Motherboard" EntitySet="Motherboard" />
           </AssociationSet>
+          <AssociationSet Name="FK_Motherboard_Chipset" Association="Self.FK_Motherboard_Chipset">
+            <End Role="Chipset" EntitySet="Chipset" />
+            <End Role="Motherboard" EntitySet="Motherboard" />
+          </AssociationSet>
           <AssociationSet Name="FK_Motherboard_RAMType" Association="Self.FK_Motherboard_RAMType">
             <End Role="RAMType" EntitySet="RAMType" />
             <End Role="Motherboard" EntitySet="Motherboard" />
@@ -833,6 +856,14 @@
           <NavigationProperty Name="FormFactor" Relationship="Self.FK_Case_FormFactor" FromRole="Case" ToRole="FormFactor" />
           <NavigationProperty Name="Part" Relationship="Self.FK_Part_Case" FromRole="Case" ToRole="Part" />
         </EntityType>
+        <EntityType Name="Chipset">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Motherboard" Relationship="Self.FK_Motherboard_Chipset" FromRole="Chipset" ToRole="Motherboard" />
+        </EntityType>
         <EntityType Name="CoolerType">
           <Key>
             <PropertyRef Name="ID" />
@@ -849,7 +880,6 @@
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CoolerTypeID" Type="Int32" Nullable="false" />
-          <Property Name="Speed" Type="Int32" Nullable="false" />
           <Property Name="Socket" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Width" Type="Int32" Nullable="false" />
           <Property Name="Height" Type="Int32" Nullable="false" />
@@ -871,7 +901,7 @@
           <Property Name="SocketID" Type="Int32" Nullable="false" />
           <Property Name="Cores" Type="Int32" Nullable="false" />
           <Property Name="Threads" Type="Int32" Nullable="false" />
-          <Property Name="Frequency" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FrequencyGHz" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
           <Property Name="L1" Type="Int32" Nullable="false" />
           <Property Name="L2" Type="Int32" Nullable="false" />
           <Property Name="HasTurboBoost" Type="Int32" Nullable="false" />
@@ -917,9 +947,9 @@
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Voltage" Type="Int32" Nullable="false" />
-          <Property Name="VideoMemory" Type="Int32" Nullable="false" />
-          <Property Name="MemoryFrequency" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="CoreFrequency" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="VideoMemoryGB" Type="Int32" Nullable="false" />
+          <Property Name="MemoryFrequencyMHz" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CoreFrequencyMHz" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Width" Type="Int32" />
           <Property Name="Height" Type="Int32" />
           <Property Name="Length" Type="Int32" />
@@ -934,17 +964,18 @@
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="SocketID" Type="Int32" Nullable="false" />
-          <Property Name="Chipset" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChipsetID" Type="Int32" Nullable="false" />
           <Property Name="RAMTypeID" Type="Int32" Nullable="false" />
           <Property Name="RAMSlots" Type="Int32" Nullable="false" />
-          <Property Name="MaxRAMCount" Type="Int32" Nullable="false" />
-          <Property Name="MaxRAMFrequency" Type="Int32" Nullable="false" />
+          <Property Name="MaxRAMCountGB" Type="Int32" Nullable="false" />
+          <Property Name="MaxRAMFrequencyMHz" Type="Int32" Nullable="false" />
           <Property Name="Width" Type="Int32" Nullable="false" />
           <Property Name="Height" Type="Int32" Nullable="false" />
           <Property Name="SATASlots" Type="Int32" Nullable="false" />
           <Property Name="M2Slots" Type="Int32" Nullable="false" />
           <Property Name="NVMe" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Motherboard_Brand" FromRole="Motherboard" ToRole="Brand" />
+          <NavigationProperty Name="Chipset" Relationship="Self.FK_Motherboard_Chipset" FromRole="Motherboard" ToRole="Chipset" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__Motherboar__5812160E" FromRole="Motherboard" ToRole="Part" />
           <NavigationProperty Name="RAMType" Relationship="Self.FK_Motherboard_RAMType" FromRole="Motherboard" ToRole="RAMType" />
           <NavigationProperty Name="Socket" Relationship="Self.FK_Motherboard_Socket" FromRole="Motherboard" ToRole="Socket" />
@@ -1236,6 +1267,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Motherboard_Chipset">
+          <End Role="Chipset" Type="Self.Chipset" Multiplicity="1" />
+          <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chipset">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Motherboard">
+              <PropertyRef Name="ChipsetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cooling_CoolerType">
           <End Role="CoolerType" Type="Self.CoolerType" Multiplicity="1" />
           <End Role="Cooling" Type="Self.Cooling" Multiplicity="*" />
@@ -1503,6 +1546,7 @@
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Brand" EntityType="Self.Brand" />
           <EntitySet Name="Case" EntityType="Self.Case" />
+          <EntitySet Name="Chipset" EntityType="Self.Chipset" />
           <EntitySet Name="CoolerType" EntityType="Self.CoolerType" />
           <EntitySet Name="Cooling" EntityType="Self.Cooling" />
           <EntitySet Name="CPU" EntityType="Self.CPU" />
@@ -1564,6 +1608,10 @@
           <AssociationSet Name="FK_Part_Case" Association="Self.FK_Part_Case">
             <End Role="Case" EntitySet="Case" />
             <End Role="Part" EntitySet="Part" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Motherboard_Chipset" Association="Self.FK_Motherboard_Chipset">
+            <End Role="Chipset" EntitySet="Chipset" />
+            <End Role="Motherboard" EntitySet="Motherboard" />
           </AssociationSet>
           <AssociationSet Name="FK_Cooling_CoolerType" Association="Self.FK_Cooling_CoolerType">
             <End Role="CoolerType" EntitySet="CoolerType" />
@@ -1684,6 +1732,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Chipset">
+            <EntityTypeMapping TypeName="CSDBModel.Chipset">
+              <MappingFragment StoreEntitySet="Chipset">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CoolerType">
             <EntityTypeMapping TypeName="CSDBModel.CoolerType">
               <MappingFragment StoreEntitySet="CoolerType">
@@ -1699,7 +1755,6 @@
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="CoolerTypeID" ColumnName="CoolerTypeID" />
-                <ScalarProperty Name="Speed" ColumnName="Speed" />
                 <ScalarProperty Name="Socket" ColumnName="Socket" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
@@ -1718,7 +1773,7 @@
                 <ScalarProperty Name="SocketID" ColumnName="SocketID" />
                 <ScalarProperty Name="Cores" ColumnName="Cores" />
                 <ScalarProperty Name="Threads" ColumnName="Threads" />
-                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="FrequencyGHz" ColumnName="FrequencyGHz" />
                 <ScalarProperty Name="L1" ColumnName="L1" />
                 <ScalarProperty Name="L2" ColumnName="L2" />
                 <ScalarProperty Name="HasTurboBoost" ColumnName="HasTurboBoost" />
@@ -1760,9 +1815,9 @@
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Voltage" ColumnName="Voltage" />
-                <ScalarProperty Name="VideoMemory" ColumnName="VideoMemory" />
-                <ScalarProperty Name="MemoryFrequency" ColumnName="MemoryFrequency" />
-                <ScalarProperty Name="CoreFrequency" ColumnName="CoreFrequency" />
+                <ScalarProperty Name="VideoMemoryGB" ColumnName="VideoMemoryGB" />
+                <ScalarProperty Name="MemoryFrequencyMHz" ColumnName="MemoryFrequencyMHz" />
+                <ScalarProperty Name="CoreFrequencyMHz" ColumnName="CoreFrequencyMHz" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
                 <ScalarProperty Name="Length" ColumnName="Length" />
@@ -1776,11 +1831,11 @@
                 <ScalarProperty Name="BrandID" ColumnName="BrandID" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="SocketID" ColumnName="SocketID" />
-                <ScalarProperty Name="Chipset" ColumnName="Chipset" />
+                <ScalarProperty Name="ChipsetID" ColumnName="ChipsetID" />
                 <ScalarProperty Name="RAMTypeID" ColumnName="RAMTypeID" />
                 <ScalarProperty Name="RAMSlots" ColumnName="RAMSlots" />
-                <ScalarProperty Name="MaxRAMCount" ColumnName="MaxRAMCount" />
-                <ScalarProperty Name="MaxRAMFrequency" ColumnName="MaxRAMFrequency" />
+                <ScalarProperty Name="MaxRAMCountGB" ColumnName="MaxRAMCountGB" />
+                <ScalarProperty Name="MaxRAMFrequencyMHz" ColumnName="MaxRAMFrequencyMHz" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
                 <ScalarProperty Name="SATASlots" ColumnName="SATASlots" />

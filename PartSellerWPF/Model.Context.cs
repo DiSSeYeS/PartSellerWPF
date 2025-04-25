@@ -20,15 +20,9 @@ namespace PartSellerWPF
             : base("name=Entities")
         {
         }
-
         public static Entities GetContext()
         {
-            if (_context == null)
-            {
-                _context = new Entities();
-            }
-
-            return _context;
+            return _context == null ? _context = new Entities() : _context;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -38,6 +32,7 @@ namespace PartSellerWPF
     
         public virtual DbSet<Brand> Brand { get; set; }
         public virtual DbSet<Case> Case { get; set; }
+        public virtual DbSet<Chipset> Chipset { get; set; }
         public virtual DbSet<CoolerType> CoolerType { get; set; }
         public virtual DbSet<Cooling> Cooling { get; set; }
         public virtual DbSet<CPU> CPU { get; set; }

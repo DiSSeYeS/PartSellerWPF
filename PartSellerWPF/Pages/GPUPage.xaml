@@ -24,10 +24,10 @@
                 <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
                 <DataGridTextColumn Header="Вольтаж" Binding="{Binding Voltage}" Width="*"/>
-                <DataGridTextColumn Header="Видеопамять" Binding="{Binding VideoMemory}" Width="*"/>
-                <DataGridTextColumn Header="Частота ядра" Binding="{Binding CoreFrequency}" Width="*"/>
+                <DataGridTextColumn Header="Видеопамять" Binding="{Binding VideoMemoryGB}" Width="*"/>
+                <DataGridTextColumn Header="Частота ядра" Binding="{Binding CoreFrequencyMHz}" Width="*"/>
                 <DataGridTextColumn Header="Частота &#13;видеопамяти" 
-                               Binding="{Binding MemoryFrequency}" Width="*"/>
+                               Binding="{Binding MemoryFrequencyMHz}" Width="*"/>
                 <DataGridTextColumn Header="Ширина" 
                                Binding="{Binding Width}" Width="*"/>
                 <DataGridTextColumn Header="Высота"

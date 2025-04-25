@@ -80,6 +80,16 @@
                 Click="btnFilters_Click"
                 Visibility="Hidden"/>
 
+        <Button x:Name="btnApplyFilters"
+                Grid.Row="2" 
+                Style="{StaticResource RoundedButton}" 
+                Margin="0,0,10,10" 
+                Width="175" 
+                HorizontalAlignment="Right"
+                Content="Применить"
+                Click="btnApplyFilters_Click"
+                Visibility="Hidden"/>
+
         <Button x:Name="btnSearch"
                 Grid.Row="2" 
                 Style="{StaticResource RoundedButton}" 

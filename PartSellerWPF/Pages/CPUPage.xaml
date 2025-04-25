@@ -24,7 +24,7 @@
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
                 <DataGridTextColumn Header="Вольтаж" Binding="{Binding Voltage}" Width="*"/>
                 <DataGridTextColumn Header="Сокет" Binding="{Binding Socket.Name}" Width="*"/>
-                <DataGridTextColumn Header="Частота" Binding="{Binding Frequency}" Width="*"/>
+                <DataGridTextColumn Header="Частота" Binding="{Binding FrequencyGHz}" Width="*"/>
                 <DataGridTextColumn Header="Ядра" Binding="{Binding Cores}" Width="*"/>
                 <DataGridTextColumn Header="Потоки" Binding="{Binding Threads}" Width="*"/>
                 <DataGridTextColumn Header="Кэш L1" Binding="{Binding L1}" Width="*"/>

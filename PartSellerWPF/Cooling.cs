@@ -25,7 +25,6 @@ namespace PartSellerWPF
         public int BrandID { get; set; }
         public string Model { get; set; }
         public int CoolerTypeID { get; set; }
-        public int Speed { get; set; }
         public string Socket { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }

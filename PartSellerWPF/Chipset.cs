@@ -12,30 +12,18 @@ namespace PartSellerWPF
     using System;
     using System.Collections.Generic;
     
-    public partial class CPU
+    public partial class Chipset
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CPU()
+        public Chipset()
         {
-            this.Part = new HashSet<Part>();
+            this.Motherboard = new HashSet<Motherboard>();
         }
     
         public int ID { get; set; }
-        public int BrandID { get; set; }
-        public string Model { get; set; }
-        public int Voltage { get; set; }
-        public int SocketID { get; set; }
-        public int Cores { get; set; }
-        public int Threads { get; set; }
-        public decimal FrequencyGHz { get; set; }
-        public int L1 { get; set; }
-        public int L2 { get; set; }
-        public int HasTurboBoost { get; set; }
-        public Nullable<decimal> MaxFrequency { get; set; }
+        public string Name { get; set; }
     
-        public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Part> Part { get; set; }
-        public virtual Socket Socket { get; set; }
+        public virtual ICollection<Motherboard> Motherboard { get; set; }
     }
 }
