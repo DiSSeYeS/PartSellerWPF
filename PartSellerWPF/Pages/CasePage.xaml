@@ -21,19 +21,29 @@
                   IsReadOnly="True"
                   Margin="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
                 <DataGridTextColumn Header="Высота" Binding="{Binding Height}" Width="*"/>
                 <DataGridTextColumn Header="Ширина" Binding="{Binding Width}" Width="*"/>
                 <DataGridTextColumn Header="Длина" Binding="{Binding Length}" Width="*"/>
-                <DataGridTextColumn Header="Макс.длина &#13;блока питания" 
+                <DataGridTextColumn Header="Макс.длина &#13;блока &#13;питания" 
                                    Binding="{Binding SupplyLength}" Width="*"/>
-                <DataGridTextColumn Header="Макс.длина &#13;видеокарты" 
+                <DataGridTextColumn Header="Макс.&#13;длина &#13;видеокарты" 
                                    Binding="{Binding GPULength}" Width="*"/>
-                <DataGridTextColumn Header="Макс.высота &#13;башни"
+                <DataGridTextColumn Header="Макс.&#13;высота &#13;башни"
                                     Binding="{Binding CoolerLength}" Width="*"/>
-                <DataGridTextColumn Header="Форм-фактор" 
-                                   Binding="{Binding FormFactor.Type}" Width="*"/>
+                <DataGridTextColumn Header="Форм-&#13;фактор" 
+                                   Binding="{Binding FormFactor}" Width="*"/>
+                <DataGridTextColumn Header="Цена"
+                                    Binding="{Binding Price}" Width="*"/>
+                <DataGridTemplateColumn Header="Изображение" Width="3*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Image}" 
+                                Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
             </DataGrid.Columns>
         </DataGrid>

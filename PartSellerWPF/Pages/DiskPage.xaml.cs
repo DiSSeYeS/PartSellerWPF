@@ -20,15 +20,66 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class DiskPage : Page
     {
-        public DiskPage()
+        public DiskPage(FilterParams filterParams = null)
         {
             InitializeComponent();
-            InitDataGrid();
+            LoadDiskData(filterParams);
+
         }
 
-        private void InitDataGrid()
+        private void LoadDiskData(object filterParams)
         {
-            dataGrid.ItemsSource = Entities.GetContext().Disk.ToList();
+
+            try
+            {
+                var context = Entities.GetContext();
+
+                var query = from c in context.Disk
+                            join p in context.Part on c.ID equals p.DiskID
+                            join prod in context.Product on p.ID equals prod.PartID
+                            join dt in context.DiskType on c.DiskTypeID equals dt.ID
+                            select new
+                            {
+                                Disk = c,
+                                Part = p,
+                                Product = prod,
+                                DiskType = dt
+                            };
+
+                if (filterParams is FilterParams filters)
+                {
+                    if (filters.BrandId.HasValue && filters.BrandId != -1)
+                    {
+                        int brandId = filters.BrandId.Value;
+                        query = query.Where(x => x.Disk.BrandID == brandId);
+                    }
+
+
+                    if (filters.MaxPrice.HasValue)
+                        query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
+                }
+
+                var result = query.AsEnumerable().Select(x => new
+                {
+                    Brand = x.Disk.Brand.Name,
+                    x.Disk.Model,
+                    x.Disk.Space,
+                    DiskType = x.DiskType.Type,
+                    x.Part.ID,
+                    x.Part.Image,
+                    x.Product.Price,
+                }).ToList();
+
+                dataGrid.ItemsSource = result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+            }
         }
     }
 }
+

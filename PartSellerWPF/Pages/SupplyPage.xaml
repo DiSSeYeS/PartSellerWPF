@@ -21,13 +21,21 @@
               IsReadOnly="True"
               Margin="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
                 <DataGridTextColumn Header="Мощность" Binding="{Binding Wattage}" Width="*"/>
                 <DataGridTextColumn Header="Ширина" Binding="{Binding Width}" Width="*"/>
                 <DataGridTextColumn Header="Длина" Binding="{Binding Length}" Width="*"/>
                 <DataGridTextColumn Header="Высота" Binding="{Binding Height}" Width="*"/>
-
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
+                <DataGridTemplateColumn Header="Изображение" Width="3*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Image}" 
+                                Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

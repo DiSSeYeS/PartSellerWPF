@@ -20,15 +20,68 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class GPUPage : Page
     {
-        public GPUPage()
+        public GPUPage(FilterParams filterParams = null)
         {
             InitializeComponent();
-            InitDataGrid();
+            LoadGPUData(filterParams);
+
         }
 
-        private void InitDataGrid()
+        private void LoadGPUData(object filterParams)
         {
-            dataGrid.ItemsSource = Entities.GetContext().GPU.ToList();
+
+            try
+            {
+                var context = Entities.GetContext();
+
+                var query = from c in context.GPU
+                            join p in context.Part on c.ID equals p.GPUID
+                            join prod in context.Product on p.ID equals prod.PartID
+                            select new
+                            {
+                                GPU = c,
+                                Part = p,
+                                Product = prod
+                            };
+
+                if (filterParams is FilterParams filters)
+                {
+                    if (filters.BrandId.HasValue && filters.BrandId != -1)
+                    {
+                        int brandId = filters.BrandId.Value;
+                        query = query.Where(x => x.GPU.BrandID == brandId);
+                    }
+
+                    if (filters.MaxPrice.HasValue)
+                        query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
+                }
+
+                var result = query.AsEnumerable().Select(x => new
+                {
+                    Brand = x.GPU.Brand.Name,
+                    x.GPU.Model,
+                    x.GPU.Height,
+                    x.GPU.Length,
+                    x.GPU.Width,
+                    x.GPU.Voltage,
+                    x.GPU.VideoMemoryGB,
+                    x.GPU.MemoryFrequencyMHz,
+                    x.GPU.CoreFrequencyMHz,
+                    x.Part.ID,
+                    x.Part.Image,
+                    x.Product.Price,
+                }).ToList();
+
+                dataGrid.ItemsSource = result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+            }
         }
     }
 }
+

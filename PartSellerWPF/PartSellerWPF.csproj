@@ -122,6 +122,7 @@
     <Compile Include="FilterPages\SupplyFilterPage.xaml.cs">
       <DependentUpon>SupplyFilterPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FilterParams.cs" />
     <Compile Include="FormFactor.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

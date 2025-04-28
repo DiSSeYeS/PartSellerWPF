@@ -41,8 +41,8 @@ namespace PartSellerWPF
 
                 btnCart.Visibility = e.Content == new Pages.CartPage() ? Visibility.Hidden : Visibility.Visible;
                 btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
-                btnFilters.Visibility = PagesNames.Contains(currentPage) ? Visibility.Visible : Visibility.Hidden;
-                btnApplyFilters.Visibility = currentPage.EndsWith("FilterPage") ? Visibility.Visible : Visibility.Hidden;
+                btnFilters.Visibility = PagesNames.Contains(currentPage) || currentPage.EndsWith("FilterPage") ? Visibility.Visible : Visibility.Hidden;
+                // btnApplyFilters.Visibility = currentPage.EndsWith("FilterPage") ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
@@ -134,8 +134,15 @@ namespace PartSellerWPF
                     break;
                 default:
 
-                    MessageBox.Show("Пожалуйста, выберите страницу.");
-
+                    if (currentPage.EndsWith("FilterPage"))
+                    {
+                        MessageBox.Show("Вы уже на странице фильтров.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Пожалуйста, выберите страницу.");
+                    }
+                        
                     break;
             }
         }

@@ -21,12 +21,22 @@
               IsReadOnly="True"
               Margin="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
-                <DataGridTextColumn Header="Тип" Binding="{Binding RAMType.Type}" Width="*"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding RAMType}" Width="*"/>
                 <DataGridTextColumn Header="Память" Binding="{Binding MemoryCountGB}" Width="*"/>
                 <DataGridTextColumn Header="Частота" Binding="{Binding MemoryFrequencyMHz}" Width="*"/>
                 <DataGridTextColumn Header="Кол-во плашек" Binding="{Binding Count}" Width="*"/>
+                <DataGridTextColumn Header="Цена"
+                    Binding="{Binding Price}" Width="*"/>
+                <DataGridTemplateColumn Header="Изображение" Width="3*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Image}" 
+                                Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

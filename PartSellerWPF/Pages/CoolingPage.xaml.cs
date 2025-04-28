@@ -20,15 +20,78 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class CoolingPage : Page
     {
-        public CoolingPage()
+        public CoolingPage(FilterParams filterParams = null)
         {
             InitializeComponent();
-            InitDataGrid();
+            LoadCoolingData(filterParams);
+
         }
 
-        private void InitDataGrid()
+        private void LoadCoolingData(object filterParams)
         {
-            dataGrid.ItemsSource = Entities.GetContext().Cooling.ToList();
+
+            try
+            {
+                var context = Entities.GetContext();
+
+                var query = from c in context.Cooling
+                            join p in context.Part on c.ID equals p.CoolingID
+                            join prod in context.Product on p.ID equals prod.PartID
+                            join ct in context.CoolerType on c.CoolerTypeID equals ct.ID
+                            select new
+                            {
+                                Cooling = c,
+                                Part = p,
+                                Product = prod,
+                                CoolerType = ct
+                            };
+
+                if (filterParams is FilterParams filters)
+                {
+                    if (filters.BrandId.HasValue && filters.BrandId != -1)
+                    {
+                        int brandId = filters.BrandId.Value;
+                        query = query.Where(x => x.Cooling.BrandID == brandId);
+                    }
+
+                    if (filters.MaxHeight.HasValue)
+                        query = query.Where(x => x.Cooling.Height <= filters.MaxHeight.Value);
+
+                    if (filters.MaxWidth.HasValue)
+                        query = query.Where(x => x.Cooling.Width <= filters.MaxWidth.Value);
+
+                    if (filters.MaxLength.HasValue)
+                        query = query.Where(x => x.Cooling.Length <= filters.MaxLength.Value);
+
+
+
+                    if (filters.MaxPrice.HasValue)
+                        query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
+                }
+
+                var result = query.AsEnumerable().Select(x => new
+                {
+                    Brand = x.Cooling.Brand.Name,
+                    x.Cooling.Model,
+                    x.Cooling.RPM,
+                    x.Cooling.Height,
+                    x.Cooling.Length,
+                    x.Cooling.Width,
+                    x.CoolerType.Type,
+                    x.Part.ID,
+                    x.Part.Image,
+                    x.Product.Price,
+                }).ToList();
+
+                dataGrid.ItemsSource = result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+            }
         }
     }
 }

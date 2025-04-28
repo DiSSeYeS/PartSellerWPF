@@ -21,11 +21,11 @@
               IsReadOnly="True"
               Margin="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand.Name}" Width="*"/>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
-                <DataGridTextColumn Header="Сокет" Binding="{Binding Socket.Name}" Width="*"/>
-                <DataGridTextColumn Header="Чипсет" Binding="{Binding Chipset.Name}" Width="*"/>
-                <DataGridTextColumn Header="Тип памяти" Binding="{Binding RAMType.Type}" Width="*"/>
+                <DataGridTextColumn Header="Сокет" Binding="{Binding Socket}" Width="*"/>
+                <DataGridTextColumn Header="Чипсет" Binding="{Binding Chipset}" Width="*"/>
+                <DataGridTextColumn Header="Тип памяти" Binding="{Binding RAMType}" Width="*"/>
                 <DataGridTextColumn Header="Кол-во слотов &#13;оперативной &#13;памяти" 
                                Binding="{Binding RAMSlots}" Width="*"/>
                 <DataGridTextColumn Header="Макс.кол-во &#13;оперативной &#13;памяти" 
@@ -42,6 +42,16 @@
                                Binding="{Binding M2Slots}" Width="*"/>
                 <DataGridTextColumn Header="Поддержка &#13;NVMe" 
                                Binding="{Binding M2Slots}" Width="*"/>
+                <DataGridTextColumn Header="Цена"
+                    Binding="{Binding Price}" Width="*"/>
+                <DataGridTemplateColumn Header="Изображение" Width="3*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Image}" 
+                   Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
             </DataGrid.Columns>
         </DataGrid>

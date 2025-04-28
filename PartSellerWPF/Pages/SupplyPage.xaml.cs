@@ -20,15 +20,74 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class SupplyPage : Page
     {
-        public SupplyPage()
+        public SupplyPage(FilterParams filterParams = null)
         {
             InitializeComponent();
-            InitDataGrid();
+            LoadSupplyData(filterParams);
+
         }
 
-        private void InitDataGrid()
+        private void LoadSupplyData(object filterParams)
         {
-            dataGrid.ItemsSource = Entities.GetContext().Supply.ToList();
+
+            try
+            {
+                var context = Entities.GetContext();
+
+                var query = from c in context.Supply
+                            join p in context.Part on c.ID equals p.SupplyID
+                            join prod in context.Product on p.ID equals prod.PartID
+                            select new
+                            {
+                                Supply = c,
+                                Part = p,
+                                Product = prod
+                            };
+
+                if (filterParams is FilterParams filters)
+                {
+                    if (filters.BrandId.HasValue && filters.BrandId != -1)
+                    {
+                        int brandId = filters.BrandId.Value;
+                        query = query.Where(x => x.Supply.BrandID == brandId);
+                    }
+
+                    if (filters.MaxHeight.HasValue)
+                        query = query.Where(x => x.Supply.Height <= filters.MaxHeight.Value);
+
+                    if (filters.MaxWidth.HasValue)
+                        query = query.Where(x => x.Supply.Width <= filters.MaxWidth.Value);
+
+                    if (filters.MaxLength.HasValue)
+                        query = query.Where(x => x.Supply.Length <= filters.MaxLength.Value);
+
+                    if (filters.MaxPrice.HasValue)
+                        query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
+                }
+
+                var result = query.AsEnumerable().Select(x => new
+                {
+                    Brand = x.Supply.Brand.Name,
+                    x.Supply.Model,
+                    x.Supply.Wattage,
+                    x.Supply.Height,
+                    x.Supply.Length,
+                    x.Supply.Width,
+                    x.Part.ID,
+                    x.Part.Image,
+                    x.Product.Price,
+                }).ToList();
+
+                dataGrid.ItemsSource = result;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+            }
         }
     }
 }
+

@@ -9,6 +9,73 @@
       Title="RAMFilterPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+            <StackPanel Margin="10">
+                <GroupBox Header="Бренд" Margin="0,5">
+                    <ComboBox x:Name="BrandComboBox" 
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="ID"
+                  Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Габариты корпуса (мм)" Margin="0,5">
+                    <StackPanel>
+                        <TextBlock Text="Высота:" Margin="0,2"/>
+                        <Slider x:Name="RAMGBSlider" Minimum="4" Maximum="64" Value="64"
+                    TickFrequency="4" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="MaxRAMGBTextBox" Width="60" 
+                         Text="{Binding Value, ElementName=RAMGBSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="GB" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Ширина:" Margin="0,5,0,2"/>
+                        <Slider x:Name="FreqSlider" Minimum="2600" Maximum="5600" Value="5600"
+                    TickFrequency="20" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="MaxFreqTextBox" Width="60" 
+                         Text="{Binding Value, ElementName=FreqSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="MHz" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Длина:" Margin="0,5,0,2"/>
+                        <Slider x:Name="CountSlider" Minimum="1" Maximum="600" Value="600"
+                    TickFrequency="50" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="MaxCountTextBox" Width="60" 
+                         Text="{Binding Value, ElementName=CountSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="шт" Margin="5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Цена" Margin="0,5">
+                    <StackPanel>
+                        <Slider x:Name="PriceSlider" Minimum="0" Maximum="50000" Value="50000"
+                    TickFrequency="5000" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="MaxPriceTextBox" Width="100" 
+                         Text="{Binding Value, ElementName=PriceSlider}"/>
+                            <TextBlock Text="руб." Margin="5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Content="Сбросить" Click="ResetButton_Click" Margin="10" Style="{StaticResource RoundedButton}" Grid.Row="1" Grid.Column="0"/>
+        <Button Content="Применить" Click="ApplyButton_Click" Margin="10" Style="{StaticResource RoundedButton}" Grid.Row="1" Grid.Column="1"/>
     </Grid>
 </Page>

@@ -9,6 +9,39 @@
       Title="DiskFilterPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+            <StackPanel Margin="10">
+                <GroupBox Header="Бренд" Margin="0,5">
+                    <ComboBox x:Name="BrandComboBox" 
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="ID"
+                  Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Цена" Margin="0,5">
+                    <StackPanel>
+                        <Slider x:Name="PriceSlider" Minimum="0" Maximum="50000" Value="50000"
+                    TickFrequency="5000" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="MaxPriceTextBox" Width="100" 
+                         Text="{Binding Value, ElementName=PriceSlider}"/>
+                            <TextBlock Text="руб." Margin="5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Content="Сбросить" Click="ResetButton_Click" Margin="10" Style="{StaticResource RoundedButton}" Grid.Row="1" Grid.Column="0"/>
+        <Button Content="Применить" Click="ApplyButton_Click" Margin="10" Style="{StaticResource RoundedButton}" Grid.Row="1" Grid.Column="1"/>
     </Grid>
 </Page>
