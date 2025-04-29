@@ -38,12 +38,17 @@ namespace PartSellerWPF.Pages
                             join p in context.Part on c.ID equals p.CoolingID
                             join prod in context.Product on p.ID equals prod.PartID
                             join ct in context.CoolerType on c.CoolerTypeID equals ct.ID
+                            from ss in context.SupportedSockets.Where(ss => ss.CoolerID == c.ID).DefaultIfEmpty() 
+                            join s in context.Socket on ss.SocketID equals s.ID into socketJoin
+                            from s in socketJoin.DefaultIfEmpty()
                             select new
                             {
                                 Cooling = c,
                                 Part = p,
                                 Product = prod,
-                                CoolerType = ct
+                                CoolerType = ct,
+                                SupportedSockets = ss,
+                                Socket = s
                             };
 
                 if (filterParams is FilterParams filters)
@@ -52,6 +57,18 @@ namespace PartSellerWPF.Pages
                     {
                         int brandId = filters.BrandId.Value;
                         query = query.Where(x => x.Cooling.BrandID == brandId);
+                    }
+
+                    if (filters.SocketId.HasValue && filters.SocketId != -1)
+                    {
+                        int socketId = filters.SocketId.Value;
+                        query = query.Where(x => x.SupportedSockets.SocketID == socketId);
+                    }
+
+                    if (filters.CoolerTypeId.HasValue && filters.CoolerTypeId != -1)
+                    {
+                        int coolertypeId = filters.CoolerTypeId.Value;
+                        query = query.Where(x => x.CoolerType.ID == coolertypeId);
                     }
 
                     if (filters.MaxHeight.HasValue)
@@ -81,7 +98,7 @@ namespace PartSellerWPF.Pages
                     x.Part.ID,
                     x.Part.Image,
                     x.Product.Price,
-                }).ToList();
+                }).Distinct().ToList();
 
                 dataGrid.ItemsSource = result;
             }

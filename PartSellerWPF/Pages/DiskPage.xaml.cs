@@ -54,6 +54,11 @@ namespace PartSellerWPF.Pages
                         query = query.Where(x => x.Disk.BrandID == brandId);
                     }
 
+                    if (filters.DiskTypeId.HasValue && filters.DiskTypeId != -1)
+                    {
+                        int diskTypeId = filters.DiskTypeId.Value;
+                        query = query.Where(x => x.Disk.DiskTypeID == diskTypeId);
+                    }
 
                     if (filters.MaxPrice.HasValue)
                         query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);

@@ -61,6 +61,9 @@ namespace PartSellerWPF.Pages
                     if (filters.MaxLength.HasValue)
                         query = query.Where(x => x.Supply.Length <= filters.MaxLength.Value);
 
+                    if (filters.MaxWattage.HasValue)
+                        query = query.Where(x => x.Supply.Wattage <= filters.MaxWattage.Value);
+
                     if (filters.MaxPrice.HasValue)
                         query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
                 }

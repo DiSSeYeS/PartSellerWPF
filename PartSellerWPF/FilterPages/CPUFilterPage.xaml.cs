@@ -62,13 +62,38 @@ namespace PartSellerWPF.FilterPages
             }).ToList();
 
             BrandComboBox.ItemsSource = query.Select(x => x.CPU.Brand).Distinct().ToList();
-            PriceSlider.Maximum = result.Max(x => (double)x.Price);
+            SocketComboBox.ItemsSource = query.Select(x => x.Socket).Where(x => x != null).Distinct().ToList();
+            VoltageSlider.Maximum = result.Max(x => (double)x.Voltage);
+            CoresSlider.Maximum = result.Max(x => x.Cores);
+            ThreadsSlider.Maximum = result.Max(x => x.Threads);
+            FreqSlider.Maximum = result.Max(x => (double)x.FrequencyGHz);
+            L1Slider.Maximum = result.Max(x => x.L1);
+            L2Slider.Maximum = result.Max(x => x.L2);
+            MaxFreqSlider.Maximum = result.Max(x => (double)x.MaxFrequency);
+            PriceSlider.Minimum = result.Min(x => (double)x.Price);
+            VoltageSlider.Minimum = result.Min(x => (double)x.Voltage);
+            CoresSlider.Minimum = result.Min(x => x.Cores);
+            ThreadsSlider.Minimum = result.Min(x => x.Threads);
+            FreqSlider.Minimum = result.Min(x => (double)x.FrequencyGHz);
+            L1Slider.Minimum = result.Min(x => x.L1);
+            L2Slider.Minimum = result.Min(x => x.L2);
+            MaxFreqSlider.Minimum = result.Min(x => (double)x.MaxFrequency);
+            PriceSlider.Minimum = result.Min(x => (double)x.Price);
+
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             BrandComboBox.SelectedIndex = -1;
+            SocketComboBox.SelectedIndex = -1;
             PriceSlider.Value = PriceSlider.Maximum;
+            VoltageSlider.Value = VoltageSlider.Maximum;
+            CoresSlider.Value = CoresSlider.Maximum;
+            ThreadsSlider.Value = ThreadsSlider.Maximum;
+            FreqSlider.Value = FreqSlider.Maximum;
+            L1Slider.Value = FreqSlider.Maximum;
+            L2Slider.Value = FreqSlider.Maximum;
+            MaxFreqSlider.Value = FreqSlider.Maximum;
         }
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
@@ -76,6 +101,14 @@ namespace PartSellerWPF.FilterPages
             var filterParams = new FilterParams
             {
                 BrandId = BrandComboBox.SelectedValue == null ? -1 : BrandComboBox.SelectedValue as int?,
+                SocketId = SocketComboBox.SelectedValue == null ? -1 : SocketComboBox.SelectedValue as int?,
+                MaxVoltage = (int)VoltageSlider.Value,
+                MaxCores = (int)CoresSlider.Value,
+                MaxThreads = (int)ThreadsSlider.Value,
+                MaxFreq = (decimal)FreqSlider.Value,
+                MaxL1 = (int)L1Slider.Value,
+                MaxL2 = (int)L2Slider.Value,
+                MaxMaxFreq = (decimal)MaxFreqSlider.Value,
                 MaxPrice = (int)PriceSlider.Value
             };
 

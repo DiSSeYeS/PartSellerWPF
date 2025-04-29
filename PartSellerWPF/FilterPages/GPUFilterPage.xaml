@@ -26,6 +26,50 @@
                   Height="25"/>
                 </GroupBox>
 
+                <GroupBox Header="Характеристики" Margin="0,5">
+                    <StackPanel>
+                        <TextBlock Text="Вольтаж:" Margin="0,2"/>
+                        <Slider x:Name="VoltageSlider" Minimum="60" Maximum="500"
+                            Value="500" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="VoltageTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=VoltageSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="В" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Кол-во видеопамяти:" Margin="0,5,0,2"/>
+                        <Slider x:Name="MemorySlider" Minimum="2" Maximum="200" 
+                            Value="200" TickFrequency="2" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="MemoryTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=MemorySlider, Mode=TwoWay}"/>
+                            <TextBlock Text="ГБ" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Частота памяти:" Margin="0,5,0,2"/>
+                        <Slider x:Name="MemoryFreqSlider" Minimum="2" Maximum="250" 
+                        Value="250" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="MemoryFreqTextBox" Width="60" 
+                         Text="{Binding Value, ElementName=MemoryFreqSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="МГц" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Частота ядра:" Margin="0,5,0,2"/>
+                        <Slider x:Name="CoreFreqSlider" Minimum="2" Maximum="250" 
+                            Value="250" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="CoreFreqTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=CoreFreqSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="МГц" Margin="5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
                 <GroupBox Header="Габариты корпуса (мм)" Margin="0,5">
                     <StackPanel>
                         <TextBlock Text="Высота:" Margin="0,2"/>
@@ -48,7 +92,6 @@
                             <TextBlock Text="мм" Margin="5,0"/>
                         </StackPanel>
 
-                        
                         <TextBlock Text="Длина:" Margin="0,5,0,2"/>
                         <Slider x:Name="LengthSlider" Minimum="390" Maximum="600" Value="600"
                     TickFrequency="50" IsSnapToTickEnabled="True"/>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,30 @@ namespace PartSellerWPF.Pages
                     {
                         int brandId = filters.BrandId.Value;
                         query = query.Where(x => x.GPU.BrandID == brandId);
+                    }
+
+                    if (filters.MaxVoltage.HasValue)
+                    {
+                        int maxVoltage = filters.MaxVoltage.Value;
+                        query = query.Where(x => x.GPU.Voltage <= maxVoltage);
+                    }
+
+                    if (filters.MaxVideoMemory.HasValue)
+                    {
+                        int maxVideoMemory = filters.MaxVideoMemory.Value;
+                        query = query.Where(x => x.GPU.VideoMemoryGB <= maxVideoMemory);
+                    }
+
+                    if (filters.MaxMemoryFreq.HasValue)
+                    {
+                        int maxMemoryFreq = filters.MaxMemoryFreq.Value;
+                        query = query.Where(x => x.GPU.MemoryFrequencyMHz <= maxMemoryFreq);
+                    }
+
+                    if (filters.MaxCoreFreq.HasValue)
+                    {
+                        int maxCoreFreq = filters.MaxCoreFreq.Value;
+                        query = query.Where(x => x.GPU.CoreFrequencyMHz <= maxCoreFreq);
                     }
 
                     if (filters.MaxPrice.HasValue)

@@ -58,6 +58,57 @@ namespace PartSellerWPF.Pages
                         query = query.Where(x => x.Motherboard.BrandID == brandId);
                     }
 
+                    if (filters.SocketId.HasValue && filters.SocketId != -1)
+                    {
+                        int socketId = filters.SocketId.Value;
+                        query = query.Where(x => x.Motherboard.SocketID == socketId);
+                    }
+                    if (filters.ChipsetId.HasValue && filters.ChipsetId != -1)
+                    {
+                        int chipsetId = filters.ChipsetId.Value;
+                        query = query.Where(x => x.Motherboard.ChipsetID == chipsetId);
+                    }
+                    if (filters.RamTypeId.HasValue && filters.RamTypeId != -1)
+                    {
+                        int ramTypeId = filters.RamTypeId.Value;
+                        query = query.Where(x => x.Motherboard.RAMTypeID == ramTypeId);
+                    }
+                    if (filters.MaxRamSlots.HasValue && filters.MaxRamSlots != -1)
+                    {
+                        int ramSlots = filters.MaxRamSlots.Value;
+                        query = query.Where(x => x.Motherboard.RAMSlots <= ramSlots);
+                    }
+                    if (filters.MaxRAMGB.HasValue && filters.MaxRAMGB != -1)
+                    {
+                        int maxRAMGB = filters.MaxRAMGB.Value;
+                        query = query.Where(x => x.Motherboard.MaxRAMCountGB <= maxRAMGB);
+                    }
+                    if (filters.MaxMemoryFreq.HasValue && filters.MaxMemoryFreq != -1)
+                    {
+                        int maxMemoryFreq = filters.MaxMemoryFreq.Value;
+                        query = query.Where(x => x.Motherboard.MaxRAMFrequencyMHz <= maxMemoryFreq);
+                    }
+                    if (filters.MaxWidth.HasValue && filters.MaxWidth != -1)
+                    {
+                        decimal width = filters.MaxWidth.Value;
+                        query = query.Where(x => x.Motherboard.Width <= width);
+                    }
+                    if (filters.MaxHeight.HasValue && filters.MaxHeight != -1)
+                    {
+                        decimal height = filters.MaxHeight.Value;
+                        query = query.Where(x => x.Motherboard.Height <= height);
+                    }
+                    if (filters.MaxSataSlots.HasValue && filters.MaxSataSlots != -1)
+                    {
+                        int maxSataSlots = filters.MaxSataSlots.Value;
+                        query = query.Where(x => x.Motherboard.SATASlots <= maxSataSlots);
+                    }
+                    if (filters.MaxM2Slots.HasValue && filters.MaxM2Slots != -1)
+                    {
+                        int m2Slots = filters.MaxM2Slots.Value;
+                        query = query.Where(x => x.Motherboard.M2Slots <= m2Slots);
+                    }
+
                     if (filters.MaxPrice.HasValue)
                         query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
                 }

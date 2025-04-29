@@ -62,6 +62,19 @@ namespace PartSellerWPF.FilterPages
             HeightSlider.Maximum = result.Max(x => (double)x.Height);
             WidthSlider.Maximum = result.Max(x => (double)x.Width);
             LengthSlider.Maximum = result.Max(x => (double)x.Length);
+            VoltageSlider.Maximum = result.Max(x => x.Voltage);
+            MemorySlider.Maximum = result.Max(x => x.VideoMemoryGB);
+            MemoryFreqSlider.Maximum = result.Max(x => (double)x.MemoryFrequencyMHz);
+            CoreFreqSlider.Maximum = result.Max(x => (double)x.CoreFrequencyMHz);
+            PriceSlider.Minimum = result.Min(x => (double)x.Price);
+            HeightSlider.Minimum = result.Min(x => (double)x.Height);
+            WidthSlider.Minimum = result.Min(x => (double)x.Width);
+            LengthSlider.Minimum = result.Min(x => (double)x.Length);
+            VoltageSlider.Minimum = result.Min(x => x.Voltage);
+            MemorySlider.Minimum = result.Min(x => x.VideoMemoryGB);
+            MemoryFreqSlider.Minimum = result.Min(x => (double)x.MemoryFrequencyMHz);
+            CoreFreqSlider.Minimum = result.Min(x => (double)x.CoreFrequencyMHz);
+
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -71,6 +84,10 @@ namespace PartSellerWPF.FilterPages
             WidthSlider.Value = WidthSlider.Maximum;
             LengthSlider.Value = LengthSlider.Maximum;
             PriceSlider.Value = PriceSlider.Maximum;
+            VoltageSlider.Value = VoltageSlider.Maximum;
+            MemorySlider.Value = MemorySlider.Maximum;
+            MemoryFreqSlider.Value = MemoryFreqSlider.Maximum;
+            CoreFreqSlider.Value = CoreFreqSlider.Maximum;
         }
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
@@ -81,7 +98,11 @@ namespace PartSellerWPF.FilterPages
                 MaxHeight = (int)HeightSlider.Value,
                 MaxWidth = (int)WidthSlider.Value,
                 MaxLength = (int)LengthSlider.Value,
-                MaxPrice = (int)PriceSlider.Value
+                MaxPrice = (int)PriceSlider.Value,
+                MaxVoltage = (int)VoltageSlider.Value,
+                MaxVideoMemory = (int)MemorySlider.Value,
+                MaxMemoryFreq = (int)MemoryFreqSlider.Value,
+                MaxCoreFreq = (int)CoreFreqSlider.Value
             };
 
             var gpuPage = new GPUPage(filterParams);

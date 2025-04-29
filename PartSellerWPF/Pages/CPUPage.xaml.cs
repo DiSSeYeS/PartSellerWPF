@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +53,54 @@ namespace PartSellerWPF.Pages
                     {
                         int brandId = filters.BrandId.Value;
                         query = query.Where(x => x.CPU.BrandID == brandId);
+                    }
+
+                    if (filters.SocketId.HasValue && filters.SocketId != -1)
+                    {
+                        int socketId = filters.SocketId.Value;
+                        query = query.Where(x => x.CPU.SocketID == socketId);
+                    }
+
+                    if (filters.MaxVoltage.HasValue)
+                    {
+                        int maxVoltage = filters.MaxVoltage.Value;
+                        query = query.Where(x => x.CPU.Voltage <= maxVoltage);
+                    }
+
+                    if (filters.MaxCores.HasValue)
+                    {
+                        int maxCores = filters.MaxCores.Value;
+                        query = query.Where(x => x.CPU.Cores <= maxCores);
+                    }
+
+                    if (filters.MaxThreads.HasValue)
+                    {
+                        int maxThreads = filters.MaxThreads.Value;
+                        query = query.Where(x => x.CPU.Threads <= maxThreads);
+                    }
+
+                    if (filters.MaxFreq.HasValue)
+                    {
+                        decimal maxFreq = filters.MaxFreq.Value;
+                        query = query.Where(x => x.CPU.FrequencyGHz <= maxFreq);
+                    }
+
+                    if (filters.MaxL1.HasValue)
+                    {
+                        int maxL1 = filters.MaxL1.Value;
+                        query = query.Where(x => x.CPU.L1 <= maxL1);
+                    }
+
+                    if (filters.MaxL2.HasValue)
+                    {
+                        int maxL2 = filters.MaxL2.Value;
+                        query = query.Where(x => x.CPU.L2 <= maxL2);
+                    }
+
+                    if (filters.MaxMaxFreq.HasValue)
+                    {
+                        decimal maxMaxFreq = filters.MaxMaxFreq.Value;
+                        query = query.Where(x => x.CPU.MaxFrequency <= maxMaxFreq);
                     }
 
                     if (filters.MaxPrice.HasValue)

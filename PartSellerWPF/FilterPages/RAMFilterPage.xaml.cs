@@ -57,15 +57,21 @@ namespace PartSellerWPF.FilterPages
             }).ToList();
 
             BrandComboBox.ItemsSource = query.Select(x => x.RAM.Brand).Distinct().ToList();
+            RamTypeComboBox.ItemsSource = query.Select(x => x.RAMType).Distinct().ToList();
             PriceSlider.Maximum = result.Max(x => (double)x.Price);
             RAMGBSlider.Maximum = result.Max(x => (double)x.MemoryCountGB);
             FreqSlider.Maximum = result.Max(x => (double)x.MemoryFrequencyMHz);
             CountSlider.Maximum = result.Max(x => (double)x.Count);
+            PriceSlider.Minimum = result.Min(x => (double)x.Price);
+            RAMGBSlider.Minimum = result.Min(x => (double)x.MemoryCountGB);
+            FreqSlider.Minimum = result.Min(x => (double)x.MemoryFrequencyMHz);
+            CountSlider.Minimum = result.Min(x => (double)x.Count);
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             BrandComboBox.SelectedIndex = -1;
+            RamTypeComboBox.SelectedIndex = -1;
             RAMGBSlider.Value = RAMGBSlider.Maximum;
             FreqSlider.Value = FreqSlider.Maximum;
             CountSlider.Value = CountSlider.Maximum;
@@ -77,6 +83,7 @@ namespace PartSellerWPF.FilterPages
             var filterParams = new FilterParams
             {
                 BrandId = BrandComboBox.SelectedValue == null ? -1 : BrandComboBox.SelectedValue as int?,
+                RamTypeId = RamTypeComboBox.SelectedValue == null ? -1 : RamTypeComboBox.SelectedValue as int?,
                 MaxRAMGB = (int)RAMGBSlider.Value,
                 MaxFreq = (int)FreqSlider.Value,
                 MaxCount = (int)CountSlider.Value,

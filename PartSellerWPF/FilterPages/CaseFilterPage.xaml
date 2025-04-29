@@ -41,7 +41,7 @@
                         <!-- Высота -->
                         <TextBlock Text="Высота:" Margin="0,2"/>
                         <Slider x:Name="HeightSlider" Minimum="400" Maximum="600" Value="600"
-                                TickFrequency="50" IsSnapToTickEnabled="True"/>
+                                TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxHeightTextBox" Width="60" 
@@ -52,7 +52,7 @@
                         <!-- Ширина -->
                         <TextBlock Text="Ширина:" Margin="0,5,0,2"/>
                         <Slider x:Name="WidthSlider" Minimum="200" Maximum="300" Value="300"
-                                TickFrequency="20" IsSnapToTickEnabled="True"/>
+                                TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxWidthTextBox" Width="60" 
@@ -63,7 +63,7 @@
                         
                         <TextBlock Text="Длина:" Margin="0,5,0,2"/>
                         <Slider x:Name="LengthSlider" Minimum="390" Maximum="600" Value="600"
-                                TickFrequency="50" IsSnapToTickEnabled="True"/>
+                                TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxLengthTextBox" Width="60" 
@@ -79,7 +79,7 @@
                         <!-- Видеокарта -->
                         <TextBlock Text="Макс. длина видеокарты (мм):" Margin="0,2"/>
                         <Slider x:Name="GpuLengthSlider" Minimum="100" Maximum="500"
-                                Value="500" TickFrequency="50"/>
+                                Value="500" TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxGpuLengthTextBox" Width="60" 
@@ -90,7 +90,7 @@
                         <!-- Процессорный кулер -->
                         <TextBlock Text="Макс. высота кулера (мм):" Margin="0,5,0,2"/>
                         <Slider x:Name="CoolerHeightSlider" Minimum="50" Maximum="200" 
-                                Value="200" TickFrequency="10"/>
+                                Value="200" TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxCoolerHeightTextBox" Width="60" 
@@ -101,7 +101,7 @@
                         <!-- Блок питания -->
                         <TextBlock Text="Макс. длина БП (мм):" Margin="0,5,0,2"/>
                         <Slider x:Name="PsuLengthSlider" Minimum="100" Maximum="250" 
-                                Value="250" TickFrequency="20"/>
+                                Value="250" TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxPsuLengthTextBox" Width="60" 
@@ -115,7 +115,7 @@
                 <GroupBox Header="Цена" Margin="0,5">
                     <StackPanel>
                         <Slider x:Name="PriceSlider" Minimum="0" Maximum="50000" Value="50000"
-                                TickFrequency="5000" IsSnapToTickEnabled="True"/>
+                                TickFrequency="100" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxPriceTextBox" Width="100" 

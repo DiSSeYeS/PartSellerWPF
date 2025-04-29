@@ -68,17 +68,43 @@ namespace PartSellerWPF.FilterPages
             }).ToList();
 
             BrandComboBox.ItemsSource = query.Select(x => x.Motherboard.Brand).Distinct().ToList();
+            RamTypeComboBox.ItemsSource = query.Select(x => x.RAMType).Distinct().ToList();
+            ChipsetComboBox.ItemsSource = query.Select(x => x.Chipset).Distinct().ToList();
+            SocketComboBox.ItemsSource = query.Select(x => x.Socket).Distinct().ToList();
+            NVMeComboBox.ItemsSource = query.Select(x => x.Motherboard.NVMe).Distinct().ToList(); // КОСТЫЛЬ
             PriceSlider.Maximum = result.Max(x => (double)x.Price);
             HeightSlider.Maximum = result.Max(x => (double)x.Height);
             WidthSlider.Maximum = result.Max(x => (double)x.Width);
+            RamSlotsSlider.Maximum = result.Max(x => x.RAMSlots);
+            RamFreqSlider.Maximum = result.Max(x => x.MaxRAMFrequencyMHz);
+            RamCountSlider.Maximum = result.Max(x => x.MaxRAMCountGB);
+            SataSlotsSlider.Maximum = result.Max(x => x.SATASlots);
+            M2SlotsSlider.Maximum = result.Max(x => x.M2Slots);
+            PriceSlider.Minimum = result.Min(x => (double)x.Price);
+            HeightSlider.Minimum = result.Min(x => (double)x.Height);
+            WidthSlider.Minimum = result.Min(x => (double)x.Width);
+            RamSlotsSlider.Minimum = result.Min(x => x.RAMSlots);
+            RamFreqSlider.Minimum = result.Min(x => x.MaxRAMFrequencyMHz);
+            RamCountSlider.Minimum = result.Min(x => x.MaxRAMCountGB);
+            SataSlotsSlider.Minimum = result.Min(x => x.SATASlots);
+            M2SlotsSlider.Minimum = result.Min(x => x.M2Slots);
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             BrandComboBox.SelectedIndex = -1;
+            RamTypeComboBox.SelectedIndex = -1;
+            ChipsetComboBox.SelectedIndex = -1;
+            SocketComboBox.SelectedIndex = -1;
+            NVMeComboBox.SelectedIndex = -1;
             HeightSlider.Value = HeightSlider.Maximum;
             WidthSlider.Value = WidthSlider.Maximum;
             PriceSlider.Value = PriceSlider.Maximum;
+            RamSlotsSlider.Value = RamSlotsSlider.Maximum;
+            RamFreqSlider.Value = RamFreqSlider.Maximum;
+            RamCountSlider.Value = RamCountSlider.Maximum;
+            SataSlotsSlider.Value = SataSlotsSlider.Maximum;
+            M2SlotsSlider.Value = M2SlotsSlider.Maximum;
         }
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
@@ -86,9 +112,17 @@ namespace PartSellerWPF.FilterPages
             var filterParams = new FilterParams
             {
                 BrandId = BrandComboBox.SelectedValue == null ? -1 : BrandComboBox.SelectedValue as int?,
+                RamTypeId = RamTypeComboBox.SelectedValue == null ? -1 : RamTypeComboBox.SelectedValue as int?,
+                ChipsetId = ChipsetComboBox.SelectedValue == null ? -1 : ChipsetComboBox.SelectedValue as int?,
+                SocketId = SocketComboBox.SelectedValue == null ? -1 : SocketComboBox.SelectedValue as int?,
                 MaxHeight = (int)HeightSlider.Value,
                 MaxWidth = (int)WidthSlider.Value,
-                MaxPrice = (int)PriceSlider.Value
+                MaxPrice = (int)PriceSlider.Value,
+                MaxRamSlots = (int)RamSlotsSlider.Value,
+                MaxMemoryFreq = (int)RamFreqSlider.Value,
+                MaxRAMGB = (int)RamCountSlider.Value,
+                MaxSataSlots = (int)SataSlotsSlider.Value,
+                MaxM2Slots = (int)M2SlotsSlider.Value
             };
 
             var motherboardPage = new MotherboardPage(filterParams);

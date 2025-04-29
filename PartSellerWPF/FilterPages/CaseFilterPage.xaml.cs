@@ -67,6 +67,13 @@ namespace PartSellerWPF.FilterPages
                 GpuLengthSlider.Maximum = result.Max(x => (double)x.GPULength);
                 CoolerHeightSlider.Maximum = result.Max(x => (double)x.CoolerLength);
                 PsuLengthSlider.Maximum = result.Max(x => (double)x.SupplyLength);
+                PriceSlider.Minimum = result.Min(x => (double)x.Price);
+                HeightSlider.Minimum = result.Min(x => (double)x.Height);
+                WidthSlider.Minimum = result.Min(x => (double)x.Width);
+                LengthSlider.Minimum = result.Min(x => (double)x.Length);
+                GpuLengthSlider.Minimum = result.Min(x => (double)x.GPULength);
+                CoolerHeightSlider.Minimum = result.Min(x => (double)x.CoolerLength);
+                PsuLengthSlider.Minimum = result.Min(x => (double)x.SupplyLength);
             }
         }
 

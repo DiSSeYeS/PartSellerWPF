@@ -59,6 +59,12 @@ namespace PartSellerWPF.FilterPages
             HeightSlider.Maximum = result.Max(x => (double)x.Height);
             WidthSlider.Maximum = result.Max(x => (double)x.Width);
             LengthSlider.Maximum = result.Max(x => (double)x.Length);
+            WattageSlider.Maximum = result.Max(x => x.Wattage);
+            PriceSlider.Minimum = result.Min(x => (double)x.Price);
+            HeightSlider.Minimum = result.Min(x => (double)x.Height);
+            WidthSlider.Minimum = result.Min(x => (double)x.Width);
+            LengthSlider.Minimum = result.Min(x => (double)x.Length);
+            WattageSlider.Minimum = result.Min(x => x.Wattage);
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -68,6 +74,7 @@ namespace PartSellerWPF.FilterPages
             WidthSlider.Value = WidthSlider.Maximum;
             LengthSlider.Value = LengthSlider.Maximum;
             PriceSlider.Value = PriceSlider.Maximum;
+            WattageSlider.Value = WattageSlider.Maximum;
         }
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
@@ -78,7 +85,8 @@ namespace PartSellerWPF.FilterPages
                 MaxHeight = (int)HeightSlider.Value,
                 MaxWidth = (int)WidthSlider.Value,
                 MaxLength = (int)LengthSlider.Value,
-                MaxPrice = (int)PriceSlider.Value
+                MaxPrice = (int)PriceSlider.Value,
+                MaxWattage = (int)WattageSlider.Value
             };
 
             var supplyPage = new SupplyPage(filterParams);

@@ -1,4 +1,5 @@
-﻿using PartSellerWPF.Pages;
+﻿using Microsoft.AspNet.Scaffolding.EntityFramework;
+using PartSellerWPF.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,12 +36,17 @@ namespace PartSellerWPF.FilterPages
                         join p in context.Part on c.ID equals p.CoolingID
                         join prod in context.Product on p.ID equals prod.PartID
                         join ct in context.CoolerType on c.CoolerTypeID equals ct.ID
+                        from ss in context.SupportedSockets.Where(ss => ss.CoolerID == c.ID).DefaultIfEmpty()
+                        join s in context.Socket on ss.SocketID equals s.ID into socketJoin
+                        from s in socketJoin.DefaultIfEmpty()
                         select new
                         {
                             Cooling = c,
                             Part = p,
                             Product = prod,
-                            CoolerType = ct
+                            CoolerType = ct,
+                            SupportedSockets = ss,
+                            Socket = s
                         };
 
             var result = query.AsEnumerable().Select(x => new
@@ -58,6 +64,8 @@ namespace PartSellerWPF.FilterPages
             }).ToList();
 
             BrandComboBox.ItemsSource = query.Select(x => x.Cooling.Brand).Distinct().ToList();
+            SocketComboBox.ItemsSource = query.Select(x => x.Socket).Where(x => x != null).Distinct().ToList();
+            CoolerTypeComboBox.ItemsSource = query.Select(x => x.CoolerType).Distinct().ToList();
             PriceSlider.Maximum = result.Max(x => (double)x.Price);
             HeightSlider.Maximum = result.Max(x => (double)x.Height);
             WidthSlider.Maximum = result.Max(x => (double)x.Width);
@@ -68,6 +76,8 @@ namespace PartSellerWPF.FilterPages
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             BrandComboBox.SelectedIndex = -1;
+            SocketComboBox.SelectedIndex = -1;
+            CoolerTypeComboBox.SelectedIndex = -1;
             HeightSlider.Value = HeightSlider.Maximum;
             WidthSlider.Value = WidthSlider.Maximum;
             LengthSlider.Value = LengthSlider.Maximum;
@@ -79,6 +89,8 @@ namespace PartSellerWPF.FilterPages
             var filterParams = new FilterParams
             {
                 BrandId = BrandComboBox.SelectedValue == null ? -1 : BrandComboBox.SelectedValue as int?,
+                SocketId = SocketComboBox.SelectedValue == null ? -1 : SocketComboBox.SelectedValue as int?,
+                CoolerTypeId = CoolerTypeComboBox.SelectedValue == null ? -1 : CoolerTypeComboBox.SelectedValue as int?,
                 MaxHeight = (int)HeightSlider.Value,
                 MaxWidth = (int)WidthSlider.Value,
                 MaxLength = (int)LengthSlider.Value,

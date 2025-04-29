@@ -41,7 +41,7 @@
                 <DataGridTextColumn Header="M2-слоты" 
                                Binding="{Binding M2Slots}" Width="*"/>
                 <DataGridTextColumn Header="Поддержка &#13;NVMe" 
-                               Binding="{Binding M2Slots}" Width="*"/>
+                               Binding="{Binding NVMe}" Width="*"/>
                 <DataGridTextColumn Header="Цена"
                     Binding="{Binding Price}" Width="*"/>
                 <DataGridTemplateColumn Header="Изображение" Width="3*">

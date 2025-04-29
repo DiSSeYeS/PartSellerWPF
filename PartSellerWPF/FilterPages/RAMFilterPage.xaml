@@ -26,9 +26,16 @@
                   Height="25"/>
                 </GroupBox>
 
-                <GroupBox Header="Габариты корпуса (мм)" Margin="0,5">
+                <GroupBox Header="Тип" Margin="0,5">
+                    <ComboBox x:Name="RamTypeComboBox" 
+                      DisplayMemberPath="Type"
+                      SelectedValuePath="ID"
+                      Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Характеристики:" Margin="0,5">
                     <StackPanel>
-                        <TextBlock Text="Высота:" Margin="0,2"/>
+                        <TextBlock Text="Объем:" Margin="0,2"/>
                         <Slider x:Name="RAMGBSlider" Minimum="4" Maximum="64" Value="64"
                     TickFrequency="4" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
@@ -38,7 +45,7 @@
                             <TextBlock Text="GB" Margin="5,0"/>
                         </StackPanel>
 
-                        <TextBlock Text="Ширина:" Margin="0,5,0,2"/>
+                        <TextBlock Text="Частота:" Margin="0,5,0,2"/>
                         <Slider x:Name="FreqSlider" Minimum="2600" Maximum="5600" Value="5600"
                     TickFrequency="20" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
@@ -48,7 +55,7 @@
                             <TextBlock Text="MHz" Margin="5,0"/>
                         </StackPanel>
 
-                        <TextBlock Text="Длина:" Margin="0,5,0,2"/>
+                        <TextBlock Text="Кол-во плашек:" Margin="0,5,0,2"/>
                         <Slider x:Name="CountSlider" Minimum="1" Maximum="600" Value="600"
                     TickFrequency="50" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">

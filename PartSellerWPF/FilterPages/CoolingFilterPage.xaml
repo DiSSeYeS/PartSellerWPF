@@ -26,11 +26,25 @@
                       Height="25"/>
                 </GroupBox>
 
+                <GroupBox Header="Сокет" Margin="0,5">
+                    <ComboBox x:Name="SocketComboBox"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="ID"
+                      Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Тип кулера" Margin="0,5">
+                    <ComboBox x:Name="CoolerTypeComboBox"
+                        DisplayMemberPath="Type"
+                        SelectedValuePath="ID"
+                        Height="25"/>
+                </GroupBox>
+
                 <GroupBox Header="Габариты корпуса (мм)" Margin="0,5">
                     <StackPanel>
                         <TextBlock Text="Высота:" Margin="0,2"/>
                         <Slider x:Name="HeightSlider" Minimum="400" Maximum="600" Value="600"
-                        TickFrequency="50" IsSnapToTickEnabled="True"/>
+                        TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxHeightTextBox" Width="60" 
@@ -40,7 +54,7 @@
 
                         <TextBlock Text="Ширина:" Margin="0,5,0,2"/>
                         <Slider x:Name="WidthSlider" Minimum="200" Maximum="300" Value="300"
-                        TickFrequency="20" IsSnapToTickEnabled="True"/>
+                        TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxWidthTextBox" Width="60" 
@@ -51,7 +65,7 @@
                         
                         <TextBlock Text="Длина:" Margin="0,5,0,2"/>
                         <Slider x:Name="LengthSlider" Minimum="390" Maximum="600" Value="600"
-                        TickFrequency="50" IsSnapToTickEnabled="True"/>
+                        TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxLengthTextBox" Width="60" 
@@ -64,7 +78,7 @@
                 <GroupBox Header="Цена" Margin="0,5">
                     <StackPanel>
                         <Slider x:Name="PriceSlider" Minimum="0" Maximum="50000" Value="50000"
-                        TickFrequency="5000" IsSnapToTickEnabled="True"/>
+                        TickFrequency="100" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxPriceTextBox" Width="100" 

@@ -26,11 +26,93 @@
                   Height="25"/>
                 </GroupBox>
 
-                <GroupBox Header="Габариты корпуса (мм)" Margin="0,5">
+                <GroupBox Header="Сокет" Margin="0,5">
+                    <ComboBox x:Name="SocketComboBox" 
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="ID"
+                      Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Чипсет" Margin="0,5">
+                    <ComboBox x:Name="ChipsetComboBox" 
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="ID"
+                      Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Тип оперативной памяти" Margin="0,5">
+                    <ComboBox x:Name="RamTypeComboBox" 
+                      DisplayMemberPath="Type"
+                      SelectedValuePath="ID"
+                      Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Поддержка NVMe" Margin="0,5">
+                    <ComboBox x:Name="NVMeComboBox" 
+                      DisplayMemberPath="{Binding Motherboard.NVMe}"
+                      SelectedValuePath="NVMe"
+                      Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Характеристики" Margin="0,5">
+                    <StackPanel>
+                        <TextBlock Text="Количество слотов оперативной памяти:" Margin="0,2"/>
+                        <Slider x:Name="RamSlotsSlider" Minimum="2" Maximum="8"
+                            Value="8" TickFrequency="2" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="RamSlotsTextBox" Width="60" 
+                                Text="{Binding Value, ElementName=RamSlotsSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="шт." Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Максимальный объем оперативной памяти:" Margin="0,5,0,2"/>
+                        <Slider x:Name="RamCountSlider" Minimum="8" Maximum="200" 
+                            Value="128" TickFrequency="8" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="RamCountTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=RamCountSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="ГБ" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Максимальная частота оперативной памяти:" Margin="0,5,0,2"/>
+                        <Slider x:Name="RamFreqSlider" Minimum="2400" Maximum="10000000" 
+                            Value="5200020" TickFrequency="256" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="RamFreqTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=RamFreqSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="шт." Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Кол-во SATA-слотов:" Margin="0,5,0,2"/>
+                        <Slider x:Name="SataSlotsSlider" Minimum="2" Maximum="16" 
+                            Value="16" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="SataSlotsTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=SataSlotsSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="шт." Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Кол-во M2-слотов:" Margin="0,5,0,2"/>
+                        <Slider x:Name="M2SlotsSlider" Minimum="0" Maximum="16" 
+                            Value="1000000" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="M2SlotsTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=M2SlotsSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="шт." Margin="5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Габариты платы (мм)" Margin="0,5">
                     <StackPanel>
                         <TextBlock Text="Высота:" Margin="0,2"/>
                         <Slider x:Name="HeightSlider" Minimum="400" Maximum="600" Value="600"
-                    TickFrequency="50" IsSnapToTickEnabled="True"/>
+                    TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxHeightTextBox" Width="60" 
@@ -39,8 +121,8 @@
                         </StackPanel>
 
                         <TextBlock Text="Ширина:" Margin="0,5,0,2"/>
-                        <Slider x:Name="WidthSlider" Minimum="200" Maximum="300" Value="300"
-                    TickFrequency="20" IsSnapToTickEnabled="True"/>
+                        <Slider x:Name="WidthSlider" Minimum="200" Maximum="300" Value="30000000"
+                    TickFrequency="10" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxWidthTextBox" Width="60" 
@@ -53,7 +135,7 @@
                 <GroupBox Header="Цена" Margin="0,5">
                     <StackPanel>
                         <Slider x:Name="PriceSlider" Minimum="0" Maximum="50000" Value="50000"
-                    TickFrequency="5000" IsSnapToTickEnabled="True"/>
+                    TickFrequency="100" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxPriceTextBox" Width="100" 

@@ -54,6 +54,21 @@ namespace PartSellerWPF.Pages
                         query = query.Where(x => x.RAM.BrandID == brandId);
                     }
 
+                    if (filters.RamTypeId.HasValue && filters.RamTypeId != -1)
+                    {
+                        int ramTypeId = filters.RamTypeId.Value;
+                        query = query.Where(x => x.RAM.RAMTypeID == ramTypeId);
+                    }
+
+                    if (filters.MaxRAMGB.HasValue)
+                        query = query.Where(x => x.RAM.MemoryCountGB <= filters.MaxRAMGB.Value);
+
+                    if (filters.MaxFreq.HasValue)
+                        query = query.Where(x => x.RAM.MemoryFrequencyMHz <= filters.MaxFreq.Value);
+
+                    if (filters.MaxCount.HasValue)
+                        query = query.Where(x => x.RAM.Count <= filters.MaxCount.Value);
+
                     if (filters.MaxPrice.HasValue)
                         query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
                 }

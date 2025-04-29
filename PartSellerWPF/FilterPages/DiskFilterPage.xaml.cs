@@ -55,12 +55,14 @@ namespace PartSellerWPF.FilterPages
             }).ToList();
 
             BrandComboBox.ItemsSource = query.Select(x => x.Disk.Brand).Distinct().ToList();
+            DiskTypeComboBox.ItemsSource = query.Select(x => x.Disk.DiskType).Distinct().ToList();
             PriceSlider.Maximum = result.Max(x => (double)x.Price);
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
             BrandComboBox.SelectedIndex = -1;
+            DiskTypeComboBox.SelectedIndex = -1;
             PriceSlider.Value = PriceSlider.Maximum;
         }
 
@@ -69,6 +71,7 @@ namespace PartSellerWPF.FilterPages
             var filterParams = new FilterParams
             {
                 BrandId = BrandComboBox.SelectedValue == null ? -1 : BrandComboBox.SelectedValue as int?,
+                DiskTypeId = DiskTypeComboBox.SelectedValue == null ? -1 : DiskTypeComboBox.SelectedValue as int?,
                 MaxPrice = (int)PriceSlider.Value
             };
 

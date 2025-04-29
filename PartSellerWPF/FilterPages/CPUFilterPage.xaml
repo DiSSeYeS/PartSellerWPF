@@ -26,10 +26,91 @@
                   Height="25"/>
                 </GroupBox>
 
+                <GroupBox Header="Сокет" Margin="0,5">
+                    <ComboBox x:Name="SocketComboBox"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="ID"
+                    Height="25"/>
+                </GroupBox>
+
+                <GroupBox Header="Характеристики" Margin="0,5">
+                    <StackPanel>
+                        <TextBlock Text="Вольтаж:" Margin="0,2"/>
+                        <Slider x:Name="VoltageSlider" Minimum="60" Maximum="500"
+                Value="500" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="VoltageTextBox" Width="60" 
+                     Text="{Binding Value, ElementName=VoltageSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="В" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Кол-во ядер:" Margin="0,5,0,2"/>
+                        <Slider x:Name="CoresSlider" Minimum="2" Maximum="200" 
+                Value="200" TickFrequency="2" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="CoresTextBox" Width="60" 
+                     Text="{Binding Value, ElementName=CoresSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="шт." Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Кол-во потоков:" Margin="0,5,0,2"/>
+                        <Slider x:Name="ThreadsSlider" Minimum="2" Maximum="250" 
+                Value="250" TickFrequency="2" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="ThreadsTextBox" Width="60" 
+                     Text="{Binding Value, ElementName=ThreadsSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="шт." Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Частота ядра:" Margin="0,5,0,2"/>
+                        <Slider x:Name="FreqSlider" Minimum="2" Maximum="250" 
+                            Value="250" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="FresTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=FreqSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="ГГц" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Объем кэша L1:" Margin="0,5,0,2"/>
+                        <Slider x:Name="L1Slider" Minimum="2" Maximum="250" 
+                        Value="1000000" TickFrequency="2" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="L1TextBox" Width="60" 
+                            Text="{Binding Value, ElementName=L1Slider, Mode=TwoWay}"/>
+                            <TextBlock Text="Мб" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Объем кэша L2:" Margin="0,5,0,2"/>
+                        <Slider x:Name="L2Slider" Minimum="2" Maximum="250" 
+                        Value="250" TickFrequency="2" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="L2TextBox" Width="60" 
+                            Text="{Binding Value, ElementName=L2Slider, Mode=TwoWay}"/>
+                            <TextBlock Text="Мб" Margin="5,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Макс. частота ядра:" Margin="0,5,0,2"/>
+                        <Slider x:Name="MaxFreqSlider" Minimum="2" Maximum="250" 
+                            Value="250" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="До:" Width="30"/>
+                            <TextBox x:Name="MaxFresTextBox" Width="60" 
+                            Text="{Binding Value, ElementName=MaxFreqSlider, Mode=TwoWay}"/>
+                            <TextBlock Text="ГГц" Margin="5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
                 <GroupBox Header="Цена" Margin="0,5">
                     <StackPanel>
                         <Slider x:Name="PriceSlider" Minimum="0" Maximum="50000" Value="50000"
-                    TickFrequency="5000" IsSnapToTickEnabled="True"/>
+                    TickFrequency="100" IsSnapToTickEnabled="True"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="До:" Width="30"/>
                             <TextBox x:Name="MaxPriceTextBox" Width="100" 
