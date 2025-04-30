@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PartSellerWPF
 {
@@ -30,10 +31,19 @@ namespace PartSellerWPF
                 var user = db.User.FirstOrDefault(u => u.Name == login);
                 if (user != null && user.CheckPassword(password))
                 {
+                    MessageBox.Show($"Пользователь {login} авторизован");
+
                     return user;
                 }
+                MessageBox.Show($"Неверный логин или пароль");
+
                 return null;
             }
+        }
+
+        public static User RegUser()
+        {
+
         }
 
     }

@@ -19,7 +19,6 @@
         </Grid.ColumnDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
             <StackPanel Margin="10">
-                <!-- Бренд -->
                 <GroupBox Header="Бренд" Margin="0,5">
                     <ComboBox x:Name="BrandComboBox" 
                               DisplayMemberPath="Name"
@@ -27,7 +26,6 @@
                               Height="25"/>
                 </GroupBox>
 
-                <!-- Форм-фактор -->
                 <GroupBox Header="Форм-фактор" Margin="0,5">
                     <ComboBox x:Name="FormFactorComboBox"
                               DisplayMemberPath="Type"
@@ -35,10 +33,8 @@
                               Height="25"/>
                 </GroupBox>
 
-                <!-- Габариты корпуса -->
                 <GroupBox Header="Габариты корпуса (мм)" Margin="0,5">
                     <StackPanel>
-                        <!-- Высота -->
                         <TextBlock Text="Высота:" Margin="0,2"/>
                         <Slider x:Name="HeightSlider" Minimum="400" Maximum="600" Value="600"
                                 TickFrequency="10" IsSnapToTickEnabled="True"/>
@@ -49,7 +45,6 @@
                             <TextBlock Text="мм" Margin="5,0"/>
                         </StackPanel>
 
-                        <!-- Ширина -->
                         <TextBlock Text="Ширина:" Margin="0,5,0,2"/>
                         <Slider x:Name="WidthSlider" Minimum="200" Maximum="300" Value="300"
                                 TickFrequency="10" IsSnapToTickEnabled="True"/>
@@ -73,10 +68,8 @@
                     </StackPanel>
                 </GroupBox>
 
-                <!-- Поддержка компонентов -->
                 <GroupBox Header="Поддержка компонентов" Margin="0,5">
                     <StackPanel>
-                        <!-- Видеокарта -->
                         <TextBlock Text="Макс. длина видеокарты (мм):" Margin="0,2"/>
                         <Slider x:Name="GpuLengthSlider" Minimum="100" Maximum="500"
                                 Value="500" TickFrequency="10" IsSnapToTickEnabled="True"/>
@@ -87,7 +80,6 @@
                             <TextBlock Text="мм" Margin="5,0"/>
                         </StackPanel>
 
-                        <!-- Процессорный кулер -->
                         <TextBlock Text="Макс. высота кулера (мм):" Margin="0,5,0,2"/>
                         <Slider x:Name="CoolerHeightSlider" Minimum="50" Maximum="200" 
                                 Value="200" TickFrequency="10" IsSnapToTickEnabled="True"/>
@@ -98,7 +90,6 @@
                             <TextBlock Text="мм" Margin="5,0"/>
                         </StackPanel>
 
-                        <!-- Блок питания -->
                         <TextBlock Text="Макс. длина БП (мм):" Margin="0,5,0,2"/>
                         <Slider x:Name="PsuLengthSlider" Minimum="100" Maximum="250" 
                                 Value="250" TickFrequency="10" IsSnapToTickEnabled="True"/>
@@ -111,7 +102,6 @@
                     </StackPanel>
                 </GroupBox>
 
-                <!-- Цена -->
                 <GroupBox Header="Цена" Margin="0,5">
                     <StackPanel>
                         <Slider x:Name="PriceSlider" Minimum="0" Maximum="50000" Value="50000"
