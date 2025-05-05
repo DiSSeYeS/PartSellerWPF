@@ -40,5 +40,7 @@
 
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button x:Name="btnAdd" Grid.Row="1" Margin="100,10" Content="Добавить в корзину" Style="{StaticResource RoundedButton}" Click="btnAdd_Click"/>
     </Grid>
 </Page>

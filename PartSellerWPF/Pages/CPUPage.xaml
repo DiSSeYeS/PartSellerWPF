@@ -33,8 +33,7 @@
                 <DataGridTextColumn Header="Кэш L2" Binding="{Binding L2}" Width="*"/>
                 <DataGridTextColumn Header="Турбо-буст" Binding="{Binding HasTurboBoost}" Width="*"/>
                 <DataGridTextColumn Header="Макс.частота" Binding="{Binding MaxFrequency}" Width="*"/>
-                <DataGridTextColumn Header="Цена"
-                    Binding="{Binding Price}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
                 <DataGridTemplateColumn Header="Изображение" Width="3*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -43,9 +42,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button x:Name="btnAdd" Grid.Row="1" Margin="100,10" Content="Добавить в корзину" Style="{StaticResource RoundedButton}" Click="btnAdd_Click"/>
     </Grid>
 
 </Page>

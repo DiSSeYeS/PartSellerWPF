@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO.Packaging;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -150,6 +151,9 @@ namespace PartSellerWPF
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
+            IEnumerable<string> text = SearchTextBox.Text.Split(' ');
+
+            MainFrame.Navigate(new Pages.SearchPage());
 
         }
 
@@ -164,5 +168,6 @@ namespace PartSellerWPF
 
             MainFrame.Navigate(new Pages.CatalogPage());
         }
+
     }
 }

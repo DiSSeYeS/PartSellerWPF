@@ -25,12 +25,11 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
-                <DataGridTextColumn Header="Тип" Binding="{Binding RAMType}" Width="*"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding RamType}" Width="*"/>
                 <DataGridTextColumn Header="Память" Binding="{Binding MemoryCountGB}" Width="*"/>
                 <DataGridTextColumn Header="Частота" Binding="{Binding MemoryFrequencyMHz}" Width="*"/>
                 <DataGridTextColumn Header="Кол-во плашек" Binding="{Binding Count}" Width="*"/>
-                <DataGridTextColumn Header="Цена"
-                    Binding="{Binding Price}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
                 <DataGridTemplateColumn Header="Изображение" Width="3*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -41,5 +40,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button x:Name="btnAdd" Grid.Row="1" Margin="100,10" Content="Добавить в корзину" Style="{StaticResource RoundedButton}" Click="btnAdd_Click"/>
     </Grid>
 </Page>

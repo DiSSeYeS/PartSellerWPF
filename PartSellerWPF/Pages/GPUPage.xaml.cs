@@ -127,6 +127,10 @@ namespace PartSellerWPF.Pages
                               MessageBoxImage.Error);
             }
         }
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
 
