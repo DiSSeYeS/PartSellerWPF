@@ -43,7 +43,7 @@ namespace PartSellerWPF
 
         public static User RegUser()
         {
-
+            return new User();
         }
 
     }

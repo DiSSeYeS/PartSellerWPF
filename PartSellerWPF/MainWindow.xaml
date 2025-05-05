@@ -90,6 +90,16 @@
                 Click="btnApplyFilters_Click"
                 Visibility="Hidden"/>
 
+        <Button x:Name="btnLogout"
+                Grid.Row="2" 
+                Style="{StaticResource RoundedButton}" 
+                Margin="0,0,10,10" 
+                Width="175" 
+                HorizontalAlignment="Right"
+                Content="Выход"
+                Click="btnLogout_Click"
+                Visibility="Hidden"/>
+
         <Button x:Name="btnSearch"
                 Grid.Row="2" 
                 Style="{StaticResource RoundedButton}" 

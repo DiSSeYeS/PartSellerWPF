@@ -23,6 +23,85 @@ namespace PartSellerWPF.Pages
         public RegPage()
         {
             InitializeComponent();
+            Loaded += AuthPage_Loaded;
+        }
+
+        private void AuthPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoginTextBox.Focus();
+        }
+
+        private void RegButton_Click(object sender, RoutedEventArgs e)
+        {
+            Entities db = Entities.GetContext();
+
+            string name = NameTextBox.Text.Trim();
+            string lastname = LastNameTextBox.Text.Trim();
+            string login = LoginTextBox.Text.Trim();
+            string password = PasswordBox.Password;
+
+            if (ConfirmPasswordBox.Password.Trim() != password)
+            {
+                ShowError("Пароли не совпадают");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                ShowError("Введите имя");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(lastname))
+            {
+                ShowError("Введите фамилию");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(login))
+            {
+                ShowError("Введите логин");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ShowError("Введите пароль");
+                return;
+            }
+
+            if (db.User.Select(u => u).Where(u => u.Email == login).ToList().Count != 0)
+            {
+                MessageBox.Show("Пользователь с таким email уже существует.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                using (var context = new Entities())
+                {
+                    User newUser = new User
+                    {
+                        Name = name + lastname,
+                        Email = login,
+                        Password = password,
+                        RoleID = 1
+                    };
+
+                    context.User.Add(newUser);
+                    context.SaveChanges();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ShowError($"Ошибка регистрации: {ex.Message}");
+            }
+        }
+
+        private void ShowError(string message)
+        {
+            ErrorTextBlock.Text = message;
+            ErrorTextBlock.Visibility = Visibility.Visible;
         }
     }
 }

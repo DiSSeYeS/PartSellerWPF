@@ -33,5 +33,9 @@ namespace PartSellerWPF
         {
             return this.Password == password;
         }
+        public void SetPassword(string newPassword)
+        {
+            this.Password = newPassword;
+        }
     }
 }

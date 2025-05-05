@@ -26,4 +26,23 @@
             </Setter>
         </Style>
 
+    <Style TargetType="DataGrid" x:Key="DataGridStyle">
+        <Setter Property="BorderBrush" Value="#FFB0B0B0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#000000"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF007ACC"/>
+                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFE5E5E5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
 </ResourceDictionary>

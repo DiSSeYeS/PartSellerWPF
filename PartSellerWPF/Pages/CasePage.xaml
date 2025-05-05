@@ -19,7 +19,9 @@
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   IsReadOnly="True"
-                  Margin="1">
+                  Margin="1"
+                  Style="{StaticResource DataGridStyle}"
+                  CurrentCellChanged="DataGrid_CurrentCellChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>

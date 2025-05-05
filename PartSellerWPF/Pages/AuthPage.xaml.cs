@@ -23,6 +23,65 @@ namespace PartSellerWPF.Pages
         public AuthPage()
         {
             InitializeComponent();
+            Loaded += AuthPage_Loaded;
+        }
+
+        private void AuthPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoginTextBox.Focus();
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            string login = LoginTextBox.Text.Trim();
+            string password = PasswordBox.Password;
+
+            if (string.IsNullOrEmpty(login))
+            {
+                ShowError("Введите логин");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ShowError("Введите пароль");
+                return;
+            }
+
+            try
+            {
+                using (var context = new Entities())
+                {
+                    var user = context.User
+                        .FirstOrDefault(u => u.Email == login && u.Password == password);
+
+                    if (user != null)
+                    {
+                        AuthManager.Login(user);
+
+                        NavigationService.Navigate(new AccountPage());
+                    }
+                    else
+                    {
+                        ShowError("Неверный логин или пароль");
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ShowError($"Ошибка авторизации: {ex.Message}");
+            }
+        }
+
+        private void RegisterHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new RegPage());
+        }
+
+        private void ShowError(string message)
+        {
+            ErrorTextBlock.Text = message;
+            ErrorTextBlock.Visibility = Visibility.Visible;
         }
     }
 }

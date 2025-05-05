@@ -24,7 +24,27 @@ namespace PartSellerWPF.Pages
         {
             InitializeComponent();
             LoadCaseData(filterParams);
+            dataGrid.Loaded += DataGrid_Loaded;
+        }
 
+        private void DataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            dataGrid.CurrentCellChanged += DataGrid_CurrentCellChanged;
+        }
+
+        private void DataGrid_CurrentCellChanged(object sender, System.EventArgs e)
+        {
+            if (dataGrid.CurrentColumn != null)
+            {
+                foreach (var column in dataGrid.Columns)
+                {
+                    if (column.Header.ToString() != "Изображение")
+                        column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+                }
+
+                dataGrid.CurrentColumn.Width = new DataGridLength(3, DataGridLengthUnitType.Star);
+                dataGrid.ScrollIntoView(dataGrid.CurrentItem, dataGrid.CurrentColumn);
+            }
         }
 
         private void LoadCaseData(object filterParams)

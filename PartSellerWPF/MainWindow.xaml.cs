@@ -42,6 +42,7 @@ namespace PartSellerWPF
                 btnCart.Visibility = e.Content == new Pages.CartPage() ? Visibility.Hidden : Visibility.Visible;
                 btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
                 btnFilters.Visibility = PagesNames.Contains(currentPage) || currentPage.EndsWith("FilterPage") ? Visibility.Visible : Visibility.Hidden;
+                btnLogout.Visibility = currentPage == "AccountPage" && AuthManager.CurrentUser != null ? Visibility.Visible : Visibility.Hidden;
                 // btnApplyFilters.Visibility = currentPage.EndsWith("FilterPage") ? Visibility.Visible : Visibility.Hidden;
             }
         }
@@ -155,6 +156,13 @@ namespace PartSellerWPF
         private void btnApplyFilters_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            AuthManager.Logout();
+
+            MainFrame.Navigate(new Pages.CatalogPage());
         }
     }
 }

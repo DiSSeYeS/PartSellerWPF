@@ -9,6 +9,76 @@
       Title="AccountPage">
 
     <Grid>
-        
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Border Width="350"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Padding="30">
+                <StackPanel>
+                    <TextBlock Text="Мой аккаунт"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                    <!-- User Information -->
+                    <TextBlock Text="Имя:" Margin="0,5"/>
+                    <TextBox x:Name="FirstNameTextBox" 
+                         Height="30"
+                         Padding="5"
+                         Margin="0,0,0,15"
+                         IsReadOnly="True"/>
+
+                    <TextBlock Text="Фамилия:" Margin="0,5"/>
+                    <TextBox x:Name="LastNameTextBox" 
+                         Height="30"
+                         Padding="5"
+                         Margin="0,0,0,20"
+                         IsReadOnly="True"/>
+
+                    <!-- Password Change Section -->
+                    <TextBlock Text="Смена пароля" 
+                           FontSize="16"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Текущий пароль:" Margin="0,5"/>
+                    <PasswordBox x:Name="CurrentPasswordBox" 
+                             Height="30"
+                             Padding="5"
+                             Margin="0,0,0,15"/>
+
+                    <TextBlock Text="Новый пароль:" Margin="0,5"/>
+                    <PasswordBox x:Name="NewPasswordBox" 
+                             Height="30"
+                             Padding="5"
+                             Margin="0,0,0,15"/>
+
+                    <TextBlock Text="Подтвердите пароль:" Margin="0,5"/>
+                    <PasswordBox x:Name="ConfirmPasswordBox" 
+                             Height="30"
+                             Padding="5"
+                             Margin="0,0,0,20"/>
+
+                    <Button Content="Сменить пароль"
+                        Height="50"
+                        Click="ChangePasswordButton_Click"
+                        Style="{StaticResource RoundedButton}"/>
+
+                    <TextBlock x:Name="MessageTextBlock"
+                           Foreground="Green"
+                           TextWrapping="Wrap"
+                           Margin="0,10,0,0"
+                           Visibility="Collapsed"/>
+
+                    <TextBlock x:Name="ErrorTextBlock"
+                           Foreground="Red"
+                           TextWrapping="Wrap"
+                           Margin="0,10,0,0"
+                           Visibility="Collapsed"/>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
     </Grid>
 </Page>
