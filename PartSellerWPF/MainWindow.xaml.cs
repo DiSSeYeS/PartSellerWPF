@@ -40,7 +40,7 @@ namespace PartSellerWPF
                 this.Title = $"ComponentSeller - {page.Title}";
                 currentPage = page.Title;
 
-                btnCart.Visibility = e.Content == new Pages.CartPage() ? Visibility.Hidden : Visibility.Visible;
+                btnCart.Visibility = currentPage == "CartPage" ? Visibility.Hidden : Visibility.Visible;
                 btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
                 btnFilters.Visibility = PagesNames.Contains(currentPage) || currentPage.EndsWith("FilterPage") ? Visibility.Visible : Visibility.Hidden;
                 btnLogout.Visibility = currentPage == "AccountPage" && AuthManager.CurrentUser != null ? Visibility.Visible : Visibility.Hidden;
@@ -70,7 +70,13 @@ namespace PartSellerWPF
         {
             if (!currentPage.Equals("CartPage"))
             {
-                MainFrame.Navigate(new Pages.CartPage());
+                if (AuthManager.IsLoggedIn)
+                {
+                    MainFrame.Navigate(new Pages.CartPage());
+                    return;
+                }
+
+                MessageBox.Show("Необходимо авторизоваться.");
             }
         }
 
@@ -153,7 +159,12 @@ namespace PartSellerWPF
         {
             IEnumerable<string> text = SearchTextBox.Text.Split(' ');
 
-            MainFrame.Navigate(new Pages.SearchPage());
+            FilterParams filterParams = new FilterParams()
+            {
+                Search = text
+            };
+
+            MainFrame.Navigate(new Pages.SearchPage(filterParams));
 
         }
 

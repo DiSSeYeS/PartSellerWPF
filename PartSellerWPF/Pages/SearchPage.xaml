@@ -8,25 +8,35 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SearchPage">
 
-    <DataGrid Name="dataGrid" AutoGenerateColumns="False"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        
+        <DataGrid Name="dataGrid" Grid.Row="0"
+                  AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   IsReadOnly="True"
                   Margin="1"
                   Style="{StaticResource DataGridStyle}"
                   CurrentCellChanged="DataGrid_CurrentCellChanged">
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="*"/>
-            <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
-            <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
-            <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
-            <DataGridTemplateColumn Header="Изображение" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding ImageUrl}" Stretch="Uniform"/>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="*"/>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
+                <DataGridTemplateColumn Header="Изображение" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ImageUrl}" Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button x:Name="btnAdd" Grid.Row="1" Margin="100,10" Content="Добавить в корзину" Style="{StaticResource RoundedButton}" Click="btnAdd_Click"/>
+    </Grid>
 </Page>
