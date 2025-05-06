@@ -20,11 +20,11 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class SearchPage : Page
     {
-        public SearchPage(FilterParams filterParams = null)
+        public SearchPage()
         {
             InitializeComponent();
             dataGrid.Loaded += DataGrid_Loaded;
-            LoadComponents(filterParams);
+            LoadComponents();
         }
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
@@ -47,7 +47,7 @@ namespace PartSellerWPF.Pages
             }
         }
 
-        private void LoadComponents(object filterParams)
+        private void LoadComponents()
         {
 
             Entities context = Entities.GetContext();
@@ -57,9 +57,6 @@ namespace PartSellerWPF.Pages
             var cpuComponents = from cp in context.CPU
                                 join p in context.Part on cp.ID equals p.CPUID
                                 join pr in context.Product on p.ID equals pr.PartID
-                                join oi in context.OrderItem on pr.ID equals oi.ProductID
-                                join o in context.Order on oi.OrderID equals o.ID
-                                join u in context.User on o.UserId equals u.ID
                                 select new ComponentDto
                                 {
                                     Type = "CPU",
@@ -169,104 +166,7 @@ namespace PartSellerWPF.Pages
                                  };
             components.AddRange(caseComponents);
 
-            var distinctComponents = components
-                .GroupBy(x => x.Id)
-                .Select(g => g.First())
-                .ToList();
-
-            if (filterParams is FilterParams filters)
-            {
-                if (filters.Search != null && filters.Search.Any())
-                {
-                    var searchTerms = filters.Search
-                        .Where(s => !string.IsNullOrWhiteSpace(s))
-                        .Select(s => s.Trim().ToLower())
-                        .ToList();
-
-                    if (searchTerms.Any())
-                    {
-                        distinctComponents = distinctComponents
-                            .Where(x => searchTerms.Any(term =>
-                                (!string.IsNullOrEmpty(x.Name) && x.Name.ToLower().Contains(term)) ||
-                                (!string.IsNullOrEmpty(x.Brand) && x.Brand.ToLower().Contains(term)) ||
-                                (!string.IsNullOrEmpty(x.Type) && x.Type.ToLower().Contains(term))
-                            )
-                        ).ToList();
-                            
-                    }
-                }
-            }
-
-            dataGrid.ItemsSource = distinctComponents;
+            dataGrid.ItemsSource = components;
         }
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (AuthManager.IsLoggedIn)
-            {
-                if (!(dataGrid.SelectedItem is ComponentDto selectedComponent))
-                {
-                    MessageBox.Show("Пожалуйста, выберите компонент из таблицы");
-                    return;
-                }
-
-                var context = Entities.GetContext();
-
-                try
-                {
-                    var currentOrder = context.Order
-                        .Where(o => o.UserId == AuthManager.CurrentUser.ID)
-                        .OrderByDescending(o => o.Date)
-                        .FirstOrDefault();
-
-                    if (currentOrder != null)
-                    {
-                        currentOrder.TotalPrice += selectedComponent.Price;
-                        currentOrder.Date = DateTime.Now;
-
-                        var orderItem = new OrderItem
-                        {
-                            OrderID = currentOrder.ID,
-                            ProductID = Funcs.GetProductIdByComponentDto(selectedComponent),
-                            Quantity = 1
-                        };
-
-                        context.OrderItem.Add(orderItem);
-                    }
-                    else
-                    {
-                        currentOrder = new Order
-                        {
-                            UserId = AuthManager.CurrentUser.ID,
-                            TotalPrice = selectedComponent.Price,
-                            Status = "Cart",
-                            Date = DateTime.Now
-                        };
-
-                        context.Order.Add(currentOrder);
-                        context.SaveChanges();
-
-                        var orderItem = new OrderItem
-                        {
-                            OrderID = currentOrder.ID,
-                            ProductID = Funcs.GetProductIdByComponentDto(selectedComponent),
-                            Quantity = 1
-                        };
-
-                        context.OrderItem.Add(orderItem);
-                    }
-
-                    context.SaveChanges();
-                    MessageBox.Show("Компонент успешно добавлен в заказ");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка при добавлении в заказ: {ex.Message}");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Необходимо авторизоваться");
-            }
-        } 
     }
 }

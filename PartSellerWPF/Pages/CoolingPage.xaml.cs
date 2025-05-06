@@ -34,7 +34,17 @@ namespace PartSellerWPF.Pages
 
         private void DataGrid_CurrentCellChanged(object sender, System.EventArgs e)
         {
-            Funcs.ExtendCell(dataGrid);
+            if (dataGrid.CurrentColumn != null)
+            {
+                foreach (var column in dataGrid.Columns)
+                {
+                    if (column.Header.ToString() != "Изображение")
+                        column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+                }
+
+                dataGrid.CurrentColumn.Width = new DataGridLength(3, DataGridLengthUnitType.Star);
+                dataGrid.ScrollIntoView(dataGrid.CurrentItem, dataGrid.CurrentColumn);
+            }
         }
 
         private void LoadCoolingData(object filterParams)
@@ -105,8 +115,7 @@ namespace PartSellerWPF.Pages
                     x.Cooling.Length,
                     x.Cooling.Width,
                     x.CoolerType.Type,
-                    x.Product.ID,
-                    x.Product.PartID,
+                    x.Part.ID,
                     x.Part.Image,
                     x.Product.Price,
                 }).Distinct().ToList();
@@ -123,21 +132,7 @@ namespace PartSellerWPF.Pages
         }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (!AuthManager.IsLoggedIn)
-            {
-                MessageBox.Show("Необходимо авторизоваться");
-                return;
-            }
 
-            if (dataGrid.SelectedItem == null)
-            {
-                MessageBox.Show("Пожалуйста, выберите компонент из таблицы");
-                return;
-            }
-
-            dynamic selectedComponent = dataGrid.SelectedItem;
-
-            Funcs.AddComponentToOrder(selectedComponent);
         }
     }
 }

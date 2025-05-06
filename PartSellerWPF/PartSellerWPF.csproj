@@ -71,7 +71,6 @@
     <Compile Include="Brand.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="CartItemsDto.cs" />
     <Compile Include="Case.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -128,7 +127,6 @@
     <Compile Include="FormFactor.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Funcs.cs" />
     <Compile Include="GPU.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

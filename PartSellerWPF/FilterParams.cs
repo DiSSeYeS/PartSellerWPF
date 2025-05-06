@@ -39,7 +39,6 @@ namespace PartSellerWPF
         public int? MaxSataSlots { get; set; }
         public int? MaxM2Slots { get; set; }
         public int? MaxWattage { get; set; }
-        public IEnumerable<string> Search { get; set; }
 
     }
 }
