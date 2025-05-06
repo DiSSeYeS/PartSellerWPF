@@ -39,24 +39,20 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Общая стоимость -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
             <TextBlock Text="Общая стоимость: " FontWeight="Bold" FontSize="14"/>
             <TextBlock x:Name="totalPriceText" FontWeight="Bold" FontSize="14" Text="0 руб"/>
         </StackPanel>
 
-        <!-- Чекбокс сборки -->
         <CheckBox x:Name="chkIsAssembly" Grid.Row="2" Margin="10"
                   Content="Это сборка"
                   FontSize="14"
                   Checked="chkIsAssembly_Checked"
                   Unchecked="chkIsAssembly_Unchecked"/>
 
-        <!-- Результат проверки совместимости -->
         <TextBlock x:Name="compatibilityResult" Grid.Row="3" Margin="10"
                    FontSize="14" Foreground="Red" TextWrapping="Wrap"/>
 
-        <!-- Кнопки управления -->
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
             <Button Content="Оформить заказ" 
                     Click="btnCheckout_Click"
