@@ -210,7 +210,6 @@ namespace PartSellerWPF.Pages
                 }
 
                 var context = Entities.GetContext();
-
                 try
                 {
                     var currentOrder = context.Order
@@ -218,22 +217,47 @@ namespace PartSellerWPF.Pages
                         .OrderByDescending(o => o.Date)
                         .FirstOrDefault();
 
+                    var existingItem = currentOrder.OrderItem?
+                            .FirstOrDefault(oi => oi.ProductID == Funcs.GetProductIdByComponentDto(selectedComponent));
+
+                    int selectedID = Funcs.GetProductIdByComponentDto(selectedComponent);
+                    var partInStock = context.Part
+                        .FirstOrDefault(p => p.ID == selectedID);
+
                     if (currentOrder != null)
                     {
                         currentOrder.TotalPrice += selectedComponent.Price;
-                        currentOrder.Date = DateTime.Now;
 
-                        var orderItem = new OrderItem
+                        if (existingItem != null)
                         {
-                            OrderID = currentOrder.ID,
-                            ProductID = Funcs.GetProductIdByComponentDto(selectedComponent),
-                            Quantity = 1
-                        };
+                            if (partInStock != null && existingItem.Quantity + 1 > partInStock.QuantityInStock)
+                            {
+                                MessageBox.Show($"Недостаточно товара на складе. Доступно: {partInStock.QuantityInStock}");
+                                return;
+                            }
 
-                        context.OrderItem.Add(orderItem);
+                            existingItem.Quantity++;
+                        }
+                        else
+                        {
+                            var orderItem = new OrderItem
+                            {
+                                OrderID = currentOrder.ID,
+                                ProductID = Funcs.GetProductIdByComponentDto(selectedComponent),
+                                Quantity = 1
+                            };
+
+                            context.OrderItem.Add(orderItem);
+                        }                        
                     }
                     else
                     {
+                        if (partInStock.QuantityInStock < 1)
+                        {
+                            MessageBox.Show("Недостаточно товара на складе");
+                            return;
+                        }
+
                         currentOrder = new Order
                         {
                             UserId = AuthManager.CurrentUser.ID,
