@@ -12,26 +12,12 @@ namespace PartSellerWPF
     using System;
     using System.Collections.Generic;
     
-    public partial class Supply
+    public partial class SupportedFormFactorMotherboard
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Supply()
-        {
-            this.Part = new HashSet<Part>();
-        }
-    
         public int ID { get; set; }
-        public int BrandID { get; set; }
-        public string Model { get; set; }
-        public int Wattage { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int Length { get; set; }
-        public Nullable<int> FormFactorID { get; set; }
+        public int CaseID { get; set; }
+        public int FormFactorID { get; set; }
     
-        public virtual Brand Brand { get; set; }
         public virtual FormFactor FormFactor { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Part> Part { get; set; }
     }
 }

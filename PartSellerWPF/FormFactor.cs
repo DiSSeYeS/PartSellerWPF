@@ -18,6 +18,10 @@ namespace PartSellerWPF
         public FormFactor()
         {
             this.Case = new HashSet<Case>();
+            this.Motherboard = new HashSet<Motherboard>();
+            this.Supply = new HashSet<Supply>();
+            this.SupportedFormFactorSupply = new HashSet<SupportedFormFactorSupply>();
+            this.SupportedFormFactorMotherboard = new HashSet<SupportedFormFactorMotherboard>();
         }
     
         public int ID { get; set; }
@@ -25,5 +29,13 @@ namespace PartSellerWPF
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Case> Case { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Motherboard> Motherboard { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply> Supply { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupportedFormFactorSupply> SupportedFormFactorSupply { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupportedFormFactorMotherboard> SupportedFormFactorMotherboard { get; set; }
     }
 }

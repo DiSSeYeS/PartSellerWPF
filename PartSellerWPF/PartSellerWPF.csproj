@@ -198,6 +198,12 @@
     <Compile Include="Supply.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="SupportedFormFactorMotherboard.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupportedFormFactorSupply.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="SupportedSockets.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

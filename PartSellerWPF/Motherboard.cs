@@ -34,9 +34,11 @@ namespace PartSellerWPF
         public int SATASlots { get; set; }
         public int M2Slots { get; set; }
         public int NVMe { get; set; }
+        public Nullable<int> FormFactorID { get; set; }
     
         public virtual Brand Brand { get; set; }
         public virtual Chipset Chipset { get; set; }
+        public virtual FormFactor FormFactor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Part> Part { get; set; }
         public virtual RAMType RAMType { get; set; }

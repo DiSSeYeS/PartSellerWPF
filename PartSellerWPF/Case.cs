@@ -18,6 +18,7 @@ namespace PartSellerWPF
         public Case()
         {
             this.Part = new HashSet<Part>();
+            this.SupportedFormFactorSupply = new HashSet<SupportedFormFactorSupply>();
         }
     
         public int ID { get; set; }
@@ -29,11 +30,13 @@ namespace PartSellerWPF
         public int SupplyLength { get; set; }
         public int GPULength { get; set; }
         public int CoolerLength { get; set; }
-        public int FormFactorTypeID { get; set; }
+        public int FormFactorID { get; set; }
     
         public virtual Brand Brand { get; set; }
         public virtual FormFactor FormFactor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Part> Part { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupportedFormFactorSupply> SupportedFormFactorSupply { get; set; }
     }
 }

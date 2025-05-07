@@ -65,7 +65,7 @@ namespace PartSellerWPF.Pages
                     if (filters.FormFactorId.HasValue && filters.FormFactorId != -1)
                     {
                         int formFactorId = filters.FormFactorId.Value;
-                        query = query.Where(x => x.Case.FormFactorTypeID == formFactorId);
+                        query = query.Where(x => x.Case.FormFactorID == formFactorId);
                     }
 
                     if (filters.MaxHeight.HasValue)

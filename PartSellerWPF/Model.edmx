@@ -25,7 +25,7 @@
           <Property Name="SupplyLength" Type="int" Nullable="false" />
           <Property Name="GPULength" Type="int" Nullable="false" />
           <Property Name="CoolerLength" Type="int" Nullable="false" />
-          <Property Name="FormFactorTypeID" Type="int" Nullable="false" />
+          <Property Name="FormFactorID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Chipset">
           <Key>
@@ -129,6 +129,7 @@
           <Property Name="SATASlots" Type="int" Nullable="false" />
           <Property Name="M2Slots" Type="int" Nullable="false" />
           <Property Name="NVMe" Type="int" Nullable="false" />
+          <Property Name="FormFactorID" Type="int" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -231,9 +232,26 @@
           <Property Name="BrandID" Type="int" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Wattage" Type="int" Nullable="false" />
-          <Property Name="Width" Type="int" />
-          <Property Name="Height" Type="int" />
-          <Property Name="Length" Type="int" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="Length" Type="int" Nullable="false" />
+          <Property Name="FormFactorID" Type="int" />
+        </EntityType>
+        <EntityType Name="SupportedFormFactorMotherboard">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseID" Type="int" Nullable="false" />
+          <Property Name="FormFactorID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupportedFormFactorSupply">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseID" Type="int" Nullable="false" />
+          <Property Name="FormFactorID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SupportedSockets">
           <Key>
@@ -287,7 +305,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderItem__Produ__52593CB8">
+        <Association Name="FK__OrderItem__Produ__71D1E811">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
           <ReferentialConstraint>
@@ -427,7 +445,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Case">
-              <PropertyRef Name="FormFactorTypeID" />
+              <PropertyRef Name="FormFactorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -539,6 +557,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Motherboard_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="0..1" />
+          <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Motherboard">
+              <PropertyRef Name="FormFactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Motherboard_RAMType">
           <End Role="RAMType" Type="Self.RAMType" Multiplicity="1" />
           <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
@@ -623,6 +653,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Supply_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="0..1" />
+          <End Role="Supply" Type="Self.Supply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Supply">
+              <PropertyRef Name="FormFactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedFormFactor_Case">
+          <End Role="Case" Type="Self.Case" Multiplicity="1" />
+          <End Role="SupportedFormFactorSupply" Type="Self.SupportedFormFactorSupply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Case">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedFormFactorSupply">
+              <PropertyRef Name="CaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedFormFactor_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="1" />
+          <End Role="SupportedFormFactorSupply" Type="Self.SupportedFormFactorSupply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedFormFactorSupply">
+              <PropertyRef Name="FormFactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedFormFactorMotherboard_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="1" />
+          <End Role="SupportedFormFactorMotherboard" Type="Self.SupportedFormFactorMotherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedFormFactorMotherboard">
+              <PropertyRef Name="FormFactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SupportedSockets_Cooling">
           <End Role="Cooling" Type="Self.Cooling" Multiplicity="1" />
           <End Role="SupportedSockets" Type="Self.SupportedSockets" Multiplicity="*" />
@@ -682,6 +760,8 @@
           <EntitySet Name="Socket" EntityType="Self.Socket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply" EntityType="Self.Supply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportedFormFactorMotherboard" EntityType="Self.SupportedFormFactorMotherboard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportedFormFactorSupply" EntityType="Self.SupportedFormFactorSupply" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupportedSockets" EntityType="Self.SupportedSockets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -693,7 +773,7 @@
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderItem" EntitySet="OrderItem" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderItem__Produ__52593CB8" Association="Self.FK__OrderItem__Produ__52593CB8">
+          <AssociationSet Name="FK__OrderItem__Produ__71D1E811" Association="Self.FK__OrderItem__Produ__71D1E811">
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderItem" EntitySet="OrderItem" />
           </AssociationSet>
@@ -777,6 +857,10 @@
             <End Role="Chipset" EntitySet="Chipset" />
             <End Role="Motherboard" EntitySet="Motherboard" />
           </AssociationSet>
+          <AssociationSet Name="FK_Motherboard_FormFactor" Association="Self.FK_Motherboard_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="Motherboard" EntitySet="Motherboard" />
+          </AssociationSet>
           <AssociationSet Name="FK_Motherboard_RAMType" Association="Self.FK_Motherboard_RAMType">
             <End Role="RAMType" EntitySet="RAMType" />
             <End Role="Motherboard" EntitySet="Motherboard" />
@@ -804,6 +888,22 @@
           <AssociationSet Name="FK_Supply_Brand" Association="Self.FK_Supply_Brand">
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Supply" EntitySet="Supply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supply_FormFactor" Association="Self.FK_Supply_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="Supply" EntitySet="Supply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedFormFactor_Case" Association="Self.FK_SupportedFormFactor_Case">
+            <End Role="Case" EntitySet="Case" />
+            <End Role="SupportedFormFactorSupply" EntitySet="SupportedFormFactorSupply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedFormFactor_FormFactor" Association="Self.FK_SupportedFormFactor_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="SupportedFormFactorSupply" EntitySet="SupportedFormFactorSupply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedFormFactorMotherboard_FormFactor" Association="Self.FK_SupportedFormFactorMotherboard_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="SupportedFormFactorMotherboard" EntitySet="SupportedFormFactorMotherboard" />
           </AssociationSet>
           <AssociationSet Name="FK_SupportedSockets_Cooling" Association="Self.FK_SupportedSockets_Cooling">
             <End Role="Cooling" EntitySet="Cooling" />
@@ -851,10 +951,11 @@
           <Property Name="SupplyLength" Type="Int32" Nullable="false" />
           <Property Name="GPULength" Type="Int32" Nullable="false" />
           <Property Name="CoolerLength" Type="Int32" Nullable="false" />
-          <Property Name="FormFactorTypeID" Type="Int32" Nullable="false" />
+          <Property Name="FormFactorID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Case_Brand" FromRole="Case" ToRole="Brand" />
           <NavigationProperty Name="FormFactor" Relationship="Self.FK_Case_FormFactor" FromRole="Case" ToRole="FormFactor" />
           <NavigationProperty Name="Part" Relationship="Self.FK_Part_Case" FromRole="Case" ToRole="Part" />
+          <NavigationProperty Name="SupportedFormFactorSupply" Relationship="Self.FK_SupportedFormFactor_Case" FromRole="Case" ToRole="SupportedFormFactorSupply" />
         </EntityType>
         <EntityType Name="Chipset">
           <Key>
@@ -938,6 +1039,10 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Case" Relationship="Self.FK_Case_FormFactor" FromRole="FormFactor" ToRole="Case" />
+          <NavigationProperty Name="Motherboard" Relationship="Self.FK_Motherboard_FormFactor" FromRole="FormFactor" ToRole="Motherboard" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK_Supply_FormFactor" FromRole="FormFactor" ToRole="Supply" />
+          <NavigationProperty Name="SupportedFormFactorSupply" Relationship="Self.FK_SupportedFormFactor_FormFactor" FromRole="FormFactor" ToRole="SupportedFormFactorSupply" />
+          <NavigationProperty Name="SupportedFormFactorMotherboard" Relationship="Self.FK_SupportedFormFactorMotherboard_FormFactor" FromRole="FormFactor" ToRole="SupportedFormFactorMotherboard" />
         </EntityType>
         <EntityType Name="GPU">
           <Key>
@@ -974,8 +1079,10 @@
           <Property Name="SATASlots" Type="Int32" Nullable="false" />
           <Property Name="M2Slots" Type="Int32" Nullable="false" />
           <Property Name="NVMe" Type="Int32" Nullable="false" />
+          <Property Name="FormFactorID" Type="Int32" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Motherboard_Brand" FromRole="Motherboard" ToRole="Brand" />
           <NavigationProperty Name="Chipset" Relationship="Self.FK_Motherboard_Chipset" FromRole="Motherboard" ToRole="Chipset" />
+          <NavigationProperty Name="FormFactor" Relationship="Self.FK_Motherboard_FormFactor" FromRole="Motherboard" ToRole="FormFactor" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__Motherboar__5812160E" FromRole="Motherboard" ToRole="Part" />
           <NavigationProperty Name="RAMType" Relationship="Self.FK_Motherboard_RAMType" FromRole="Motherboard" ToRole="RAMType" />
           <NavigationProperty Name="Socket" Relationship="Self.FK_Motherboard_Socket" FromRole="Motherboard" ToRole="Socket" />
@@ -1002,7 +1109,7 @@
           <Property Name="ProductID" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Order" Relationship="Self.FK__OrderItem__Order__59063A47" FromRole="OrderItem" ToRole="Order" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__OrderItem__Produ__52593CB8" FromRole="OrderItem" ToRole="Product" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__OrderItem__Produ__71D1E811" FromRole="OrderItem" ToRole="Product" />
         </EntityType>
         <EntityType Name="Part">
           <Key>
@@ -1047,7 +1154,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PartID" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <NavigationProperty Name="OrderItem" Relationship="Self.FK__OrderItem__Produ__52593CB8" FromRole="Product" ToRole="OrderItem" />
+          <NavigationProperty Name="OrderItem" Relationship="Self.FK__OrderItem__Produ__71D1E811" FromRole="Product" ToRole="OrderItem" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Product__PartID__5BE2A6F2" FromRole="Product" ToRole="Part" />
         </EntityType>
         <EntityType Name="RAM">
@@ -1109,11 +1216,32 @@
           <Property Name="BrandID" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Wattage" Type="Int32" Nullable="false" />
-          <Property Name="Width" Type="Int32" />
-          <Property Name="Height" Type="Int32" />
-          <Property Name="Length" Type="Int32" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="Length" Type="Int32" Nullable="false" />
+          <Property Name="FormFactorID" Type="Int32" />
           <NavigationProperty Name="Brand" Relationship="Self.FK_Supply_Brand" FromRole="Supply" ToRole="Brand" />
+          <NavigationProperty Name="FormFactor" Relationship="Self.FK_Supply_FormFactor" FromRole="Supply" ToRole="FormFactor" />
           <NavigationProperty Name="Part" Relationship="Self.FK__Part__SupplyID__59FA5E80" FromRole="Supply" ToRole="Part" />
+        </EntityType>
+        <EntityType Name="SupportedFormFactorMotherboard">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseID" Type="Int32" Nullable="false" />
+          <Property Name="FormFactorID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FormFactor" Relationship="Self.FK_SupportedFormFactorMotherboard_FormFactor" FromRole="SupportedFormFactorMotherboard" ToRole="FormFactor" />
+        </EntityType>
+        <EntityType Name="SupportedFormFactorSupply">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseID" Type="Int32" Nullable="false" />
+          <Property Name="FormFactorID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Case" Relationship="Self.FK_SupportedFormFactor_Case" FromRole="SupportedFormFactorSupply" ToRole="Case" />
+          <NavigationProperty Name="FormFactor" Relationship="Self.FK_SupportedFormFactor_FormFactor" FromRole="SupportedFormFactorSupply" ToRole="FormFactor" />
         </EntityType>
         <EntityType Name="SupportedSockets">
           <Key>
@@ -1251,7 +1379,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Case">
-              <PropertyRef Name="FormFactorTypeID" />
+              <PropertyRef Name="FormFactorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1263,6 +1391,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Part">
+              <PropertyRef Name="CaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedFormFactor_Case">
+          <End Role="Case" Type="Self.Case" Multiplicity="1" />
+          <End Role="SupportedFormFactorSupply" Type="Self.SupportedFormFactorSupply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Case">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedFormFactorSupply">
               <PropertyRef Name="CaseID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1363,6 +1503,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Motherboard_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="0..1" />
+          <End Role="Motherboard" Type="Self.Motherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Motherboard">
+              <PropertyRef Name="FormFactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supply_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="0..1" />
+          <End Role="Supply" Type="Self.Supply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Supply">
+              <PropertyRef Name="FormFactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedFormFactor_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="1" />
+          <End Role="SupportedFormFactorSupply" Type="Self.SupportedFormFactorSupply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedFormFactorSupply">
+              <PropertyRef Name="FormFactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupportedFormFactorMotherboard_FormFactor">
+          <End Role="FormFactor" Type="Self.FormFactor" Multiplicity="1" />
+          <End Role="SupportedFormFactorMotherboard" Type="Self.SupportedFormFactorMotherboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormFactor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SupportedFormFactorMotherboard">
+              <PropertyRef Name="FormFactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Part__GPUID__571DF1D5">
           <End Role="GPU" Type="Self.GPU" Multiplicity="0..1" />
           <End Role="Part" Type="Self.Part" Multiplicity="*" />
@@ -1447,7 +1635,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderItem__Produ__52593CB8">
+        <Association Name="FK__OrderItem__Produ__71D1E811">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1566,6 +1754,8 @@
           <EntitySet Name="Socket" EntityType="Self.Socket" />
           <EntitySet Name="Stock" EntityType="Self.Stock" />
           <EntitySet Name="Supply" EntityType="Self.Supply" />
+          <EntitySet Name="SupportedFormFactorMotherboard" EntityType="Self.SupportedFormFactorMotherboard" />
+          <EntitySet Name="SupportedFormFactorSupply" EntityType="Self.SupportedFormFactorSupply" />
           <EntitySet Name="SupportedSockets" EntityType="Self.SupportedSockets" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="User" EntityType="Self.User" />
@@ -1609,6 +1799,10 @@
             <End Role="Case" EntitySet="Case" />
             <End Role="Part" EntitySet="Part" />
           </AssociationSet>
+          <AssociationSet Name="FK_SupportedFormFactor_Case" Association="Self.FK_SupportedFormFactor_Case">
+            <End Role="Case" EntitySet="Case" />
+            <End Role="SupportedFormFactorSupply" EntitySet="SupportedFormFactorSupply" />
+          </AssociationSet>
           <AssociationSet Name="FK_Motherboard_Chipset" Association="Self.FK_Motherboard_Chipset">
             <End Role="Chipset" EntitySet="Chipset" />
             <End Role="Motherboard" EntitySet="Motherboard" />
@@ -1641,6 +1835,22 @@
             <End Role="DiskType" EntitySet="DiskType" />
             <End Role="Disk" EntitySet="Disk" />
           </AssociationSet>
+          <AssociationSet Name="FK_Motherboard_FormFactor" Association="Self.FK_Motherboard_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="Motherboard" EntitySet="Motherboard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supply_FormFactor" Association="Self.FK_Supply_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="Supply" EntitySet="Supply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedFormFactor_FormFactor" Association="Self.FK_SupportedFormFactor_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="SupportedFormFactorSupply" EntitySet="SupportedFormFactorSupply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupportedFormFactorMotherboard_FormFactor" Association="Self.FK_SupportedFormFactorMotherboard_FormFactor">
+            <End Role="FormFactor" EntitySet="FormFactor" />
+            <End Role="SupportedFormFactorMotherboard" EntitySet="SupportedFormFactorMotherboard" />
+          </AssociationSet>
           <AssociationSet Name="FK__Part__GPUID__571DF1D5" Association="Self.FK__Part__GPUID__571DF1D5">
             <End Role="GPU" EntitySet="GPU" />
             <End Role="Part" EntitySet="Part" />
@@ -1669,7 +1879,7 @@
             <End Role="Order" EntitySet="Order" />
             <End Role="Payment" EntitySet="Payment" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderItem__Produ__52593CB8" Association="Self.FK__OrderItem__Produ__52593CB8">
+          <AssociationSet Name="FK__OrderItem__Produ__71D1E811" Association="Self.FK__OrderItem__Produ__71D1E811">
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderItem" EntitySet="OrderItem" />
           </AssociationSet>
@@ -1728,7 +1938,7 @@
                 <ScalarProperty Name="SupplyLength" ColumnName="SupplyLength" />
                 <ScalarProperty Name="GPULength" ColumnName="GPULength" />
                 <ScalarProperty Name="CoolerLength" ColumnName="CoolerLength" />
-                <ScalarProperty Name="FormFactorTypeID" ColumnName="FormFactorTypeID" />
+                <ScalarProperty Name="FormFactorID" ColumnName="FormFactorID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1841,6 +2051,7 @@
                 <ScalarProperty Name="SATASlots" ColumnName="SATASlots" />
                 <ScalarProperty Name="M2Slots" ColumnName="M2Slots" />
                 <ScalarProperty Name="NVMe" ColumnName="NVMe" />
+                <ScalarProperty Name="FormFactorID" ColumnName="FormFactorID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1957,6 +2168,25 @@
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
                 <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="FormFactorID" ColumnName="FormFactorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportedFormFactorMotherboard">
+            <EntityTypeMapping TypeName="CSDBModel.SupportedFormFactorMotherboard">
+              <MappingFragment StoreEntitySet="SupportedFormFactorMotherboard">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+                <ScalarProperty Name="FormFactorID" ColumnName="FormFactorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportedFormFactorSupply">
+            <EntityTypeMapping TypeName="CSDBModel.SupportedFormFactorSupply">
+              <MappingFragment StoreEntitySet="SupportedFormFactorSupply">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+                <ScalarProperty Name="FormFactorID" ColumnName="FormFactorID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -24,12 +24,7 @@ namespace PartSellerWPF
         {
             return _context == null ? _context = new Entities() : _context;
         }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
+
         public virtual DbSet<Brand> Brand { get; set; }
         public virtual DbSet<Case> Case { get; set; }
         public virtual DbSet<Chipset> Chipset { get; set; }
@@ -52,6 +47,8 @@ namespace PartSellerWPF
         public virtual DbSet<Socket> Socket { get; set; }
         public virtual DbSet<Stock> Stock { get; set; }
         public virtual DbSet<Supply> Supply { get; set; }
+        public virtual DbSet<SupportedFormFactorMotherboard> SupportedFormFactorMotherboard { get; set; }
+        public virtual DbSet<SupportedFormFactorSupply> SupportedFormFactorSupply { get; set; }
         public virtual DbSet<SupportedSockets> SupportedSockets { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<User> User { get; set; }
