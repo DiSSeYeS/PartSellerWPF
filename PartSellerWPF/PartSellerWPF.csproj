@@ -75,6 +75,7 @@
     <Compile Include="Case.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="CaseData.cs" />
     <Compile Include="Chipset.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -85,17 +86,17 @@
     <Compile Include="Cooling.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="CoolingData.cs" />
     <Compile Include="CPU.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="CPUData.cs" />
     <Compile Include="Disk.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DiskData.cs" />
     <Compile Include="DiskType.cs">
       <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EmployeePages\EditComponentsPage.xaml.cs">
-      <DependentUpon>EditComponentsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="EmployeePages\OrdersPage.xaml.cs">
       <DependentUpon>OrdersPage.xaml</DependentUpon>
@@ -132,6 +133,8 @@
     <Compile Include="GPU.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="GPUData.cs" />
+    <Compile Include="IDeletableComponent.cs" />
     <Compile Include="Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -150,6 +153,7 @@
     <Compile Include="Motherboard.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="MotherboardData.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -183,6 +187,7 @@
     <Compile Include="RAM.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="RAMData.cs" />
     <Compile Include="RAMType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -198,6 +203,7 @@
     <Compile Include="Supply.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="SupplyData.cs" />
     <Compile Include="SupportedFormFactorMotherboard.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -218,10 +224,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="EmployeePages\EditComponentsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

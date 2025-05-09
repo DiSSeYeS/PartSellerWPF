@@ -66,63 +66,34 @@ namespace PartSellerWPF
         {
             var context = Entities.GetContext();
 
-                var currentOrder = context.Order
-                    .Where(o => o.UserId == AuthManager.CurrentUser.ID)
-                    .OrderByDescending(o => o.Date)
-                    .FirstOrDefault();
+            var currentOrder = context.Order
+                .Where(o => o.UserId == AuthManager.CurrentUser.ID)
+                .OrderByDescending(o => o.Date)
+                .FirstOrDefault();
 
-                var existingItem = currentOrder.OrderItem?
-                        .FirstOrDefault(oi => oi.ProductID == selectedComponent.ID);
+            var existingItem = currentOrder.OrderItem?
+                    .FirstOrDefault(oi => oi.ProductID == selectedComponent.ID);
 
-                int selectedID = selectedComponent.PartID;
-                var partInStock = context.Part
-                    .FirstOrDefault(p => p.ID == selectedID);
+            int selectedID = selectedComponent.PartID;
+            var partInStock = context.Part
+                .FirstOrDefault(p => p.ID == selectedID);
 
-                if (currentOrder != null)
+            if (currentOrder != null)
+            {
+                currentOrder.TotalPrice += selectedComponent.Price;
+
+                if (existingItem != null)
                 {
-                    currentOrder.TotalPrice += selectedComponent.Price;
-
-                    if (existingItem != null)
+                    if (partInStock != null && existingItem.Quantity + 1 > partInStock.QuantityInStock)
                     {
-                        if (partInStock != null && existingItem.Quantity + 1 > partInStock.QuantityInStock)
-                        {
-                            MessageBox.Show($"Недостаточно товара на складе. Доступно: {partInStock.QuantityInStock}");
-                            return;
-                        }
-
-                        existingItem.Quantity++;
-                    }
-                    else
-                    {
-                        var orderItem = new OrderItem
-                        {
-                            OrderID = currentOrder.ID,
-                            ProductID = selectedComponent.ID,
-                            Quantity = 1
-                        };
-
-                        context.OrderItem.Add(orderItem);
-                    }                        
-                }
-                else
-                {
-                    if (partInStock.QuantityInStock < 1)
-                    {
-                        MessageBox.Show("Недостаточно товара на складе");
+                        MessageBox.Show($"Недостаточно товара на складе. Доступно: {partInStock.QuantityInStock}");
                         return;
                     }
 
-                    currentOrder = new Order
-                    {
-                        UserId = AuthManager.CurrentUser.ID,
-                        TotalPrice = selectedComponent.Price,
-                        Status = "Cart",
-                        Date = DateTime.Now
-                    };
-
-                    context.Order.Add(currentOrder);
-                    context.SaveChanges();
-
+                    existingItem.Quantity++;
+                }
+                else
+                {
                     var orderItem = new OrderItem
                     {
                         OrderID = currentOrder.ID,
@@ -132,9 +103,38 @@ namespace PartSellerWPF
 
                     context.OrderItem.Add(orderItem);
                 }
+            }
+            else
+            {
+                if (partInStock.QuantityInStock < 1)
+                {
+                    MessageBox.Show("Недостаточно товара на складе");
+                    return;
+                }
 
+                currentOrder = new Order
+                {
+                    UserId = AuthManager.CurrentUser.ID,
+                    TotalPrice = selectedComponent.Price,
+                    Status = "Cart",
+                    Date = DateTime.Now
+                };
+
+                context.Order.Add(currentOrder);
                 context.SaveChanges();
-                MessageBox.Show("Компонент успешно добавлен в заказ");
+
+                var orderItem = new OrderItem
+                {
+                    OrderID = currentOrder.ID,
+                    ProductID = selectedComponent.ID,
+                    Quantity = 1
+                };
+
+                context.OrderItem.Add(orderItem);
+            }
+
+            context.SaveChanges();
+            MessageBox.Show("Компонент успешно добавлен в заказ");
 
         }
 
@@ -152,5 +152,92 @@ namespace PartSellerWPF
                 dataGrid.ScrollIntoView(dataGrid.CurrentItem, dataGrid.CurrentColumn);
             }
         }
+
+        public static void DeleteComponent(IDeletableComponent component)
+        {
+
+            if (AuthManager.CurrentUser.RoleID != 2)
+            {
+                return;
+            }
+
+            try
+            {
+                var context = Entities.GetContext();
+
+                var part = context.Part.FirstOrDefault(p => p.ID == component.ID);
+                if (part == null) return;
+
+                var product = context.Product.FirstOrDefault(p => p.PartID == part.ID);
+                if (product != null && context.OrderItem.Any(oi => oi.ProductID == product.ID))
+                {
+                    MessageBox.Show($"Невозможно удалить {component.ComponentType}, так как он есть в заказах",
+                                    "Ошибка",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
+                    return;
+                }
+
+                switch (component.ComponentType)
+                {
+                    case "Case":
+                        var computerCase = context.Case.FirstOrDefault(c => c.ID == part.CaseID);
+                        if (computerCase != null) context.Case.Remove(computerCase);
+                        break;
+
+                    case "RAM":
+                        var ram = context.RAM.FirstOrDefault(r => r.ID == part.RAMID);
+                        if (ram != null) context.RAM.Remove(ram);
+                        break;
+
+                    case "Motherboard":
+                        var motherboard = context.Motherboard.FirstOrDefault(g => g.ID == part.MotherboardID);
+                        if (motherboard != null) context.Motherboard.Remove(motherboard);
+                        break;
+                    case "GPU":
+                        var gpu = context.GPU.FirstOrDefault(g => g.ID == part.GPUID);
+                        if (gpu != null) context.GPU.Remove(gpu);
+                        break;
+                    case "Supply":
+                        var supply = context.Supply.FirstOrDefault(g => g.ID == part.SupplyID);
+                        if (supply != null) context.Supply.Remove(supply);
+                        break;
+                    case "CPU":
+                        var cpu = context.CPU.FirstOrDefault(g => g.ID == part.CPUID);
+                        if (cpu != null) context.CPU.Remove(cpu);
+                        break;
+                    case "Disk":
+                        var disk = context.Disk.FirstOrDefault(g => g.ID == part.DiskID);
+                        if (disk != null) context.Disk.Remove(disk);
+                        break;
+                    case "Cooling":
+                        var cooling = context.Cooling.FirstOrDefault(g => g.ID == part.CoolingID);
+                        if (cooling != null) context.Cooling.Remove(cooling);
+                        break;
+
+
+                    default:
+                        throw new InvalidOperationException($"Неизвестный тип компонента: {component.ComponentType}");
+                }
+
+                if (product != null) context.Product.Remove(product);
+                context.Part.Remove(part);
+
+                context.SaveChanges();
+
+                MessageBox.Show($"{component.ComponentType} успешно удален",
+                                "Успех",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении {component.ComponentType}: {ex.Message}",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+        }
+        
     }
 }

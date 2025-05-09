@@ -20,21 +20,22 @@
                   IsReadOnly="True"
                   Margin="1"
                   Style="{StaticResource DataGridStyle}"
-                  CurrentCellChanged="DataGrid_CurrentCellChanged">
+                  RowEditEnding="dataGrid_RowEditEnding"
+                  PreviewKeyDown="dataGrid_PreviewKeyDown">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
-                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
-                <DataGridTextColumn Header="Вольтаж" Binding="{Binding Voltage}" Width="*"/>
-                <DataGridTextColumn Header="Сокет" Binding="{Binding Socket}" Width="*"/>
-                <DataGridTextColumn Header="Частота" Binding="{Binding FrequencyGHz}" Width="*"/>
-                <DataGridTextColumn Header="Ядра" Binding="{Binding Cores}" Width="*"/>
-                <DataGridTextColumn Header="Потоки" Binding="{Binding Threads}" Width="*"/>
-                <DataGridTextColumn Header="Кэш L1" Binding="{Binding L1}" Width="*"/>
-                <DataGridTextColumn Header="Кэш L2" Binding="{Binding L2}" Width="*"/>
-                <DataGridTextColumn Header="Турбо-буст" Binding="{Binding HasTurboBoost}" Width="*"/>
-                <DataGridTextColumn Header="Макс.частота" Binding="{Binding MaxFrequency}" Width="*"/>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
-                <DataGridTemplateColumn Header="Изображение" Width="3*">
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Вольтаж" Binding="{Binding Voltage, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Сокет" Binding="{Binding Socket, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Частота" Binding="{Binding CoreFreq, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Ядра" Binding="{Binding Cores, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Потоки" Binding="{Binding Threads, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Кэш L1" Binding="{Binding L1, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Кэш L2" Binding="{Binding L2, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Турбо-буст" Binding="{Binding HasTurboBoost, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Макс.частота" Binding="{Binding MaxFreq, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTemplateColumn Header="Изображение" Width="3*" x:Name="imageTemplate">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding Image}" 
@@ -42,6 +43,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Изображение" Width="3*" x:Name="imageLinkColumn" Binding="{Binding Image, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
 

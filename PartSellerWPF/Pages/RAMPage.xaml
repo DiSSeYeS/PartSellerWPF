@@ -21,16 +21,17 @@
                   IsReadOnly="True"
                   Margin="1"
                   Style="{StaticResource DataGridStyle}"
-                  CurrentCellChanged="DataGrid_CurrentCellChanged">
+                  RowEditEnding="dataGrid_RowEditEnding"
+                  PreviewKeyDown="dataGrid_PreviewKeyDown">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
-                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
-                <DataGridTextColumn Header="Тип" Binding="{Binding RamType}" Width="*"/>
-                <DataGridTextColumn Header="Память" Binding="{Binding MemoryCountGB}" Width="*"/>
-                <DataGridTextColumn Header="Частота" Binding="{Binding MemoryFrequencyMHz}" Width="*"/>
-                <DataGridTextColumn Header="Кол-во плашек" Binding="{Binding Count}" Width="*"/>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
-                <DataGridTemplateColumn Header="Изображение" Width="3*">
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding RAMType, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Память" Binding="{Binding RAMCount, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Частота" Binding="{Binding RAMFreq, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Кол-во плашек" Binding="{Binding RAMQuantity, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTemplateColumn Header="Изображение" Width="3*" x:Name="imageTemplate">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding Image}" 
@@ -38,6 +39,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Изображение" Width="3*" x:Name="imageLinkColumn" Binding="{Binding Image, UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
 

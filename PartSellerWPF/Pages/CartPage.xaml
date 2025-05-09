@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
@@ -56,13 +56,25 @@
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
             <Button x:Name="btnDelete"
-                    Content="Удалить из корзины" 
+                    Content=" Удалить из корзины " 
                     Click="btnDelete_Click"
                     Margin="5" Padding="10,5" Style="{StaticResource RoundedButton}"
                     CommandParameter="{Binding OrderItemId}"/>
-            <Button Content="Оформить заказ" 
+            <Button Content=" Оформить заказ " 
                     Click="btnCheckout_Click"
                     Margin="5" Padding="10,5" Style="{StaticResource RoundedButton}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button x:Name="btnPlusOne"
+                    Click="btnPlusOne_Click"
+                    Content="    +    "
+                    Margin="5" Padding="10,5"
+                    Style="{StaticResource RoundedButton}"/>
+            <Button x:Name="btnMinusOne"
+                    Click="btnMinusOne_Click"
+                    Content="    -    "
+                    Margin="5" Padding="10,5"
+                    Style="{StaticResource RoundedButton}"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -28,6 +28,12 @@ namespace PartSellerWPF.Pages
 
         public void LoadData()
         {
+            if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+            {
+                dataGrid.CanUserAddRows = true;
+                dataGrid.CanUserDeleteRows = true;
+            }
+
             var context = Entities.GetContext();
             var components = new List<CartItemsDto>();
 
@@ -405,17 +411,19 @@ namespace PartSellerWPF.Pages
                                  s.Wattage,
                              };
 
+
                 foreach (var item in cpu)
                 {
-                    if (motherboard.FirstOrDefault().SocketID != item.SocketID)
+                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().SocketID != item.SocketID)
                     {
                         compatibilityIssues.Add($"❌ Сокет процессора отличается \nот сокета материнской платы");
                     }
                 }
 
+                
                 foreach (var item in gpu)
                 {
-                    if (cases.FirstOrDefault().GPULength < item.Length)
+                    if (cases.Count() != 0 && cases.FirstOrDefault().GPULength < item.Length)
                     {
                         compatibilityIssues.Add($"❌ Видеокарта не поместится в корпус");
                     }
@@ -423,19 +431,19 @@ namespace PartSellerWPF.Pages
 
                 foreach (var item in ram)
                 {
-                    if (motherboard.FirstOrDefault().MaxRAMFrequencyMHz < item.MemoryFrequencyMHz)
+                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().MaxRAMFrequencyMHz < item.MemoryFrequencyMHz)
                     {
                         compatibilityIssues.Add($"❌ Частота оперативной памяти больше \nмаксимальной частоты материнской платы");
                     }
-                    if (motherboard.FirstOrDefault().MaxRAMCountGB < (item.MemoryCountGB * item.Quantity))
+                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().MaxRAMCountGB < (item.MemoryCountGB * item.Quantity))
                     {
                         compatibilityIssues.Add($"❌ Количество оперативной памяти \nпревышает максиамльное количество \nоперативной памяти мат. платы");
                     }
-                    if (motherboard.FirstOrDefault().RAMSlots < (item.Count * item.Quantity))
+                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().RAMSlots < (item.Count * item.Quantity))
                     {
                         compatibilityIssues.Add($"❌ Количество плашек оперативной памяти\nпревышает количество слотов на мат. плате");
                     }
-                    if (motherboard.FirstOrDefault().RAMTypeID != item.RAMTypeID)
+                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().RAMTypeID != item.RAMTypeID)
                     {
                         compatibilityIssues.Add($"❌ Тип оперативной памяти отличается от\nтипа оперативной памяти на мат.плате");
                     }
@@ -443,7 +451,7 @@ namespace PartSellerWPF.Pages
 
                 foreach (var item in motherboard)
                 {
-                    if (!cases.FirstOrDefault().SupportedMotherboardFormFactorIds.Contains((int)item.FormFactorID))
+                    if (cases.Count() != 0 && !cases.FirstOrDefault().SupportedMotherboardFormFactorIds.Contains((int)item.FormFactorID))
                     {
                         compatibilityIssues.Add($"❌ Корпус не поддерживает форм-фактор\nматеринской платы");
                     }
@@ -451,12 +459,29 @@ namespace PartSellerWPF.Pages
 
                 foreach (var item in supply)
                 {
-                    if (item.Wattage < (gpu.FirstOrDefault().Voltage + cpu.FirstOrDefault().Voltage + 150))
+                    if (gpu.Count() != 0 && cpu.Count() != 0)
                     {
-                        compatibilityIssues.Add($"❌ Недостаточно напряжения в блоке питания");
+                        if (item.Wattage < (gpu.FirstOrDefault().Voltage + cpu.FirstOrDefault().Voltage + 150))
+                        {
+                            compatibilityIssues.Add($"❌ Недостаточно напряжения в блоке питания");
+                        }
+                    }
+                    else if (gpu.Count() != 0)
+                    {
+                        if (item.Wattage < (gpu.FirstOrDefault().Voltage + 150))
+                        {
+                            compatibilityIssues.Add($"❌ Недостаточно напряжения в блоке питания");
+                        } 
+                    }
+                    else if (cpu.Count() != 0)
+                    {
+                        if (item.Wattage < (cpu.FirstOrDefault().Voltage + 150))
+                        {
+                            compatibilityIssues.Add($"❌ Недостаточно напряжения в блоке питания");
+                        }
                     }
 
-                    if (!cases.FirstOrDefault().SupportedSupplyFormFactorIds.Contains((int)item.FormFactorID))
+                    if (cases.Count() != 0 && !cases.FirstOrDefault().SupportedSupplyFormFactorIds.Contains((int)item.FormFactorID))
                     {
                         compatibilityIssues.Add($"❌ Корпус не поддерживает форм-фактор\nблока питания");
                     }
@@ -464,11 +489,11 @@ namespace PartSellerWPF.Pages
 
                 foreach (var item in disk)
                 {
-                    if (item.DiskTypeID == 2 && motherboard.FirstOrDefault().SATASlots < item.Quantity)
+                    if (motherboard.Count() != 0 && item.DiskTypeID == 2 && motherboard.FirstOrDefault().SATASlots < item.Quantity)
                     {
                         compatibilityIssues.Add($"❌ Кол-во SATA-дисков превышает кол-во\nSATA-слотов в материнской плате");
                     }
-                    if (item.DiskTypeID == 1 && motherboard.FirstOrDefault().M2Slots < item.Quantity)
+                    if (motherboard.Count() != 0 && item.DiskTypeID == 1 && motherboard.FirstOrDefault().M2Slots < item.Quantity)
                     {
                         compatibilityIssues.Add($"❌ Кол-во M2-дисков превышает кол-во\nM2-слотов в материнской плате");
                     }
@@ -476,7 +501,7 @@ namespace PartSellerWPF.Pages
 
                 foreach (var item in cooling)
                 {
-                    if (item.CoolerTypeID == 1 && item.Height > cases.FirstOrDefault().CoolerLength)
+                    if (cases.Count() != 0 && item.CoolerTypeID == 1 && item.Height > cases.FirstOrDefault().CoolerLength)
                     {
                         compatibilityIssues.Add($"❌ Башня не поместится в корпус");
                     }
@@ -501,6 +526,81 @@ namespace PartSellerWPF.Pages
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка проверки совместимости: {ex.Message}");
+            }
+        }
+
+        private void btnPlusOne_Click(object sender, RoutedEventArgs e)
+        {
+            var context = Entities.GetContext();
+
+            if (dataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите удаляемый компонент");
+                return;
+            }
+
+            if (dataGrid.SelectedItem is CartItemsDto selectedItem)
+            {
+                int orderItemId = selectedItem.OrderItemId;
+
+                var order = (from oi in context.OrderItem
+                             join o in context.Order on oi.OrderID equals o.ID
+                             where oi.ID == orderItemId
+                             select new
+                             {
+                                 Order = o,
+                                 OrderItem = oi
+                             });
+
+                var item = context.OrderItem.FirstOrDefault(x => x.ID == orderItemId);
+
+                decimal price = selectedItem.Price;
+
+                order.FirstOrDefault().Order.TotalPrice += price;
+                order.FirstOrDefault().OrderItem.Quantity++;
+
+                context.SaveChanges();
+                LoadData();
+            }
+        }
+
+        private void btnMinusOne_Click(object sender, RoutedEventArgs e)
+        {
+            var context = Entities.GetContext();
+
+            if (dataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите удаляемый компонент");
+                return;
+            }
+
+            if (dataGrid.SelectedItem is CartItemsDto selectedItem)
+            {
+                int orderItemId = selectedItem.OrderItemId;
+
+                var order = (from oi in context.OrderItem
+                             join o in context.Order on oi.OrderID equals o.ID
+                             where oi.ID == orderItemId
+                             select new
+                             {
+                                 Order = o,
+                                 OrderItem = oi
+                             });
+
+                var item = context.OrderItem.FirstOrDefault(x => x.ID == orderItemId);
+
+                decimal price = selectedItem.Price;
+
+                order.FirstOrDefault().Order.TotalPrice -= price;
+                order.FirstOrDefault().OrderItem.Quantity--;
+
+                if (order.FirstOrDefault().OrderItem.Quantity == 0)
+                {
+                    context.OrderItem.Remove(item);
+                }
+
+                context.SaveChanges();
+                LoadData();
             }
         }
     }

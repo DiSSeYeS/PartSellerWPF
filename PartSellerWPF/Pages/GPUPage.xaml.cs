@@ -21,6 +21,7 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class GPUPage : Page
     {
+        private static FilterParams filterParams;
         public GPUPage(FilterParams filterParams = null)
         {
             InitializeComponent();
@@ -37,9 +38,42 @@ namespace PartSellerWPF.Pages
         {
             Funcs.ExtendCell(dataGrid);
         }
+        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete && dataGrid.SelectedItem != null)
+            {
+                var itemToDelete = dataGrid.SelectedItem as IDeletableComponent;
+                if (itemToDelete != null && itemToDelete.ID != 0 && AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+                {
+                    var result = MessageBox.Show($"Вы уверены, что хотите удалить этот {itemToDelete.ComponentType}?",
+                                              "Подтверждение удаления",
+                                              MessageBoxButton.YesNo,
+                                              MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        Funcs.DeleteComponent(itemToDelete);
+                        LoadGPUData(filterParams);
+                    }
+                    e.Handled = true;
+                }
+            }
+        }
 
         private void LoadGPUData(object filterParams)
         {
+            if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+            {
+                dataGrid.CanUserAddRows = true;
+                dataGrid.CanUserDeleteRows = true;
+                imageLinkColumn.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dataGrid.CanUserAddRows = false;
+                dataGrid.CanUserDeleteRows = false;
+                imageLinkColumn.Visibility = Visibility.Hidden;
+            }
 
             try
             {
@@ -91,24 +125,31 @@ namespace PartSellerWPF.Pages
                         query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
                 }
 
-                var result = query.AsEnumerable().Select(x => new
+                var result = query.AsEnumerable().Select(x => new GPUData
                 {
                     Brand = x.GPU.Brand.Name,
-                    x.GPU.Model,
-                    x.GPU.Height,
-                    x.GPU.Length,
-                    x.GPU.Width,
-                    x.GPU.Voltage,
-                    x.GPU.VideoMemoryGB,
-                    x.GPU.MemoryFrequencyMHz,
-                    x.GPU.CoreFrequencyMHz,
-                    x.Product.ID,
-                    x.Product.PartID,
-                    x.Part.Image,
-                    x.Product.Price,
+                    Model = x.GPU.Model,
+                    Height = (int)x.GPU.Height,
+                    Length = (int)x.GPU.Length,
+                    Width = (int)x.GPU.Width,
+                    Voltage = x.GPU.Voltage,
+                    VideoMemory = x.GPU.VideoMemoryGB,
+                    MemoryFreq = (int)x.GPU.MemoryFrequencyMHz,
+                    CoreFreq = (int)x.GPU.CoreFrequencyMHz,
+                    ID = x.Part.ID,
+                    PartID = x.Product.PartID,
+                    Image = x.Part.Image,
+                    Price = x.Product.Price,
                 }).ToList();
 
+                if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+                {
+                    result.Add(new GPUData());
+                }
+
                 dataGrid.ItemsSource = result;
+                dataGrid.IsReadOnly = !(AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2);
+                dataGrid.CanUserAddRows = !(AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2);
             }
             catch (Exception ex)
             {
@@ -135,6 +176,156 @@ namespace PartSellerWPF.Pages
             dynamic selectedComponent = dataGrid.SelectedItem;
 
             Funcs.AddComponentToOrder(selectedComponent);
+        }
+        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var editedItem = e.Row.Item as GPUData;
+                if (editedItem != null)
+                {
+                    try
+                    {
+                        var context = Entities.GetContext();
+
+                        bool isNewItem = false;
+
+                        if (editedItem.ID == 0 && !string.IsNullOrWhiteSpace(editedItem.Model))
+                        {
+                            isNewItem = true;
+
+                            var newGPU = new GPU();
+                            var newPart = new Part();
+                            var newProduct = new Product();
+
+                            newGPU.Model = editedItem.Model;
+                            newGPU.Voltage = editedItem.Voltage;
+                            newGPU.CoreFrequencyMHz = editedItem.CoreFreq;
+                            newGPU.VideoMemoryGB = editedItem.VideoMemory;
+                            newGPU.Height = editedItem.Height;
+                            newGPU.Width = editedItem.Width;
+                            newGPU.Length = editedItem.Length;
+                            newGPU.MemoryFrequencyMHz = editedItem.MemoryFreq;
+
+                            var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
+
+                            if (newbrand != null) newGPU.BrandID = newbrand.ID;
+
+                            context.GPU.Add(newGPU);
+                            context.SaveChanges();
+
+                            newPart.GPUID = newGPU.ID;
+                            newPart.Image = editedItem.Image;
+                            if (editedItem.Image != null) newPart.Image = editedItem.Image;
+
+                            context.Part.Add(newPart);
+                            context.SaveChanges();
+
+                            newProduct.PartID = newPart.ID;
+                            newProduct.Price = editedItem.Price;
+
+                            context.Product.Add(newProduct);
+                            context.SaveChanges();
+
+                            editedItem.ID = newPart.ID;
+                            editedItem.PartID = newProduct.PartID;
+
+                            var items = dataGrid.ItemsSource as List<GPUData>;
+                            if (items != null)
+                            {
+                                items.Add(new GPUData());
+                                dataGrid.ItemsSource = null;
+                                dataGrid.ItemsSource = items;
+                            }
+
+                            MessageBox.Show("Новая видеокарта успешно добавлена",
+                                          "Успех",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Information);
+                            return;
+                        }
+
+                        var brand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
+                        if (brand == null)
+                        {
+                            MessageBox.Show($"Бренд '{editedItem.Brand}' не найден в базе данных",
+                                          "Ошибка",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var product = context.Product.FirstOrDefault(p => p.PartID == editedItem.ID);
+                        if (product == null)
+                        {
+                            MessageBox.Show("Продукт не найден", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var part = context.Part.FirstOrDefault(p => p.ID == editedItem.PartID);
+                        var gpu = context.GPU.FirstOrDefault(g => g.ID == part.GPUID);
+
+                        if (editedItem.Height <= 0 || editedItem.Length <= 0 || editedItem.Width <= 0)
+                        {
+                            MessageBox.Show("Габариты должны быть положительными числами",
+                                         "Ошибка",
+                                         MessageBoxButton.OK,
+                                         MessageBoxImage.Error);
+                            return;
+                        }
+
+                        if (editedItem.VideoMemory <= 0 || editedItem.MemoryFreq <= 0 || editedItem.CoreFreq <= 0)
+                        {
+                            MessageBox.Show("Объем памяти и частоты должны быть положительными числами",
+                                         "Ошибка",
+                                         MessageBoxButton.OK,
+                                         MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var oldPrice = product.Price;
+                        product.Price = editedItem.Price;
+
+                        gpu.BrandID = brand.ID;
+                        gpu.Model = editedItem.Model;
+                        gpu.Height = editedItem.Height;
+                        gpu.Length = editedItem.Length;
+                        gpu.Width = editedItem.Width;
+                        gpu.Voltage = editedItem.Voltage;
+                        gpu.VideoMemoryGB = editedItem.VideoMemory;
+                        gpu.MemoryFrequencyMHz = editedItem.MemoryFreq;
+                        gpu.CoreFrequencyMHz = editedItem.CoreFreq;
+
+                        if (editedItem.Image != null)
+                        {
+                            part.Image = editedItem.Image;
+                        }
+
+                        var priceDifference = editedItem.Price - oldPrice;
+                        if (priceDifference != 0)
+                        {
+                            var ordersToUpdate = context.Order
+                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ID))
+                                .ToList();
+
+                            foreach (var order in ordersToUpdate)
+                            {
+                                order.TotalPrice += priceDifference;
+                            }
+                        }
+
+                        context.SaveChanges();
+                        MessageBox.Show("Данные видеокарты успешно обновлены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка сохранения: {ex.Message}\n\n{ex.InnerException?.Message}",
+                                      "Ошибка",
+                                      MessageBoxButton.OK,
+                                      MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class SupplyPage : Page
     {
+        private static FilterParams filterParams;
         public SupplyPage(FilterParams filterParams = null)
         {
             InitializeComponent();
@@ -36,9 +37,41 @@ namespace PartSellerWPF.Pages
         {
             Funcs.ExtendCell(dataGrid);
         }
+        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete && dataGrid.SelectedItem != null && AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+            {
+                var itemToDelete = dataGrid.SelectedItem as IDeletableComponent;
+                if (itemToDelete != null && itemToDelete.ID != 0)
+                {
+                    var result = MessageBox.Show($"Вы уверены, что хотите удалить этот {itemToDelete.ComponentType}?",
+                                              "Подтверждение удаления",
+                                              MessageBoxButton.YesNo,
+                                              MessageBoxImage.Question);
 
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        Funcs.DeleteComponent(itemToDelete);
+                        LoadSupplyData(filterParams);
+                    }
+                    e.Handled = true;
+                }
+            }
+        }
         private void LoadSupplyData(object filterParams)
         {
+            if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+            {
+                dataGrid.CanUserAddRows = true;
+                dataGrid.CanUserDeleteRows = true;
+                imageLinkColumn.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dataGrid.CanUserAddRows = false;
+                dataGrid.CanUserDeleteRows = false;
+                imageLinkColumn.Visibility = Visibility.Hidden;
+            }
 
             try
             {
@@ -47,11 +80,13 @@ namespace PartSellerWPF.Pages
                 var query = from c in context.Supply
                             join p in context.Part on c.ID equals p.SupplyID
                             join prod in context.Product on p.ID equals prod.PartID
+                            join ff in context.FormFactor on c.FormFactorID equals ff.ID
                             select new
                             {
                                 Supply = c,
                                 Part = p,
-                                Product = prod
+                                Product = prod,
+                                FormFactor = ff,
                             };
 
                 if (filterParams is FilterParams filters)
@@ -78,21 +113,29 @@ namespace PartSellerWPF.Pages
                         query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
                 }
 
-                var result = query.AsEnumerable().Select(x => new
+                var result = query.AsEnumerable().Select(x => new SupplyData
                 {
                     Brand = x.Supply.Brand.Name,
-                    x.Supply.Model,
-                    x.Supply.Wattage,
-                    x.Supply.Height,
-                    x.Supply.Length,
-                    x.Supply.Width,
-                    x.Product.ID,
-                    x.Product.PartID,
-                    x.Part.Image,
-                    x.Product.Price,
+                    Model = x.Supply.Model,
+                    Wattage = x.Supply.Wattage,
+                    Height = x.Supply.Height,
+                    Length = x.Supply.Length,
+                    Width = x.Supply.Width,
+                    ID = x.Part.ID,
+                    PartID = x.Product.PartID,
+                    Image = x.Part.Image,
+                    Price = x.Product.Price,
+                    FormFactor = x.FormFactor.Type,
                 }).ToList();
 
+                if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+                {
+                    result.Add(new SupplyData());
+                }
+
                 dataGrid.ItemsSource = result;
+                dataGrid.IsReadOnly = !(AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2);
+                dataGrid.CanUserAddRows = !(AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2);
             }
             catch (Exception ex)
             {
@@ -120,6 +163,146 @@ namespace PartSellerWPF.Pages
             dynamic selectedComponent = dataGrid.SelectedItem;
 
             Funcs.AddComponentToOrder(selectedComponent);
+        }
+
+        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var editedItem = e.Row.Item as SupplyData;
+                if (editedItem != null)
+                {
+                    try
+                    {
+                        var context = Entities.GetContext();
+
+                        bool isNewItem = false;
+
+                        if (editedItem.ID == 0 && !string.IsNullOrWhiteSpace(editedItem.Model))
+                        {
+                            isNewItem = true;
+
+                            var newSupply = new Supply();
+                            var newPart = new Part();
+                            var newProduct = new Product();
+
+                            newSupply.Model = editedItem.Model;
+                            newSupply.Wattage = editedItem.Wattage;
+                            newSupply.Height = (int)editedItem.Height;
+                            newSupply.Width = (int)editedItem.Width;
+                            newSupply.Height = (int)editedItem.Height;
+
+                            var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
+                            var newformfactor = context.FormFactor.FirstOrDefault(ff => ff.Type == editedItem.FormFactor);
+
+                            if (newbrand != null) newSupply.BrandID = newbrand.ID;
+                            if (newformfactor != null) newSupply.FormFactorID = newformfactor.ID;
+
+                            context.Supply.Add(newSupply);
+                            context.SaveChanges();
+
+                            newPart.SupplyID = newSupply.ID;
+                            newPart.Image = editedItem.Image;
+                            if (editedItem.Image != null) newPart.Image = editedItem.Image;
+
+                            context.Part.Add(newPart);
+                            context.SaveChanges();
+
+                            newProduct.PartID = newPart.ID;
+                            newProduct.Price = editedItem.Price;
+
+                            context.Product.Add(newProduct);
+                            context.SaveChanges();
+
+                            editedItem.ID = newPart.ID;
+                            editedItem.PartID = newProduct.PartID;
+
+                            var items = dataGrid.ItemsSource as List<SupplyData>;
+                            if (items != null)
+                            {
+                                items.Add(new SupplyData());
+                                dataGrid.ItemsSource = null;
+                                dataGrid.ItemsSource = items;
+                            }
+
+                            MessageBox.Show("Новый блок питания успешно добавлен",
+                                          "Успех",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Information);
+                            return;
+                        }
+
+                        var brand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
+                        if (brand == null)
+                        {
+                            MessageBox.Show($"Бренд '{editedItem.Brand}' не найден в базе данных",
+                                         "Ошибка",
+                                         MessageBoxButton.OK,
+                                         MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var formFactor = context.FormFactor.FirstOrDefault(ff => ff.Type == editedItem.FormFactor);
+                        if (formFactor == null)
+                        {
+                            MessageBox.Show($"Форм-фактор '{editedItem.FormFactor}' не найден в базе данных",
+                                         "Ошибка",
+                                         MessageBoxButton.OK,
+                                         MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var product = context.Product.FirstOrDefault(p => p.PartID == editedItem.ID);
+                        if (product == null)
+                        {
+                            MessageBox.Show("Продукт не найден", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var part = context.Part.FirstOrDefault(p => p.ID == editedItem.PartID);
+                        var supply = context.Supply.FirstOrDefault(s => s.ID == part.SupplyID);
+
+                        var oldPrice = product.Price;
+
+                        product.Price = editedItem.Price;
+                        supply.BrandID = brand.ID;
+                        supply.FormFactorID = formFactor.ID;
+                        supply.Model = editedItem.Model;
+                        supply.Wattage = editedItem.Wattage;
+                        supply.Height = (int)editedItem.Height;
+                        supply.Length = (int)editedItem.Length;
+                        supply.Width = (int)editedItem.Width;
+
+                        if (editedItem.Image != null)
+                        {
+                            part.Image = editedItem.Image;
+                        }
+
+                        var priceDifference = editedItem.Price - oldPrice;
+                        if (priceDifference != 0)
+                        {
+                            var ordersToUpdate = context.Order
+                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ID))
+                                .ToList();
+
+                            foreach (var order in ordersToUpdate)
+                            {
+                                order.TotalPrice += priceDifference;
+                            }
+                        }
+
+                        context.SaveChanges();
+                        MessageBox.Show("Изменения успешно сохранены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка сохранения: {ex.Message}\n\n{ex.InnerException?.Message}",
+                                      "Ошибка",
+                                      MessageBoxButton.OK,
+                                      MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class MotherboardPage : Page
     {
+        private static FilterParams filterParams;
         public MotherboardPage(FilterParams filterParams = null)
         {
             InitializeComponent();
@@ -36,9 +37,42 @@ namespace PartSellerWPF.Pages
         {
             Funcs.ExtendCell(dataGrid);
         }
+        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete && dataGrid.SelectedItem != null)
+            {
+                var itemToDelete = dataGrid.SelectedItem as IDeletableComponent;
+                if (itemToDelete != null && itemToDelete.ID != 0 && AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+                {
+                    var result = MessageBox.Show($"Вы уверены, что хотите удалить этот {itemToDelete.ComponentType}?",
+                                              "Подтверждение удаления",
+                                              MessageBoxButton.YesNo,
+                                              MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        Funcs.DeleteComponent(itemToDelete);
+                        LoadMotherboardData(filterParams);
+                    }
+                    e.Handled = true;
+                }
+            }
+        }
 
         private void LoadMotherboardData(object filterParams)
         {
+            if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+            {
+                dataGrid.CanUserAddRows = true;
+                dataGrid.CanUserDeleteRows = true;
+                imageLinkColumn.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                dataGrid.CanUserAddRows = false;
+                dataGrid.CanUserDeleteRows = false;
+                imageLinkColumn.Visibility = Visibility.Hidden;
+            }
 
             try
             {
@@ -50,6 +84,7 @@ namespace PartSellerWPF.Pages
                             join ch in context.Chipset on c.ChipsetID equals ch.ID
                             join s in context.Socket on c.SocketID equals s.ID
                             join r in context.RAMType on c.RAMTypeID equals r.ID
+                            join ff in context.FormFactor on c.FormFactorID equals ff.ID
                             select new
                             {
                                 Motherboard = c,
@@ -57,7 +92,8 @@ namespace PartSellerWPF.Pages
                                 Product = prod,
                                 Chipset = ch,
                                 Socket = s,
-                                RAMType = r
+                                RAMType = r,
+                                FormFactor = ff
                             };
 
                 if (filterParams is FilterParams filters)
@@ -123,28 +159,36 @@ namespace PartSellerWPF.Pages
                         query = query.Where(x => x.Product.Price <= filters.MaxPrice.Value);
                 }
 
-                var result = query.AsEnumerable().Select(x => new
+                var result = query.AsEnumerable().Select(x => new MotherboardData
                 {
                     Brand = x.Motherboard.Brand.Name,
-                    x.Motherboard.Model,
-                    x.Motherboard.Height,
-                    x.Motherboard.Width,
+                    Model = x.Motherboard.Model,
+                    Height = x.Motherboard.Height,
+                    Width = x.Motherboard.Width,
                     Socket = x.Socket.Name,
                     Chipset = x.Chipset.Name,
                     RAMType = x.RAMType.Type,
-                    x.Motherboard.RAMSlots,
-                    x.Motherboard.MaxRAMCountGB,
-                    x.Motherboard.MaxRAMFrequencyMHz,
-                    x.Motherboard.SATASlots,
-                    x.Motherboard.M2Slots,
-                    x.Motherboard.NVMe,
-                    x.Product.ID,
-                    x.Product.PartID,
-                    x.Part.Image,
-                    x.Product.Price,
+                    RAMSlots = x.Motherboard.RAMSlots,
+                    MaxRAMCount = x.Motherboard.MaxRAMCountGB,
+                    MaxRAMFreq = x.Motherboard.MaxRAMFrequencyMHz,
+                    SATASlots = x.Motherboard.SATASlots,
+                    M2Slots = x.Motherboard.M2Slots,
+                    NVMe = x.Motherboard.NVMe,
+                    ID = x.Part.ID,
+                    PartID = x.Product.PartID,
+                    Image = x.Part.Image,
+                    Price = x.Product.Price,
+                    FormFactor = x.FormFactor.Type
                 }).ToList();
 
+                if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
+                {
+                    result.Add(new MotherboardData());
+                }
+
                 dataGrid.ItemsSource = result;
+                dataGrid.IsReadOnly = !(AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2);
+                dataGrid.CanUserAddRows = !(AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2);
             }
             catch (Exception ex)
             {
@@ -171,6 +215,192 @@ namespace PartSellerWPF.Pages
             dynamic selectedComponent = dataGrid.SelectedItem;
 
             Funcs.AddComponentToOrder(selectedComponent);
+        }
+        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var editedItem = e.Row.Item as MotherboardData;
+                if (editedItem != null)
+                {
+                    try
+                    {
+                        var context = Entities.GetContext();
+
+                        bool isNewItem = false;
+
+                        if (editedItem.ID == 0 && !string.IsNullOrWhiteSpace(editedItem.Model))
+                        {
+                            isNewItem = true;
+
+                            var newMotherboard = new Motherboard();
+                            var newPart = new Part();
+                            var newProduct = new Product();
+
+                            newMotherboard.Model = editedItem.Model;
+                            newMotherboard.RAMSlots = editedItem.RAMSlots;
+                            newMotherboard.MaxRAMCountGB = editedItem.MaxRAMCount;
+                            newMotherboard.MaxRAMFrequencyMHz = editedItem.MaxRAMFreq;
+                            newMotherboard.Width = (int)editedItem.Width;
+                            newMotherboard.Height = (int)editedItem.Height;
+                            newMotherboard.SATASlots = editedItem.SATASlots;
+                            newMotherboard.M2Slots = editedItem.M2Slots;
+                            newMotherboard.NVMe = editedItem.NVMe;
+
+                            var newsocket = context.Socket.FirstOrDefault(ct => ct.Name == editedItem.Socket);
+                            var newchipset = context.Chipset.FirstOrDefault(c => c.Name == editedItem.Chipset);
+                            var newramtype = context.RAMType.FirstOrDefault(rt => rt.Type == editedItem.RAMType);
+                            var newformfactor = context.FormFactor.FirstOrDefault(ff => ff.Type == editedItem.FormFactor);
+                            var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
+
+                            if (newbrand != null) newMotherboard.BrandID = newbrand.ID;
+                            if (newformfactor != null) newMotherboard.FormFactorID = newformfactor.ID;
+                            if (newchipset != null) newMotherboard.ChipsetID = newchipset.ID;
+                            if (newramtype != null) newMotherboard.RAMTypeID = newramtype.ID;
+                            if (newsocket != null) newMotherboard.SocketID = newsocket.ID;
+
+                            context.Motherboard.Add(newMotherboard);
+                            context.SaveChanges();
+
+                            newPart.MotherboardID = newMotherboard.ID;
+                            newPart.Image = editedItem.Image;
+                            if (editedItem.Image != null) newPart.Image = editedItem.Image;
+
+                            context.Part.Add(newPart);
+                            context.SaveChanges();
+
+                            newProduct.PartID = newPart.ID;
+                            newProduct.Price = editedItem.Price;
+
+                            context.Product.Add(newProduct);
+                            context.SaveChanges();
+
+                            editedItem.ID = newPart.ID;
+                            editedItem.PartID = newProduct.PartID;
+
+                            var items = dataGrid.ItemsSource as List<MotherboardData>;
+                            if (items != null)
+                            {
+                                items.Add(new MotherboardData());
+                                dataGrid.ItemsSource = null;
+                                dataGrid.ItemsSource = items;
+                            }
+
+                            MessageBox.Show("Новая мат. плата успешно добавлена",
+                                          "Успех",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Information);
+                            return;
+                        }
+
+                        var brand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
+                        if (brand == null)
+                        {
+                            MessageBox.Show($"Бренд '{editedItem.Brand}' не найден в базе данных",
+                                          "Ошибка",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var socket = context.Socket.FirstOrDefault(s => s.Name == editedItem.Socket);
+                        if (socket == null)
+                        {
+                            MessageBox.Show($"Сокет '{editedItem.Socket}' не найден в базе данных",
+                                          "Ошибка",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var chipset = context.Chipset.FirstOrDefault(c => c.Name == editedItem.Chipset);
+                        if (chipset == null)
+                        {
+                            MessageBox.Show($"Чипсет '{editedItem.Chipset}' не найден в базе данных",
+                                          "Ошибка",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var ramType = context.RAMType.FirstOrDefault(rt => rt.Type == editedItem.RAMType);
+                        if (ramType == null)
+                        {
+                            MessageBox.Show($"Тип памяти '{editedItem.RAMType}' не найден в базе данных",
+                                          "Ошибка",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var formFactor = context.FormFactor.FirstOrDefault(ff => ff.Type == editedItem.FormFactor);
+                        if (formFactor == null)
+                        {
+                            MessageBox.Show($"Форм-фактор '{editedItem.FormFactor}' не найден в базе данных",
+                                          "Ошибка",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var product = context.Product.FirstOrDefault(p => p.PartID == editedItem.ID);
+                        if (product == null)
+                        {
+                            MessageBox.Show("Продукт не найден", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        var part = context.Part.FirstOrDefault(p => p.ID == editedItem.PartID);
+                        var motherboard = context.Motherboard.FirstOrDefault(m => m.ID == part.MotherboardID);
+
+                        var oldPrice = product.Price;
+                        product.Price = editedItem.Price;
+
+                        motherboard.BrandID = brand.ID;
+                        motherboard.Model = editedItem.Model;
+                        motherboard.Height = (int)editedItem.Height;
+                        motherboard.Width = (int)editedItem.Width;
+                        motherboard.SocketID = socket.ID;
+                        motherboard.ChipsetID = chipset.ID;
+                        motherboard.RAMTypeID = ramType.ID;
+                        motherboard.RAMSlots = editedItem.RAMSlots;
+                        motherboard.MaxRAMCountGB = editedItem.MaxRAMCount;
+                        motherboard.MaxRAMFrequencyMHz = editedItem.MaxRAMFreq;
+                        motherboard.SATASlots = editedItem.SATASlots;
+                        motherboard.M2Slots = editedItem.M2Slots;
+                        motherboard.NVMe = editedItem.NVMe;
+                        motherboard.FormFactorID = formFactor.ID;
+
+                        if (editedItem.Image != null)
+                        {
+                            part.Image = editedItem.Image;
+                        }
+
+                        var priceDifference = editedItem.Price - oldPrice;
+                        if (priceDifference != 0)
+                        {
+                            var ordersToUpdate = context.Order
+                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ID))
+                                .ToList();
+
+                            foreach (var order in ordersToUpdate)
+                            {
+                                order.TotalPrice += priceDifference;
+                            }
+                        }
+
+                        context.SaveChanges();
+                        MessageBox.Show("Изменения успешно сохранены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка сохранения: {ex.Message}\n\n{ex.InnerException?.Message}",
+                                      "Ошибка",
+                                      MessageBoxButton.OK,
+                                      MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }

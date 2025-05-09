@@ -15,30 +15,29 @@
         </Grid.RowDefinitions>
 
         <DataGrid Name="dataGrid" Grid.Row="0" 
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
                   CanUserDeleteRows="False"
-                  IsReadOnly="True"
                   Margin="1"
                   Style="{StaticResource DataGridStyle}"
-                  CurrentCellChanged="DataGrid_CurrentCellChanged">
+                  RowEditEnding="dataGrid_RowEditEnding"
+                  PreviewKeyDown="dataGrid_PreviewKeyDown"
+                  AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
-                <DataGridTextColumn Header="Модель" Binding="{Binding Model}" Width="*"/>
-                <DataGridTextColumn Header="Высота" Binding="{Binding Height}" Width="*"/>
-                <DataGridTextColumn Header="Ширина" Binding="{Binding Width}" Width="*"/>
-                <DataGridTextColumn Header="Длина" Binding="{Binding Length}" Width="*"/>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Model, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Высота" Binding="{Binding Height, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Ширина" Binding="{Binding Width, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Длина" Binding="{Binding Length, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Макс.длина &#13;блока &#13;питания" 
-                                   Binding="{Binding SupplyLength}" Width="*"/>
+                                   Binding="{Binding MaxSupplyLength, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Макс.&#13;длина &#13;видеокарты" 
-                                   Binding="{Binding GPULength}" Width="*"/>
+                                   Binding="{Binding MaxGPULength, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Макс.&#13;высота &#13;башни"
-                                    Binding="{Binding CoolerLength}" Width="*"/>
+                                    Binding="{Binding MaxCoolerHeight, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Форм-&#13;фактор" 
-                                   Binding="{Binding FormFactor}" Width="*"/>
+                                   Binding="{Binding FormFactor, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Цена"
                                     Binding="{Binding Price}" Width="*"/>
-                <DataGridTemplateColumn Header="Изображение" Width="3*">
+                <DataGridTemplateColumn Header="Изображение" Width="3*" x:Name="imageTemplate">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding Image}" 
@@ -46,6 +45,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Изображение" Width="3*" x:Name="imageLinkColumn" Binding="{Binding Image, UpdateSourceTrigger=PropertyChanged}"/>
 
             </DataGrid.Columns>
         </DataGrid>
