@@ -81,17 +81,18 @@ namespace PartSellerWPF.Pages
                             join p in context.Part on c.ID equals p.CoolingID
                             join prod in context.Product on p.ID equals prod.PartID
                             join ct in context.CoolerType on c.CoolerTypeID equals ct.ID
-                            from ss in context.SupportedSockets.Where(ss => ss.CoolerID == c.ID).DefaultIfEmpty() 
+                            from ss in context.SupportedSockets.Where(ss => ss.CoolerID == c.ID).DefaultIfEmpty()
                             join s in context.Socket on ss.SocketID equals s.ID into socketJoin
                             from s in socketJoin.DefaultIfEmpty()
+                            group new { c, p, prod, ct, ss, s } by c.ID into g
                             select new
                             {
-                                Cooling = c,
-                                Part = p,
-                                Product = prod,
-                                CoolerType = ct,
-                                SupportedSockets = ss,
-                                Socket = s
+                                Cooling = g.FirstOrDefault().c,
+                                Part = g.FirstOrDefault().p,
+                                Product = g.FirstOrDefault().prod,
+                                CoolerType = g.FirstOrDefault().ct,
+                                SupportedSockets = g.FirstOrDefault().ss,
+                                Socket = g.FirstOrDefault().s
                             };
 
                 if (filterParams is FilterParams filters)
@@ -140,14 +141,14 @@ namespace PartSellerWPF.Pages
                     PartID = x.Product.PartID,
                     Image = x.Part.Image,
                     Price = x.Product.Price,
-                }).Distinct().ToList();
+                }).ToList();
 
                 if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
                 {
                     result.Add(new CoolingData());
                 }
 
-                dataGrid.ItemsSource = result.GroupBy(x => x.ID);
+                dataGrid.ItemsSource = result.ToList();
                 dataGrid.IsReadOnly = !(AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2);
                 dataGrid.CanUserAddRows = !(AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2);
             }

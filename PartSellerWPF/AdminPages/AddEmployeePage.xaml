@@ -9,6 +9,25 @@
       Title="AddEmployeePage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Name="dataGrid" Grid.Row="0"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  Margin="1"
+                  Style="{StaticResource DataGridStyle}"
+                  RowEditEnding="dataGrid_RowEditEnding">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия Имя" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Номер роли" Binding="{Binding Role, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Эл.почта" Binding="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
     </Grid>
 </Page>

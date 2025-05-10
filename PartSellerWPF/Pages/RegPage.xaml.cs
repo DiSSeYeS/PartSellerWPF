@@ -60,13 +60,41 @@ namespace PartSellerWPF.Pages
 
             if (string.IsNullOrEmpty(login))
             {
-                ShowError("Введите логин");
+                ShowError("Введите электронную почту");
                 return;
             }
+
+            if (!login.Contains("@"))
+            {
+                MessageBox.Show("Некорректный email пользователя. Должен содержать @",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+                return;
+            }
+
+            if (!(login.Length > 5)) 
+            {
+                MessageBox.Show("Некорректный email пользователя.",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+                return;
+            }
+
 
             if (string.IsNullOrEmpty(password))
             {
                 ShowError("Введите пароль");
+                return;
+            }
+
+            if (password.Length < 10)
+            {
+                MessageBox.Show("Ненадежный пароль.",
+                                              "Ошибка",
+                                              MessageBoxButton.OK,
+                                              MessageBoxImage.Error);
                 return;
             }
 

@@ -219,6 +219,7 @@
     <Compile Include="User.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserData.cs" />
     <Page Include="AdminPages\AddEmployeePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,10 +316,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\OrderPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\PaymentPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -361,9 +358,6 @@
     </Compile>
     <Compile Include="Pages\MotherboardPage.xaml.cs">
       <DependentUpon>MotherboardPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\OrderPage.xaml.cs">
-      <DependentUpon>OrderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PaymentPage.xaml.cs">
       <DependentUpon>PaymentPage.xaml</DependentUpon>

@@ -21,7 +21,6 @@
                            HorizontalAlignment="Center"
                            Margin="0,0,0,20"/>
 
-                    <!-- User Information -->
                     <TextBlock Text="Имя:" Margin="0,5"/>
                     <TextBox x:Name="FirstNameTextBox" 
                          Height="30"
@@ -36,7 +35,6 @@
                          Margin="0,0,0,20"
                          IsReadOnly="True"/>
 
-                    <!-- Password Change Section -->
                     <TextBlock Text="Смена пароля" 
                            FontSize="16"
                            FontWeight="Bold"
@@ -64,6 +62,22 @@
                     <Button Content="Сменить пароль"
                         Height="50"
                         Click="ChangePasswordButton_Click"
+                        Style="{StaticResource RoundedButton}"/>
+
+                    <Button x:Name="btnOrders"
+                        Visibility="Hidden"
+                        Content="Проверить заказы"
+                        Height="50"
+                        Margin="0,10,0,0"
+                        Click="btnOrders_Click"
+                        Style="{StaticResource RoundedButton}"/>
+
+                    <Button x:Name="btnAddEmployee"
+                        Visibility="Hidden"
+                        Content="Добавить сотрудников"
+                        Height="50"
+                        Margin="0,10,0,0"
+                        Click="btnAddEmployee_Click"
                         Style="{StaticResource RoundedButton}"/>
 
                     <TextBlock x:Name="MessageTextBlock"

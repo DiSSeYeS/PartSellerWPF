@@ -20,6 +20,7 @@ namespace PartSellerWPF.Pages
     /// </summary>
     public partial class CartPage : Page
     {
+        private static int staticOrderId;
         public CartPage()
         {
             InitializeComponent();
@@ -37,6 +38,23 @@ namespace PartSellerWPF.Pages
             var context = Entities.GetContext();
             var components = new List<CartItemsDto>();
 
+            var currentOrder = context.Order
+                            .FirstOrDefault(o => o.UserId == AuthManager.CurrentUser.ID &&
+                            o.Status != "Завершен");
+
+            if (currentOrder == null)
+            {
+                currentOrder = new Order
+                {
+                    UserId = AuthManager.CurrentUser.ID,
+                    Date = DateTime.Now,
+                    Status = "Корзина",
+                    TotalPrice = 0
+                };
+                context.Order.Add(currentOrder);
+                context.SaveChanges();
+            }
+
             var cpuComponents = from cp in context.CPU
                                 join b in context.Brand on cp.BrandID equals b.ID
                                 join p in context.Part on cp.ID equals p.CPUID
@@ -45,8 +63,10 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
+                                where o.Status != "Завершен"
                                 select new CartItemsDto
                                 {
+                                    OrderId = o.ID,
                                     OrderItemId = oi.ID,
                                     ProductId = p.ID,
                                     Brand = b.Name,
@@ -67,8 +87,10 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
+                                where o.Status != "Завершен"
                                 select new CartItemsDto
                                 {
+                                    OrderId = o.ID,
                                     OrderItemId = oi.ID,
                                     ProductId = p.ID,
                                     Brand = b.Name,
@@ -89,8 +111,10 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
+                                where o.Status != "Завершен"
                                 select new CartItemsDto
                                 {
+                                    OrderId = o.ID,
                                     OrderItemId = oi.ID,
                                     ProductId = p.ID,
                                     Brand = b.Name,
@@ -111,8 +135,10 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
+                                where o.Status != "Завершен"
                                 select new CartItemsDto
                                 {
+                                    OrderId = o.ID,
                                     OrderItemId = oi.ID,
                                     ProductId = p.ID,
                                     Brand = b.Name,
@@ -133,8 +159,10 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
+                                where o.Status != "Завершен"
                                 select new CartItemsDto
                                 {
+                                    OrderId = o.ID,
                                     OrderItemId = oi.ID,
                                     ProductId = p.ID,
                                     Brand = b.Name,
@@ -155,8 +183,10 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
+                                where o.Status != "Завершен"
                                 select new CartItemsDto
                                 {
+                                    OrderId = o.ID,
                                     OrderItemId = oi.ID,
                                     ProductId = p.ID,
                                     Brand = b.Name,
@@ -177,8 +207,10 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
+                                where o.Status != "Завершен"
                                 select new CartItemsDto
                                 {
+                                    OrderId = o.ID,
                                     OrderItemId = oi.ID,
                                     ProductId = p.ID,
                                     Brand = b.Name,
@@ -199,8 +231,10 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
+                                where o.Status != "Завершен"
                                 select new CartItemsDto
                                 {
+                                    OrderId = o.ID,
                                     OrderItemId = oi.ID,
                                     ProductId = p.ID,
                                     Brand = b.Name,
@@ -212,14 +246,37 @@ namespace PartSellerWPF.Pages
                                     UserId = u.ID
                                 };
             components.AddRange(caseСomponents);
-            
+
+
+            staticOrderId = context.Order.Where(x => x.Status != "Завершен" && x.UserId == AuthManager.CurrentUser.ID).FirstOrDefault().ID;
+
             dataGrid.ItemsSource = components;
-            totalPriceText.Text = context.Order.Where(x => x.UserId == AuthManager.CurrentUser.ID).FirstOrDefault().TotalPrice.ToString();
+            totalPriceText.Text = context.Order.Where(x => x.ID == staticOrderId).FirstOrDefault().TotalPrice.ToString();
+            orderIdText.Text = staticOrderId.ToString();
+            // btnCheckout.Visibility = context.Order.Where(x => x.ID == staticOrderId).FirstOrDefault().Status != "Завершен" ? Visibility.Visible : Visibility.Collapsed;
+            //btnDelete.Visibility = context.Order.Where(x => x.ID == staticOrderId).FirstOrDefault().StatusVisibility.Visible : Visibility.Collapsed;
+
         }
 
         private void btnCheckout_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new PaymentPage());
+            var context = Entities.GetContext();
+
+            var order = from o in context.Order
+                        join oi in context.OrderItem on o.ID equals oi.OrderID
+                        join pr in context.Product on oi.ProductID equals pr.ID
+                        join p in context.Part on pr.PartID equals p.ID
+                        where o.UserId == AuthManager.CurrentUser.ID
+                        where o.Status != "Завершен"
+                        select new
+                        {
+                            Order = o,
+                            OrderItem = oi,
+                            Product = pr,
+                            Part = p
+                        };
+
+            NavigationService.Navigate(new PaymentPage(order.FirstOrDefault().Order.ID));
         }
 
         private void chkIsAssembly_Checked(object sender, RoutedEventArgs e)
@@ -263,7 +320,7 @@ namespace PartSellerWPF.Pages
 
                 decimal price = selectedItem.Price * selectedItem.Quantity;
 
-                order.FirstOrDefault().Order.TotalPrice -= price;
+                order.Where(x => x.Order.ID == staticOrderId).FirstOrDefault().Order.TotalPrice -= price;
                 context.OrderItem.Remove(item);
 
                 context.SaveChanges();
@@ -283,6 +340,7 @@ namespace PartSellerWPF.Pages
                             join pr in context.Product on oi.ProductID equals pr.ID
                             join p in context.Part on pr.PartID equals p.ID
                             where o.UserId == AuthManager.CurrentUser.ID
+                            where o.ID == staticOrderId
                             select new
                             {
                                 Order = o,
@@ -313,7 +371,6 @@ namespace PartSellerWPF.Pages
 
                 var cpu = from o in order
                           join c in context.CPU on o.Part.CPUID equals c.ID
-
                           select new
                           {
                               Brand = c.Brand.Name,
@@ -324,7 +381,6 @@ namespace PartSellerWPF.Pages
 
                 var gpu = from o in order
                           join g in context.GPU on o.Part.GPUID equals g.ID
-
                           select new
                           {
                               Brand = g.Brand.Name,
@@ -337,6 +393,7 @@ namespace PartSellerWPF.Pages
 
                 var cases = from o in order
                             join c in context.Case on o.Part.CaseID equals c.ID
+
                             select new
                             {
                                 Brand = c.Brand.Name,

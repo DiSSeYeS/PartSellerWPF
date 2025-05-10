@@ -177,6 +177,11 @@ namespace PartSellerWPF
         {
             AuthManager.Logout();
 
+            while (MainFrame.NavigationService.CanGoBack)
+            {
+                MainFrame.NavigationService.RemoveBackEntry();
+            }
+
             MainFrame.Navigate(new Pages.CatalogPage());
         }
 

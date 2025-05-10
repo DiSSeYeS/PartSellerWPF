@@ -36,6 +36,16 @@ namespace PartSellerWPF.Pages
             {
                 var user = dbContext.User.Find(AuthManager.CurrentUser?.ID);
 
+                if (user.RoleID == 2)
+                {
+                    btnOrders.Visibility = Visibility.Visible;
+                }
+
+                if (user.RoleID == 3)
+                {
+                    btnAddEmployee.Visibility = Visibility.Visible;
+                }
+
                 if (user != null)
                 {
                     var nameParts = user.Name.Split(' ');
@@ -109,6 +119,16 @@ namespace PartSellerWPF.Pages
             {
                 MessageBox.Show($"Ошибка изменения пароля: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void btnOrders_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new EmployeePages.OrdersPage());
+        }
+
+        private void btnAddEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AdminPages.AddEmployeePage());
         }
     }
 }

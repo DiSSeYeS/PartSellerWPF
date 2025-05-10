@@ -9,6 +9,26 @@
       Title="OrdersPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Name="dataGrid" Grid.Row="0"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  Margin="1"
+                  Style="{StaticResource DataGridStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderId}" Width="*"/>
+                <DataGridTextColumn Header="К оплате" Binding="{Binding Amount}" Width="*"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Grid.Row="1" Margin="200,10" Style="{StaticResource RoundedButton}" Content="Подтвердить заказ" Click="Button_Click"/>
     </Grid>
 </Page>

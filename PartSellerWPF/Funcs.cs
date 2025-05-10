@@ -69,7 +69,7 @@ namespace PartSellerWPF
             var currentOrder = context.Order
                 .Where(o => o.UserId == AuthManager.CurrentUser.ID)
                 .OrderByDescending(o => o.Date)
-                .FirstOrDefault();
+                .FirstOrDefault(or => or.Status != "Завершен");
 
             var existingItem = currentOrder.OrderItem?
                     .FirstOrDefault(oi => oi.ProductID == selectedComponent.ID);
@@ -97,7 +97,7 @@ namespace PartSellerWPF
                     var orderItem = new OrderItem
                     {
                         OrderID = currentOrder.ID,
-                        ProductID = selectedComponent.ID,
+                        ProductID = context.Product.Where(x => x.PartID == selectedID).FirstOrDefault().ID,
                         Quantity = 1
                     };
 
@@ -134,7 +134,7 @@ namespace PartSellerWPF
             }
 
             context.SaveChanges();
-            MessageBox.Show("Компонент успешно добавлен в заказ");
+            MessageBox.Show($"Компонент успешно добавлен в заказ {selectedID}");
 
         }
 

@@ -9,6 +9,72 @@
       Title="PaymentPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Name="dataGrid" Grid.Row="0"
+          AutoGenerateColumns="False"
+          CanUserAddRows="False"
+          CanUserDeleteRows="False"
+          IsReadOnly="True"
+          Margin="1"
+          Style="{StaticResource DataGridStyle}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderId}" Width="*"/>
+                <DataGridTextColumn Header="К оплате" Binding="{Binding Amount}" Width="*"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <Grid Grid.Row="1" Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер карты:" Margin="0,0,10,5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" 
+                         Name="CardNumberTextBox" MaxLength="19" 
+                         PreviewTextInput="CardNumber_PreviewTextInput"
+                         TextChanged="CardNumber_TextChanged"
+                         ToolTip="Введите 16 цифр номера карты"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Срок действия:" Margin="0,10,10,5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" 
+                         Name="ExpiryDateTextBox" MaxLength="5" 
+                         PreviewTextInput="ExpiryDate_PreviewTextInput"
+                         TextChanged="ExpiryDate_TextChanged"
+                         ToolTip="MM/YY"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="CVV код:" Margin="20,10,10,5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="3" 
+                         Name="CvvTextBox" MaxLength="3" 
+                         PreviewTextInput="Cvv_PreviewTextInput"
+                         ToolTip="3 цифры на обратной стороне карты"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Владелец:" Margin="0,10,10,5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" 
+                         Name="CardHolderTextBox" MaxLength="50" 
+                         PreviewTextInput="CardHolder_PreviewTextInput"
+                         ToolTip="Имя как на карте"/>
+
+                <Button x:Name="PayButton" Grid.Row="3" Grid.ColumnSpan="3" Content="Оплатить" 
+                    HorizontalAlignment="Center" Margin="0,20" 
+                    Width="200" Height="70" Click="PayButton_Click"
+                    Style="{StaticResource RoundedButton}"/>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

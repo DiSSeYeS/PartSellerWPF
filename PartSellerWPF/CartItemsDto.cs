@@ -9,6 +9,7 @@ namespace PartSellerWPF
 {
     class CartItemsDto
     {
+        public int OrderId { get; set; }
         public int OrderItemId { get; set; }
         public int ProductId { get; set; }
         public string Type { get; set; }
