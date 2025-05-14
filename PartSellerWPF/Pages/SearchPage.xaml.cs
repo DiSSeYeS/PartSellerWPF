@@ -215,7 +215,7 @@ namespace PartSellerWPF.Pages
                     var currentOrder = context.Order
                         .Where(o => o.UserId == AuthManager.CurrentUser.ID)
                         .OrderByDescending(o => o.Date)
-                        .FirstOrDefault();
+                        .FirstOrDefault(or => or.Status == "Корзина");
 
                     var existingItem = currentOrder.OrderItem?
                             .FirstOrDefault(oi => oi.ProductID == Funcs.GetProductIdByComponentDto(selectedComponent));
