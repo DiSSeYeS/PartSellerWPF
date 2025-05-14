@@ -27,9 +27,8 @@
                 <DataGridTextColumn Header="Бренд" Binding="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Тип" Binding="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Кол-во памяти" Binding="{Binding MemoryCount, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Цена"
-                    Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Кол-во памяти" Binding="{Binding MemoryCount, StringFormat={}{0} Гб, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0} руб., UpdateSourceTrigger=PropertyChanged}" Width="*"/> 
                 <DataGridTemplateColumn Header="Изображение" Width="3*" x:Name="imageTemplate">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -39,7 +38,6 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Изображение" Width="3*" x:Name="imageLinkColumn" Binding="{Binding Image, UpdateSourceTrigger=PropertyChanged}"/>
-
             </DataGrid.Columns>
         </DataGrid>
 

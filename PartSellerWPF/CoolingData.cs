@@ -17,6 +17,7 @@ namespace PartSellerWPF
         public int Height { get; set; }
         public int ID { get; set; }
         public int PartID { get; set; }
+        public int ProductID { get; set; }
         public string Image { get; set; }
         public decimal Price { get; set; }
 

@@ -29,17 +29,17 @@
                 <DataGridTextColumn Header="Сокет" Binding="{Binding Socket, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Чипсет" Binding="{Binding Chipset, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Тип памяти" Binding="{Binding RAMType, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Кол-во слотов &#13;оперативной &#13;памяти" Binding="{Binding RAMSlots, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Макс.кол-во &#13;оперативной &#13;памяти" Binding="{Binding MaxRAMCount, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Макс.частота &#13;оперативной &#13;памяти" Binding="{Binding MaxRAMFreq, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Ширина" Binding="{Binding Width, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Высота" Binding="{Binding Height, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="SATA-слоты" Binding="{Binding SATASlots, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="M2-слоты" Binding="{Binding M2Slots, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Кол-во слотов &#13;оперативной &#13;памяти" Binding="{Binding RAMSlots, StringFormat={}{0} шт., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Макс.кол-во &#13;оперативной &#13;памяти" Binding="{Binding MaxRAMCount, StringFormat={}{0} Гб, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Макс.частота &#13;оперативной &#13;памяти" Binding="{Binding MaxRAMFreq, StringFormat={}{0} МГц, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Ширина" Binding="{Binding Width, StringFormat={}{0} мм., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Высота" Binding="{Binding Height, StringFormat={}{0} мм., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="SATA-слоты" Binding="{Binding SATASlots, StringFormat={}{0} шт., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="M2-слоты" Binding="{Binding M2Slots, StringFormat={}{0} шт., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Поддержка &#13;NVMe" Binding="{Binding NVMe, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Форм-фактор" Binding="{Binding FormFactor, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Цена"
-                    Binding="{Binding Price}" Width="*"/>
+                    Binding="{Binding Price, StringFormat={}{0} руб.,UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTemplateColumn Header="Изображение" Width="3*" x:Name="imageTemplate">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

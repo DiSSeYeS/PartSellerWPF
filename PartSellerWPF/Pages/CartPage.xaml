@@ -25,7 +25,7 @@
                   Style="{StaticResource DataGridStyle}"
                   CurrentCellChanged="DataGrid_CurrentCellChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
+                <DataGridTextColumn Header="Бренд" Binding="{Binding Source=Brand}" Width="*"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
                 <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="*"/>

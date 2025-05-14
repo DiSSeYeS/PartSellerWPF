@@ -23,12 +23,12 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Бренд" Binding="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Мощность" Binding="{Binding Wattage, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Ширина" Binding="{Binding Width, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Длина" Binding="{Binding Length, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Высота" Binding="{Binding Height, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Мощность" Binding="{Binding Wattage, StringFormat={}{0} Ватт, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Ширина" Binding="{Binding Width, StringFormat={}{0} мм., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Длина" Binding="{Binding Length, StringFormat={}{0} мм., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Высота" Binding="{Binding Height, StringFormat={}{0} мм., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Форм-фактор" Binding="{Binding FormFactor, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0} руб., UpdateSourceTrigger=PropertyChanged}" Width="*"/> 
                 <DataGridTemplateColumn Header="Изображение" Width="3*" x:Name="imageTemplate">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

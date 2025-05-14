@@ -24,11 +24,15 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderId}" Width="*"/>
                 <DataGridTextColumn Header="К оплате" Binding="{Binding Amount}" Width="*"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
+                <DataGridTextColumn Header="Статус оплаты" Binding="{Binding Status}" Width="*"/>
+                <DataGridTextColumn Header="Статус заказа" Binding="{Binding OrderStatus}" Width="*"/>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Grid.Row="1" Margin="200,10" Style="{StaticResource RoundedButton}" Content="Подтвердить заказ" Click="Button_Click"/>
+        <Button Grid.Row="1" Margin="205,10,405,10" Style="{StaticResource RoundedButton}" Content="Отменить" Click="ButtonCancel_Click"/>
+        <Button Grid.Row="1" Margin="10,10,605,10" Style="{StaticResource RoundedButton}" Content="Подтвердить" Click="ButtonConfirm_Click"/>
+        <Button Grid.Row="1" Margin="405,10,205,10" Style="{StaticResource RoundedButton}" Content="Доставка" Click="ButtonDelivery_Click"/>
+        <Button Grid.Row="1" Margin="605,10,10,10" Style="{StaticResource RoundedButton}" Content="Получен" Click="ButtonGet_Click"/>
     </Grid>
 </Page>

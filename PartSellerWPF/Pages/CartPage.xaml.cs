@@ -40,7 +40,7 @@ namespace PartSellerWPF.Pages
 
             var currentOrder = context.Order
                             .FirstOrDefault(o => o.UserId == AuthManager.CurrentUser.ID &&
-                            o.Status != "Завершен");
+                            o.Status == "Корзина");
 
             if (currentOrder == null)
             {
@@ -63,7 +63,7 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
-                                where o.Status != "Завершен"
+                                where o.Status == "Корзина"
                                 select new CartItemsDto
                                 {
                                     OrderId = o.ID,
@@ -87,7 +87,7 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
-                                where o.Status != "Завершен"
+                                where o.Status == "Корзина"
                                 select new CartItemsDto
                                 {
                                     OrderId = o.ID,
@@ -111,7 +111,7 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
-                                where o.Status != "Завершен"
+                                where o.Status == "Корзина"
                                 select new CartItemsDto
                                 {
                                     OrderId = o.ID,
@@ -135,7 +135,7 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
-                                where o.Status != "Завершен"
+                                where o.Status == "Корзина"
                                 select new CartItemsDto
                                 {
                                     OrderId = o.ID,
@@ -159,7 +159,7 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
-                                where o.Status != "Завершен"
+                                where o.Status == "Корзина"
                                 select new CartItemsDto
                                 {
                                     OrderId = o.ID,
@@ -183,8 +183,8 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
-                                where o.Status != "Завершен"
-                                select new CartItemsDto
+                                where o.Status == "Корзина"
+								select new CartItemsDto
                                 {
                                     OrderId = o.ID,
                                     OrderItemId = oi.ID,
@@ -207,7 +207,7 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
-                                where o.Status != "Завершен"
+                                where o.Status == "Корзина"
                                 select new CartItemsDto
                                 {
                                     OrderId = o.ID,
@@ -231,7 +231,7 @@ namespace PartSellerWPF.Pages
                                 join o in context.Order on oi.OrderID equals o.ID
                                 join u in context.User on o.UserId equals u.ID
                                 where o.UserId == AuthManager.CurrentUser.ID
-                                where o.Status != "Завершен"
+                                where o.Status == "Корзина"
                                 select new CartItemsDto
                                 {
                                     OrderId = o.ID,
@@ -248,12 +248,12 @@ namespace PartSellerWPF.Pages
             components.AddRange(caseСomponents);
 
 
-            staticOrderId = context.Order.Where(x => x.Status != "Завершен" && x.UserId == AuthManager.CurrentUser.ID).FirstOrDefault().ID;
+            staticOrderId = context.Order.Where(x => x.Status == "Корзина" && x.UserId == AuthManager.CurrentUser.ID).FirstOrDefault().ID;
 
             dataGrid.ItemsSource = components;
             totalPriceText.Text = context.Order.Where(x => x.ID == staticOrderId).FirstOrDefault().TotalPrice.ToString();
             orderIdText.Text = staticOrderId.ToString();
-            // btnCheckout.Visibility = context.Order.Where(x => x.ID == staticOrderId).FirstOrDefault().Status != "Завершен" ? Visibility.Visible : Visibility.Collapsed;
+            btnCheckout.Visibility = context.Order.Where(x => x.ID == staticOrderId).FirstOrDefault().TotalPrice != 0 ? Visibility.Visible : Visibility.Collapsed;
             //btnDelete.Visibility = context.Order.Where(x => x.ID == staticOrderId).FirstOrDefault().StatusVisibility.Visible : Visibility.Collapsed;
 
         }
@@ -267,7 +267,7 @@ namespace PartSellerWPF.Pages
                         join pr in context.Product on oi.ProductID equals pr.ID
                         join p in context.Part on pr.PartID equals p.ID
                         where o.UserId == AuthManager.CurrentUser.ID
-                        where o.Status != "Завершен"
+                        where o.Status == "Корзина"
                         select new
                         {
                             Order = o,

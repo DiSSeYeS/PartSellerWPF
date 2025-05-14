@@ -176,6 +176,7 @@ namespace PartSellerWPF.Pages
                     NVMe = x.Motherboard.NVMe,
                     ID = x.Part.ID,
                     PartID = x.Product.PartID,
+                    ProductID = x.Product.ID,
                     Image = x.Part.Image,
                     Price = x.Product.Price,
                     FormFactor = x.FormFactor.Type
@@ -380,7 +381,8 @@ namespace PartSellerWPF.Pages
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order
-                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ID))
+                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ProductID &&
+                                new List<string> { "Корзина", "Оформление" }.Contains(o.Status)))
                                 .ToList();
 
                             foreach (var order in ordersToUpdate)

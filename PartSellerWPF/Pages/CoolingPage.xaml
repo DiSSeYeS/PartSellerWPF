@@ -28,11 +28,10 @@
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Типа" Binding="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Вращений &#13;в минуту" Binding="{Binding RPM, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Длина" Binding="{Binding Length, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Ширина" Binding="{Binding Width, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Высота" Binding="{Binding Height, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Цена"
-                    Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Длина" Binding="{Binding Length, StringFormat={}{0} ммю, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Ширина" Binding="{Binding Width, StringFormat={}{0} мм., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Высота" Binding="{Binding Height, StringFormat={}{0} мм., UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0} руб., UpdateSourceTrigger=PropertyChanged}" Width="*"/> 
                 <DataGridTemplateColumn Header="Изображение" Width="3*" x:Name="imageTemplate">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

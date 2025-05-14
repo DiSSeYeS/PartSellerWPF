@@ -69,7 +69,20 @@ namespace PartSellerWPF
             var currentOrder = context.Order
                 .Where(o => o.UserId == AuthManager.CurrentUser.ID)
                 .OrderByDescending(o => o.Date)
-                .FirstOrDefault(or => or.Status != "Завершен");
+                .FirstOrDefault(or => or.Status == "Корзина");
+
+            if (currentOrder == null)
+            {
+				currentOrder = new Order
+				{
+					UserId = AuthManager.CurrentUser.ID,
+					Date = DateTime.Now,
+					Status = "Корзина",
+					TotalPrice = 0
+				};
+				context.Order.Add(currentOrder);
+				context.SaveChanges();
+			}
 
             var existingItem = currentOrder.OrderItem?
                     .FirstOrDefault(oi => oi.ProductID == selectedComponent.ID);

@@ -26,7 +26,7 @@
                 <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="*"/>
                 <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" Width="*"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0} руб.}" Width="*"/>
                 <DataGridTemplateColumn Header="Изображение" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

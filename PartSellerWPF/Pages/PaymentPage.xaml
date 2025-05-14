@@ -25,7 +25,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderId}" Width="*"/>
                 <DataGridTextColumn Header="К оплате" Binding="{Binding Amount}" Width="*"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
+                <DataGridTextColumn Header="Статус оплаты" Binding="{Binding Status}" Width="*"/>
+                <DataGridTextColumn Header="Статус заказа" Binding="{Binding OrderStatus}" Width="*"/>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>
             </DataGrid.Columns>
             

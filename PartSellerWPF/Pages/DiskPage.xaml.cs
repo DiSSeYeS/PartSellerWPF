@@ -115,6 +115,7 @@ namespace PartSellerWPF.Pages
                     Type = x.DiskType.Type,
                     ID = x.Part.ID,
                     PartID = x.Product.PartID,
+                    ProductID = x.Product.ID,
                     Image = x.Part.Image,
                     Price = x.Product.Price,
                 }).ToList();
@@ -273,7 +274,8 @@ namespace PartSellerWPF.Pages
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order
-                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ID))
+                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ProductID &&
+                                new List<string> { "Корзина", "Оформление" }.Contains(o.Status)))
                                 .ToList();
 
                             foreach (var order in ordersToUpdate)

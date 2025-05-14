@@ -49,9 +49,6 @@ namespace PartSellerWPF.Pages
                 newPayment.Amount = context.Order.Where(x => x.ID == orderId).FirstOrDefault().TotalPrice;
                 newPayment.Status = "Не оплачен";
 
-                context.Order.Where(x => x.ID == orderId).FirstOrDefault().Status = "Оформление";
-                context.Order.Where(x => x.ID == orderId).FirstOrDefault().Date = DateTime.Now;
-
                 context.Payment.Add(newPayment);
                 context.SaveChanges();
             }
@@ -65,6 +62,7 @@ namespace PartSellerWPF.Pages
                             OrderId = o.ID,
                             Amount = p.Amount,
                             Status = p.Status,
+                            OrderStatus = o.Status,
                             Date = o.Date
                         };
 
