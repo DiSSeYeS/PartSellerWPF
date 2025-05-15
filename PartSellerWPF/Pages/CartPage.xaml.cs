@@ -600,24 +600,36 @@ namespace PartSellerWPF.Pages
             {
                 int orderItemId = selectedItem.OrderItemId;
 
-                var order = (from oi in context.OrderItem
+                var order = from oi in context.OrderItem
                              join o in context.Order on oi.OrderID equals o.ID
+                             join p in context.Product on oi.ProductID equals p.ID
+                             join pt in context.Part on p.PartID equals pt.ID
                              where oi.ID == orderItemId
                              select new
                              {
                                  Order = o,
-                                 OrderItem = oi
-                             });
+                                 OrderItem = oi,
+                                 Product = p,
+                                 Part = pt
+                             };
 
                 var item = context.OrderItem.FirstOrDefault(x => x.ID == orderItemId);
 
                 decimal price = selectedItem.Price;
 
-                order.FirstOrDefault().Order.TotalPrice += price;
-                order.FirstOrDefault().OrderItem.Quantity++;
+                if (order.FirstOrDefault().Part.QuantityInStock >= order.FirstOrDefault().OrderItem.Quantity + 1)
+                {
+                    order.FirstOrDefault().Order.TotalPrice += price;
+                    order.FirstOrDefault().OrderItem.Quantity++;
 
-                context.SaveChanges();
-                LoadData();
+                    context.SaveChanges();
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Недостаточно компонентов на складе.");
+                    return;
+                } 
             }
         }
 

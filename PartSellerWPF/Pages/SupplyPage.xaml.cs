@@ -188,10 +188,10 @@ namespace PartSellerWPF.Pages
                             var newProduct = new Product();
 
                             newSupply.Model = editedItem.Model;
-                            newSupply.Wattage = editedItem.Wattage;
-                            newSupply.Height = (int)editedItem.Height;
-                            newSupply.Width = (int)editedItem.Width;
-                            newSupply.Height = (int)editedItem.Height;
+                            newSupply.Wattage = int.Parse(editedItem.Wattage.ToString().Split().First());
+                            newSupply.Height = int.Parse(editedItem.Height.ToString().Split().First());
+                            newSupply.Width = int.Parse(editedItem.Width.ToString().Split().First());
+                            newSupply.Height = int.Parse(editedItem.Height.ToString().Split().First());
 
                             var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
                             var newformfactor = context.FormFactor.FirstOrDefault(ff => ff.Type == editedItem.FormFactor);
@@ -210,7 +210,7 @@ namespace PartSellerWPF.Pages
                             context.SaveChanges();
 
                             newProduct.PartID = newPart.ID;
-                            newProduct.Price = editedItem.Price;
+                            newProduct.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                             context.Product.Add(newProduct);
                             context.SaveChanges();
@@ -265,21 +265,21 @@ namespace PartSellerWPF.Pages
 
                         var oldPrice = product.Price;
 
-                        product.Price = editedItem.Price;
+                        product.Price = int.Parse(editedItem.Price.ToString().Split().First());
                         supply.BrandID = brand.ID;
                         supply.FormFactorID = formFactor.ID;
                         supply.Model = editedItem.Model;
-                        supply.Wattage = editedItem.Wattage;
-                        supply.Height = (int)editedItem.Height;
-                        supply.Length = (int)editedItem.Length;
-                        supply.Width = (int)editedItem.Width;
+                        supply.Wattage = int.Parse(editedItem.Wattage.ToString().Split().First());
+                        supply.Height = int.Parse(editedItem.Height.ToString().Split().First());
+                        supply.Length = int.Parse(editedItem.Length.ToString().Split().First());
+                        supply.Width = int.Parse(editedItem.Width.ToString().Split().First());
 
                         if (editedItem.Image != null)
                         {
                             part.Image = editedItem.Image;
                         }
 
-                        var priceDifference = editedItem.Price - oldPrice;
+                        var priceDifference = int.Parse(editedItem.Price.ToString().Split().First()) - oldPrice;
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order

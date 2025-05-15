@@ -227,14 +227,14 @@ namespace PartSellerWPF.Pages
                             var newProduct = new Product();
 
                             newCPU.Model = editedItem.Model;
-                            newCPU.Voltage = editedItem.Voltage;
-                            newCPU.Cores = editedItem.Cores;
-                            newCPU.FrequencyGHz = editedItem.CoreFreq;
-                            newCPU.Threads = editedItem.Threads;
-                            newCPU.L1 = editedItem.L1;
-                            newCPU.L2 = editedItem.L2;
+                            newCPU.Voltage = int.Parse(editedItem.Voltage.ToString().Split().First());
+                            newCPU.Cores = int.Parse(editedItem.Cores.ToString().Split().First());
+                            newCPU.FrequencyGHz = int.Parse(editedItem.CoreFreq.ToString().Split().First());
+                            newCPU.Threads = int.Parse(editedItem.Threads.ToString().Split().First());
+                            newCPU.L1 = int.Parse(editedItem.L1.ToString().Split().First());
+                            newCPU.L2 = int.Parse(editedItem.L2.ToString().Split().First());
                             newCPU.HasTurboBoost = editedItem.HasTurboBoost;
-                            newCPU.MaxFrequency = editedItem.MaxFreq;
+                            newCPU.MaxFrequency = int.Parse(editedItem.MaxFreq.ToString().Split().First());
 
                             var newsocket = context.Socket.FirstOrDefault(ct => ct.Name == editedItem.Socket);
                             var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
@@ -253,7 +253,7 @@ namespace PartSellerWPF.Pages
                             context.SaveChanges();
 
                             newProduct.PartID = newPart.ID;
-                            newProduct.Price = editedItem.Price;
+                            newProduct.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                             context.Product.Add(newProduct);
                             context.SaveChanges();
@@ -306,7 +306,7 @@ namespace PartSellerWPF.Pages
                         var part = context.Part.FirstOrDefault(p => p.ID == editedItem.PartID);
                         var cpu = context.CPU.FirstOrDefault(c => c.ID == part.CPUID);
 
-                        if (editedItem.Voltage <= 0)
+                        if (int.Parse(editedItem.Voltage.ToString().Split().First()) <= 0)
                         {
                             MessageBox.Show("Некорректное значение напряжения",
                                          "Ошибка",
@@ -315,7 +315,7 @@ namespace PartSellerWPF.Pages
                             return;
                         }
 
-                        if (editedItem.Cores <= 0 || editedItem.Threads <= 0 || editedItem.CoreFreq <= 0)
+                        if (int.Parse(editedItem.Cores.ToString().Split().First()) <= 0 || int.Parse(editedItem.Threads.ToString().Split().First()) <= 0 || int.Parse(editedItem.CoreFreq.ToString().Split().First()) <= 0)
                         {
                             MessageBox.Show("Количество ядер, потоков и частота должны быть положительными числами",
                                          "Ошибка",
@@ -324,7 +324,7 @@ namespace PartSellerWPF.Pages
                             return;
                         }
 
-                        if (editedItem.L1 <= 0 || editedItem.L2 <= 0)
+                        if (int.Parse(editedItem.L1.ToString().Split().First()) <= 0 || int.Parse(editedItem.L2.ToString().Split().First()) <= 0)
                         {
                             MessageBox.Show("Объем кэш-памяти должен быть положительным числом",
                                          "Ошибка",
@@ -333,7 +333,7 @@ namespace PartSellerWPF.Pages
                             return;
                         }
 
-                        if (editedItem.MaxFreq < editedItem.CoreFreq)
+                        if (editedItem.MaxFreq < int.Parse(editedItem.CoreFreq.ToString().Split().First()))
                         {
                             MessageBox.Show("Максимальная частота не может быть меньше базовой",
                                          "Ошибка",
@@ -342,19 +342,19 @@ namespace PartSellerWPF.Pages
                             return;
                         }
 
-                        var oldPrice = product.Price;
-                        product.Price = editedItem.Price;
+                        var oldPrice = int.Parse(product.Price.ToString().Split().First());
+                        product.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                         cpu.BrandID = brand.ID;
                         cpu.Model = editedItem.Model;
-                        cpu.Voltage = editedItem.Voltage;
+                        cpu.Voltage = int.Parse(editedItem.Voltage.ToString().Split().First());
                         cpu.SocketID = socket.ID;
-                        cpu.Cores = editedItem.Cores;
-                        cpu.Threads = editedItem.Threads;
-                        cpu.FrequencyGHz = editedItem.CoreFreq;
-                        cpu.L1 = editedItem.L1;
-                        cpu.L2 = editedItem.L2;
-                        cpu.MaxFrequency = editedItem.MaxFreq;
+                        cpu.Cores = int.Parse(editedItem.Cores.ToString().Split().First());
+                        cpu.Threads = int.Parse(editedItem.Threads.ToString().Split().First());
+                        cpu.FrequencyGHz = int.Parse(editedItem.CoreFreq.ToString().Split().First());
+                        cpu.L1 = int.Parse(editedItem.L1.ToString().Split().First());
+                        cpu.L2 = int.Parse(editedItem.L2.ToString().Split().First());
+                        cpu.MaxFrequency = int.Parse(editedItem.MaxFreq.ToString().Split().First());
                         cpu.HasTurboBoost = editedItem.HasTurboBoost;
 
                         if (editedItem.Image != null)
@@ -362,7 +362,7 @@ namespace PartSellerWPF.Pages
                             part.Image = editedItem.Image;
                         }
 
-                        var priceDifference = editedItem.Price - oldPrice;
+                        var priceDifference = int.Parse(editedItem.Price.ToString().Split().First()) - oldPrice;
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order

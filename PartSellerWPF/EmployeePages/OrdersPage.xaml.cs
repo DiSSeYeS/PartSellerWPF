@@ -55,7 +55,6 @@ namespace PartSellerWPF.EmployeePages
                         };
 
             dataGrid.ItemsSource = query.ToList();
-
         }
 
         private void ButtonConfirm_Click(object sender, RoutedEventArgs e)
@@ -82,7 +81,7 @@ namespace PartSellerWPF.EmployeePages
                     return;
                 }
 
-                if (order.Status == "Подтверждение")
+                if (payment.Status.Equals("Подтверждение"))
                 {
                     payment.Status = "Оплачен";
                     order.Status = "Подтвержден";

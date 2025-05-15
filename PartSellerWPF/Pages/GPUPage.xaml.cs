@@ -200,13 +200,13 @@ namespace PartSellerWPF.Pages
                             var newProduct = new Product();
 
                             newGPU.Model = editedItem.Model;
-                            newGPU.Voltage = editedItem.Voltage;
-                            newGPU.CoreFrequencyMHz = editedItem.CoreFreq;
-                            newGPU.VideoMemoryGB = editedItem.VideoMemory;
-                            newGPU.Height = editedItem.Height;
-                            newGPU.Width = editedItem.Width;
-                            newGPU.Length = editedItem.Length;
-                            newGPU.MemoryFrequencyMHz = editedItem.MemoryFreq;
+                            newGPU.Voltage = int.Parse(editedItem.Voltage.ToString().Split().First());
+                            newGPU.CoreFrequencyMHz = int.Parse(editedItem.CoreFreq.ToString().Split().First());
+                            newGPU.VideoMemoryGB = int.Parse(editedItem.VideoMemory.ToString().Split().First());
+                            newGPU.Height = int.Parse(editedItem.Height.ToString().Split().First());
+                            newGPU.Width = int.Parse(editedItem.Width.ToString().Split().First());
+                            newGPU.Length = int.Parse(editedItem.Length.ToString().Split().First());
+                            newGPU.MemoryFrequencyMHz = int.Parse(editedItem.MemoryFreq.ToString().Split().First());
 
                             var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
 
@@ -223,7 +223,7 @@ namespace PartSellerWPF.Pages
                             context.SaveChanges();
 
                             newProduct.PartID = newPart.ID;
-                            newProduct.Price = editedItem.Price;
+                            newProduct.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                             context.Product.Add(newProduct);
                             context.SaveChanges();
@@ -266,7 +266,7 @@ namespace PartSellerWPF.Pages
                         var part = context.Part.FirstOrDefault(p => p.ID == editedItem.PartID);
                         var gpu = context.GPU.FirstOrDefault(g => g.ID == part.GPUID);
 
-                        if (editedItem.Height <= 0 || editedItem.Length <= 0 || editedItem.Width <= 0)
+                        if (int.Parse(editedItem.Height.ToString().Split().First()) <= 0 || int.Parse(editedItem.Length.ToString().Split().First()) <= 0 || int.Parse(editedItem.Width.ToString().Split().First()) <= 0)
                         {
                             MessageBox.Show("Габариты должны быть положительными числами",
                                          "Ошибка",
@@ -275,7 +275,7 @@ namespace PartSellerWPF.Pages
                             return;
                         }
 
-                        if (editedItem.VideoMemory <= 0 || editedItem.MemoryFreq <= 0 || editedItem.CoreFreq <= 0)
+                        if (int.Parse(editedItem.VideoMemory.ToString().Split().First()) <= 0 || int.Parse(editedItem.MemoryFreq.ToString().Split().First()) <= 0 || int.Parse(editedItem.CoreFreq.ToString().Split().First()) <= 0)
                         {
                             MessageBox.Show("Объем памяти и частоты должны быть положительными числами",
                                          "Ошибка",
@@ -285,28 +285,28 @@ namespace PartSellerWPF.Pages
                         }
 
                         var oldPrice = product.Price;
-                        product.Price = editedItem.Price;
+                        product.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                         gpu.BrandID = brand.ID;
                         gpu.Model = editedItem.Model;
-                        gpu.Height = editedItem.Height;
-                        gpu.Length = editedItem.Length;
-                        gpu.Width = editedItem.Width;
-                        gpu.Voltage = editedItem.Voltage;
-                        gpu.VideoMemoryGB = editedItem.VideoMemory;
-                        gpu.MemoryFrequencyMHz = editedItem.MemoryFreq;
-                        gpu.CoreFrequencyMHz = editedItem.CoreFreq;
+                        gpu.Height = int.Parse(editedItem.Height.ToString().Split().First());
+                        gpu.Length = int.Parse(editedItem.Length.ToString().Split().First());
+                        gpu.Width = int.Parse(editedItem.Width.ToString().Split().First());
+                        gpu.Voltage = int.Parse(editedItem.Voltage.ToString().Split().First());
+                        gpu.VideoMemoryGB = int.Parse(editedItem.VideoMemory.ToString().Split().First());
+                        gpu.MemoryFrequencyMHz = int.Parse(editedItem.MemoryFreq.ToString().Split().First());
+                        gpu.CoreFrequencyMHz = int.Parse(editedItem.CoreFreq.ToString().Split().First());
 
                         if (editedItem.Image != null)
                         {
                             part.Image = editedItem.Image;
                         }
 
-                        var priceDifference = editedItem.Price - oldPrice;
+                        var priceDifference = int.Parse(editedItem.Price.ToString().Split().First()) - oldPrice;
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order
-                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ProductID &&
+                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == int.Parse(editedItem.ProductID.ToString().Split().First()) &&
                                 new List<string> { "Корзина", "Оформление" }.Contains(o.Status)))
                                 .ToList();
 

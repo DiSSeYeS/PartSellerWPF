@@ -64,6 +64,12 @@ namespace PartSellerWPF
 
         public static void AddComponentToOrder(dynamic selectedComponent)
         {
+            if (!AuthManager.IsLoggedIn)
+            {
+                MessageBox.Show("Необходимо авторизоваться");
+                return;
+            }
+
             var context = Entities.GetContext();
 
             var currentOrder = context.Order

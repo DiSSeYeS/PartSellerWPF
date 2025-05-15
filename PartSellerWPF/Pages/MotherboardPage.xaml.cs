@@ -239,13 +239,13 @@ namespace PartSellerWPF.Pages
                             var newProduct = new Product();
 
                             newMotherboard.Model = editedItem.Model;
-                            newMotherboard.RAMSlots = editedItem.RAMSlots;
-                            newMotherboard.MaxRAMCountGB = editedItem.MaxRAMCount;
-                            newMotherboard.MaxRAMFrequencyMHz = editedItem.MaxRAMFreq;
-                            newMotherboard.Width = (int)editedItem.Width;
-                            newMotherboard.Height = (int)editedItem.Height;
-                            newMotherboard.SATASlots = editedItem.SATASlots;
-                            newMotherboard.M2Slots = editedItem.M2Slots;
+                            newMotherboard.RAMSlots = int.Parse(editedItem.RAMSlots.ToString().Split().First());
+                            newMotherboard.MaxRAMCountGB = int.Parse(editedItem.MaxRAMCount.ToString().Split().First());
+                            newMotherboard.MaxRAMFrequencyMHz = int.Parse(editedItem.MaxRAMFreq.ToString().Split().First());
+                            newMotherboard.Width = int.Parse(editedItem.Width.ToString().Split().First());
+                            newMotherboard.Height = (int)int.Parse(editedItem.Height.ToString().Split().First());
+                            newMotherboard.SATASlots = int.Parse(editedItem.SATASlots.ToString().Split().First());
+                            newMotherboard.M2Slots = int.Parse(editedItem.M2Slots.ToString().Split().First());
                             newMotherboard.NVMe = editedItem.NVMe;
 
                             var newsocket = context.Socket.FirstOrDefault(ct => ct.Name == editedItem.Socket);
@@ -271,7 +271,7 @@ namespace PartSellerWPF.Pages
                             context.SaveChanges();
 
                             newProduct.PartID = newPart.ID;
-                            newProduct.Price = editedItem.Price;
+                            newProduct.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                             context.Product.Add(newProduct);
                             context.SaveChanges();
@@ -355,21 +355,21 @@ namespace PartSellerWPF.Pages
                         var motherboard = context.Motherboard.FirstOrDefault(m => m.ID == part.MotherboardID);
 
                         var oldPrice = product.Price;
-                        product.Price = editedItem.Price;
+                        product.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                         motherboard.BrandID = brand.ID;
                         motherboard.Model = editedItem.Model;
-                        motherboard.Height = (int)editedItem.Height;
-                        motherboard.Width = (int)editedItem.Width;
+                        motherboard.Height = int.Parse(editedItem.Height.ToString().Split().First());
+                        motherboard.Width = int.Parse(editedItem.Width.ToString().Split().First());
                         motherboard.SocketID = socket.ID;
                         motherboard.ChipsetID = chipset.ID;
                         motherboard.RAMTypeID = ramType.ID;
-                        motherboard.RAMSlots = editedItem.RAMSlots;
-                        motherboard.MaxRAMCountGB = editedItem.MaxRAMCount;
-                        motherboard.MaxRAMFrequencyMHz = editedItem.MaxRAMFreq;
-                        motherboard.SATASlots = editedItem.SATASlots;
-                        motherboard.M2Slots = editedItem.M2Slots;
-                        motherboard.NVMe = editedItem.NVMe;
+                        motherboard.RAMSlots = int.Parse(editedItem.RAMSlots.ToString().Split().First());
+                        motherboard.MaxRAMCountGB = int.Parse(editedItem.MaxRAMCount.ToString().Split().First());
+                        motherboard.MaxRAMFrequencyMHz = int.Parse(editedItem.MaxRAMFreq.ToString().Split().First());
+                        motherboard.SATASlots = int.Parse(editedItem.SATASlots.ToString().Split().First());
+                        motherboard.M2Slots = int.Parse(editedItem.M2Slots.ToString().Split().First());
+                        motherboard.NVMe = int.Parse(editedItem.NVMe.ToString().Split().First());
                         motherboard.FormFactorID = formFactor.ID;
 
                         if (editedItem.Image != null)
@@ -377,11 +377,11 @@ namespace PartSellerWPF.Pages
                             part.Image = editedItem.Image;
                         }
 
-                        var priceDifference = editedItem.Price - oldPrice;
+                        var priceDifference = int.Parse(editedItem.Price.ToString().Split().First()) - oldPrice;
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order
-                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == editedItem.ProductID &&
+                                .Where(o => o.OrderItem.Any(oi => oi.ProductID == int.Parse(editedItem.ProductID.ToString().Split().First()) &&
                                 new List<string> { "Корзина", "Оформление" }.Contains(o.Status)))
                                 .ToList();
 

@@ -177,7 +177,7 @@ namespace PartSellerWPF.Pages
                             var newProduct = new Product();
 
                             newDisk.Model = editedItem.Model;
-                            newDisk.Space = editedItem.MemoryCount;
+                            newDisk.Space = int.Parse(editedItem.MemoryCount.ToString().Split().First());
 
                             var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
                             var newtype = context.DiskType.FirstOrDefault(dt => dt.Type == editedItem.Type);
@@ -195,7 +195,7 @@ namespace PartSellerWPF.Pages
                             context.SaveChanges();
 
                             newProduct.PartID = newPart.ID;
-                            newProduct.Price = editedItem.Price;
+                            newProduct.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                             context.Product.Add(newProduct);
                             context.SaveChanges();
@@ -258,11 +258,11 @@ namespace PartSellerWPF.Pages
                         }
 
                         var oldPrice = product.Price;
-                        product.Price = editedItem.Price;
+                        product.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                         disk.BrandID = brand.ID;
                         disk.Model = editedItem.Model;
-                        disk.Space = editedItem.MemoryCount;
+                        disk.Space = int.Parse(editedItem.MemoryCount.ToString().Split().First());
                         disk.DiskTypeID = diskType.ID;
 
                         if (editedItem.Image != null)
@@ -270,7 +270,7 @@ namespace PartSellerWPF.Pages
                             part.Image = editedItem.Image;
                         }
 
-                        var priceDifference = editedItem.Price - oldPrice;
+                        var priceDifference = int.Parse(editedItem.Price.ToString().Split().First()) - oldPrice;
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order

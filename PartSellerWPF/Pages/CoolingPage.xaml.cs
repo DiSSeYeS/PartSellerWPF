@@ -201,10 +201,10 @@ namespace PartSellerWPF.Pages
                             var newProduct = new Product();
 
                             newCooling.Model = editedItem.Model;
-                            newCooling.Height = editedItem.Height;
-                            newCooling.Length = editedItem.Length;
-                            newCooling.Width = editedItem.Width;
-                            newCooling.RPM = editedItem.RPM;
+                            newCooling.Height = int.Parse(editedItem.Height.ToString().Split().First());
+                            newCooling.Length = int.Parse(editedItem.Length.ToString().Split().First());
+                            newCooling.Width = int.Parse(editedItem.Width.ToString().Split().First());
+                            newCooling.RPM = int.Parse(editedItem.RPM.ToString().Split().First());
 
                             var newCoolerType = context.CoolerType.FirstOrDefault(ct => ct.Type == editedItem.Type);
                             var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
@@ -223,7 +223,7 @@ namespace PartSellerWPF.Pages
                             context.SaveChanges();
 
                             newProduct.PartID = newPart.ID;
-                            newProduct.Price = editedItem.Price;
+                            newProduct.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                             context.Product.Add(newProduct);
                             context.SaveChanges();
@@ -294,15 +294,15 @@ namespace PartSellerWPF.Pages
                             return;
                         }
 
-                        var oldPrice = product.Price;
-                        product.Price = editedItem.Price;
+                        var oldPrice = int.Parse(product.Price.ToString().Split().First());
+                        product.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                         cooling.BrandID = brand.ID;
                         cooling.Model = editedItem.Model;
-                        cooling.RPM = editedItem.RPM;
-                        cooling.Height = editedItem.Height;
-                        cooling.Length = editedItem.Length;
-                        cooling.Width = editedItem.Width;
+                        cooling.RPM = int.Parse(editedItem.RPM.ToString().Split().First());
+                        cooling.Height = int.Parse(editedItem.Height.ToString().Split().First());
+                        cooling.Length = int.Parse(editedItem.Length.ToString().Split().First());
+                        cooling.Width = int.Parse(editedItem.Width.ToString().Split().First());
                         cooling.CoolerTypeID = coolerType.ID;
 
                         if (editedItem.Image != null)
@@ -310,7 +310,7 @@ namespace PartSellerWPF.Pages
                             part.Image = editedItem.Image;
                         }
 
-                        var priceDifference = editedItem.Price - oldPrice;
+                        var priceDifference = int.Parse(editedItem.Price.ToString().Split().First()) - oldPrice;
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order

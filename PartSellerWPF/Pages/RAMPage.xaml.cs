@@ -190,9 +190,9 @@ namespace PartSellerWPF.Pages
                             var newProduct = new Product();
 
                             newRAM.Model = editedItem.Model;
-                            newRAM.MemoryCountGB = editedItem.RAMCount;
-                            newRAM.MemoryFrequencyMHz = editedItem.RAMFreq;
-                            newRAM.Count = editedItem.RAMQuantity;
+                            newRAM.MemoryCountGB = int.Parse(editedItem.RAMCount.ToString().Split().First());
+                            newRAM.MemoryFrequencyMHz = int.Parse(editedItem.RAMFreq.ToString().Split().First());
+                            newRAM.Count = int.Parse(editedItem.RAMQuantity.ToString().Split().First());
 
                             var newbrand = context.Brand.FirstOrDefault(b => b.Name == editedItem.Brand);
                             var newramtype = context.RAMType.FirstOrDefault(rt => rt.Type == editedItem.RAMType);
@@ -211,7 +211,7 @@ namespace PartSellerWPF.Pages
                             context.SaveChanges();
 
                             newProduct.PartID = newPart.ID;
-                            newProduct.Price = editedItem.Price;
+                            newProduct.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                             context.Product.Add(newProduct);
                             context.SaveChanges();
@@ -264,17 +264,17 @@ namespace PartSellerWPF.Pages
                         var part = context.Part.FirstOrDefault(p => p.ID == editedItem.PartID);
                         var ram = context.RAM.FirstOrDefault(r => r.ID == part.RAMID);
 
-                        var oldPrice = product.Price;
-                        product.Price = editedItem.Price;
+                        var oldPrice = int.Parse(product.Price.ToString().Split().First());
+                        product.Price = int.Parse(editedItem.Price.ToString().Split().First());
 
                         ram.BrandID = brand.ID;
                         ram.RAMTypeID = ramType.ID;
                         ram.Model = editedItem.Model;
-                        ram.MemoryCountGB = editedItem.RAMCount;
-                        ram.MemoryFrequencyMHz = editedItem.RAMFreq;
-                        ram.Count = editedItem.RAMQuantity;
+                        ram.MemoryCountGB = int.Parse(editedItem.RAMCount.ToString().Split().First());
+                        ram.MemoryFrequencyMHz = int.Parse(editedItem.RAMFreq.ToString().Split().First());
+                        ram.Count = int.Parse(editedItem.RAMQuantity.ToString().Split().First());
 
-                        var priceDifference = editedItem.Price - oldPrice;
+                        var priceDifference = int.Parse(editedItem.Price.ToString().Split().First()) - oldPrice;
                         if (priceDifference != 0)
                         {
                             var ordersToUpdate = context.Order

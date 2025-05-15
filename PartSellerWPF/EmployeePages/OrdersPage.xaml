@@ -30,9 +30,11 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Grid.Row="1" Margin="205,10,405,10" Style="{StaticResource RoundedButton}" Content="Отменить" Click="ButtonCancel_Click"/>
-        <Button Grid.Row="1" Margin="10,10,605,10" Style="{StaticResource RoundedButton}" Content="Подтвердить" Click="ButtonConfirm_Click"/>
-        <Button Grid.Row="1" Margin="405,10,205,10" Style="{StaticResource RoundedButton}" Content="Доставка" Click="ButtonDelivery_Click"/>
-        <Button Grid.Row="1" Margin="605,10,10,10" Style="{StaticResource RoundedButton}" Content="Получен" Click="ButtonGet_Click"/>
+        <UniformGrid Columns="4" Grid.Row="1">
+            <Button Style="{StaticResource RoundedButton}" Margin="5" Content="   Отменить   " Click="ButtonCancel_Click"/>
+            <Button Style="{StaticResource RoundedButton}" Margin="5" Content=" Подтвердить " Click="ButtonConfirm_Click"/>
+            <Button Style="{StaticResource RoundedButton}" Margin="5" Content="   Доставка   " Click="ButtonDelivery_Click"/>
+            <Button Style="{StaticResource RoundedButton}" Margin="5" Content="   Получен   " Click="ButtonGet_Click"/>
+        </UniformGrid>
     </Grid>
 </Page>
