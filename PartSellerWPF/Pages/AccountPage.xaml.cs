@@ -71,6 +71,11 @@ namespace PartSellerWPF.Pages
             }
         }
 
+        private void btnOrdersHistory_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new OrdersHistoryPage());
+        }
+
         private void ChangePasswordButton_Click(object sender, RoutedEventArgs e)
         {
             string currentPassword = CurrentPasswordBox.Password;

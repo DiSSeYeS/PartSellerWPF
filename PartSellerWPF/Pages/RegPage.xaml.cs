@@ -110,7 +110,7 @@ namespace PartSellerWPF.Pages
                 {
                     User newUser = new User
                     {
-                        Name = name + lastname,
+                        Name = name + " " + lastname,
                         Email = login,
                         Password = password,
                         RoleID = 1

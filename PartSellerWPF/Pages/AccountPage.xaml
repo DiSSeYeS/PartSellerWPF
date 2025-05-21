@@ -64,6 +64,13 @@
                         Click="ChangePasswordButton_Click"
                         Style="{StaticResource RoundedButton}"/>
 
+                    <Button x:Name="btnOrdersHistory"
+                        Click="btnOrdersHistory_Click"
+                        Content=" История заказов "
+                        Height="50"
+                        Margin="0,10,0,0"
+                        Style="{StaticResource RoundedButton}"/>
+
                     <Button x:Name="btnOrders"
                         Visibility="Hidden"
                         Content="Проверить заказы"

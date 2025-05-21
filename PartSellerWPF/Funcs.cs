@@ -153,7 +153,7 @@ namespace PartSellerWPF
             }
 
             context.SaveChanges();
-            MessageBox.Show($"Компонент успешно добавлен в заказ {selectedID}");
+            MessageBox.Show($"Компонент успешно добавлен в заказ.");
 
         }
 
