@@ -401,6 +401,7 @@ namespace PartSellerWPF.Pages
                             select new
                             {
                                 Brand = c.Brand.Name,
+                                Name = c.Model,
                                 c.Model,
                                 c.CoolerLength,
                                 c.GPULength,
@@ -480,7 +481,6 @@ namespace PartSellerWPF.Pages
                         compatibilityIssues.Add($"❌ Сокет процессора {context.Socket.FirstOrDefault(x => x.ID == item.SocketID).Name} отличается \nот сокета материнской платы {context.Socket.FirstOrDefault(x => x.ID == motherboard.FirstOrDefault().SocketID).Name}");
                     }
                 }
-
                 
                 foreach (var item in gpu)
                 {
@@ -492,29 +492,38 @@ namespace PartSellerWPF.Pages
 
                 foreach (var item in ram)
                 {
-                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().MaxRAMFrequencyMHz < item.MemoryFrequencyMHz)
+                    if (motherboard.Count() != 0)
                     {
-                        compatibilityIssues.Add($"❌ Частота оперативной памяти {item.MemoryFrequencyMHz} МГц больше \nмаксимальной частоты материнской платы {motherboard.FirstOrDefault().MaxRAMFrequencyMHz} МГц");
-                    }
-                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().MaxRAMCountGB < (item.MemoryCountGB * item.Quantity))
-                    {
-                        compatibilityIssues.Add($"❌ Объем оперативной памяти {item.MemoryCountGB * item.Quantity} ГБ \nпревышает максиамльное количество \nоперативной памяти мат. платы {motherboard.FirstOrDefault().MaxRAMCountGB} ГБ");
-                    }
-                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().RAMSlots < (item.Count * item.Quantity))
-                    {
-                        compatibilityIssues.Add($"❌ Количество плашек оперативной памяти {item.Count * item.Quantity} шт.\nпревышает количество слотов на мат. плате {motherboard.FirstOrDefault().RAMSlots} шт.");
-                    }
-                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().RAMTypeID != item.RAMTypeID)
-                    {
-                        compatibilityIssues.Add($"❌ Тип оперативной памяти {context.RAMType.FirstOrDefault(x => x.ID == item.RAMTypeID).Type} отличается от\nтипа оперативной памяти на мат.плате {context.RAMType.FirstOrDefault(x => x.ID == motherboard.FirstOrDefault().RAMTypeID).Type}");
+                        foreach (var mt in motherboard)
+                        {
+                            if (mt.MaxRAMFrequencyMHz < item.MemoryFrequencyMHz)
+                            {
+                                compatibilityIssues.Add($"❌ Частота оперативной памяти {item.MemoryFrequencyMHz} МГц больше \nмаксимальной частоты \nматеринской платы {motherboard.FirstOrDefault().MaxRAMFrequencyMHz} МГц");
+                            }
+                            if (mt.MaxRAMCountGB < (item.MemoryCountGB * item.Quantity))
+                            {
+                                compatibilityIssues.Add($"❌ Объем оперативной памяти {item.MemoryCountGB * item.Quantity} ГБ \nпревышает максиамльное количество \nоперативной памяти \nмат. платы {motherboard.FirstOrDefault().MaxRAMCountGB} ГБ");
+                            }
+                            if (mt.RAMSlots < (item.Count * item.Quantity))
+                            {
+                                compatibilityIssues.Add($"❌ Количество плашек \nоперативной памяти {item.Count * item.Quantity} шт.\nпревышает количество слотов \nна мат. плате {motherboard.FirstOrDefault().RAMSlots} шт.");
+                            }
+                            if (mt.RAMTypeID != item.RAMTypeID)
+                            {
+                                compatibilityIssues.Add($"❌ Тип оперативной памяти {context.RAMType.FirstOrDefault(x => x.ID == item.RAMTypeID).Type} отличается от\nтипа оперативной памяти на мат.плате {context.RAMType.FirstOrDefault(x => x.ID == motherboard.FirstOrDefault().RAMTypeID).Type}");
+                            }
+                        }
                     }
                 }
 
                 foreach (var item in motherboard)
                 {
-                    if (cases.Count() != 0 && !cases.FirstOrDefault().SupportedMotherboardFormFactorIds.Contains((int)item.FormFactorID))
+                    foreach (var cs in cases)
                     {
-                        compatibilityIssues.Add($"❌ Корпус не поддерживает форм-фактор\nматеринской платы {context.FormFactor.FirstOrDefault(x => x.ID == item.FormFactorID).Type}");
+                        if (!cs.SupportedMotherboardFormFactorIds.Contains((int)item.FormFactorID)) 
+                        {
+                            compatibilityIssues.Add($"❌ Корпус не поддерживает форм-фактор\nматеринской платы {context.FormFactor.FirstOrDefault(x => x.ID == item.FormFactorID).Type}");
+                        }
                     }
                 }
 
@@ -522,51 +531,77 @@ namespace PartSellerWPF.Pages
                 {
                     if (gpu.Count() != 0 && cpu.Count() != 0)
                     {
-                        if (item.Wattage < (gpu.FirstOrDefault().Voltage + cpu.FirstOrDefault().Voltage + 150))
+                        foreach (var gp in gpu)
                         {
-                            compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {gpu.FirstOrDefault().Voltage + cpu.FirstOrDefault().Voltage + 150}");
+                            foreach (var cp in cpu)
+                            {
+                                if (item.Wattage < (gp.Voltage + cp.Voltage + 150))
+                                {
+                                    compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {gp.Voltage + cp.Voltage + 150}");
+                                }
+                            }
                         }
+                        
                     }
                     else if (gpu.Count() != 0)
                     {
-                        if (item.Wattage < (gpu.FirstOrDefault().Voltage + 150))
+                        foreach (var gp in gpu)
                         {
-                            compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {gpu.FirstOrDefault().Voltage + 150}");
-                        } 
+                            if (item.Wattage < (gp.Voltage + 150))
+                            {
+                                compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {gp.Voltage + 150}");
+                            }
+                        }
                     }
                     else if (cpu.Count() != 0)
                     {
-                        if (item.Wattage < (cpu.FirstOrDefault().Voltage + 150))
+                        foreach (var cp in cpu)
                         {
-                            compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {cpu.FirstOrDefault().Voltage + 150}");
+                            if (item.Wattage < (cp.Voltage + 150))
+                            {
+                                compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {cp.Voltage + 150}");
+                            }
                         }
                     }
 
-                    if (cases.Count() != 0 && !cases.FirstOrDefault().SupportedSupplyFormFactorIds.Contains((int)item.FormFactorID))
+                    if (cases.Count() != 0)
                     {
-                        compatibilityIssues.Add($"❌ Корпус не поддерживает форм-фактор\nблока питания {context.FormFactor.FirstOrDefault(x => x.ID == item.FormFactorID).Type}");
-                    }
+                        foreach (var cs in cases)
+                        { 
+                            if (!cs.SupportedSupplyFormFactorIds.Contains((int)item.FormFactorID))
+                            {
+                                compatibilityIssues.Add($"❌ Корпус {cs.Name} не поддерживает форм-фактор\nблока питания {context.FormFactor.FirstOrDefault(x => x.ID == item.FormFactorID).Type}");
+                            }
+                        }    
+                    }   
                 }
 
                 foreach (var item in disk)
                 {
-                    if (motherboard.Count() != 0 && item.DiskTypeID == 1 && motherboard.FirstOrDefault().SATASlots < item.Quantity)
+                    foreach (var mb in motherboard)
                     {
-                        compatibilityIssues.Add($"❌ Кол-во SATA-дисков {item.Quantity} шт. превышает кол-во\nSATA-слотов в материнской плате {motherboard.FirstOrDefault().SATASlots} шт.");
+                        if (item.DiskTypeID == 1 && mb.SATASlots < item.Quantity)
+                        {
+                            compatibilityIssues.Add($"❌ Кол-во SATA-дисков {item.Quantity} шт. превышает \nкол-во SATA-слотов в материнской плате \n{mb.SATASlots} шт.");
+                        }
+                        if (item.DiskTypeID == 2 && mb.M2Slots < item.Quantity)
+                        {
+                            compatibilityIssues.Add($"❌ Кол-во M2-дисков {item.Quantity} шт. превышает \nкол-во M2-слотов в материнской плате \n{mb.SATASlots} шт.");
+                        }
                     }
-                    if (motherboard.Count() != 0 && item.DiskTypeID == 2 && motherboard.FirstOrDefault().M2Slots < item.Quantity)
-                    {
-                        compatibilityIssues.Add($"❌ Кол-во M2-дисков {item.Quantity} шт. превышает кол-во\nM2-слотов в материнской плате {motherboard.FirstOrDefault().SATASlots} шт.");
-                    }
+                    
                 }
 
                 foreach (var item in cooling)
                 {
-                    if (cases.Count() != 0 && item.CoolerTypeID == 1 && item.Height > cases.FirstOrDefault().CoolerLength)
+                    foreach (var cs in cases)
                     {
-                        compatibilityIssues.Add($"❌ Башня не поместится в корпус\nвысота башни - {item.Height} мм.\nмакс.высота - {cases.FirstOrDefault().CoolerLength}");
+                        if (item.CoolerTypeID == 1 && item.Height > cs.CoolerLength)
+                        {
+                            compatibilityIssues.Add($"❌ Башня не поместится в корпус\nвысота башни - {item.Height} мм.\nмакс.высота - {cs.CoolerLength}");
+                        }
                     }
-
+                    
                     if (item.CoolerTypeID == 3 && item.Width > 140)
                     {
                         compatibilityIssues.Add($"❌ Корпусные вентиляторы слишком большие, максимальная ширина - 140 мм.");
