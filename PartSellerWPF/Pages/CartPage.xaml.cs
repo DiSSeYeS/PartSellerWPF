@@ -349,8 +349,8 @@ namespace PartSellerWPF.Pages
                                 Part = p
                             };
 
-                var motherboard = from o in context.Order
-                                  join oi in context.OrderItem on o.ID equals oi.OrderID
+                var motherboard = from o in order
+                                  join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                                   join m in context.Motherboard on oi.Product.Part.MotherboardID equals m.ID
                                   join s in context.Socket on m.SocketID equals s.ID
                                   join rt in context.RAMType on m.RAMTypeID equals rt.ID
@@ -370,8 +370,8 @@ namespace PartSellerWPF.Pages
                                      m.NVMe
                                   };
 
-                var cpu = from o in context.Order
-                          join oi in context.OrderItem on o.ID equals oi.OrderID
+                var cpu = from o in order
+                          join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                           join c in context.CPU on oi.Product.Part.CPUID equals c.ID
                           select new
                           {
@@ -381,8 +381,8 @@ namespace PartSellerWPF.Pages
                               c.Voltage
                           };
 
-                var gpu = from o in context.Order
-                          join oi in context.OrderItem on o.ID equals oi.OrderID
+                var gpu = from o in order
+                          join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                           join g in context.GPU on oi.Product.Part.GPUID equals g.ID
                           select new
                           {
@@ -394,8 +394,8 @@ namespace PartSellerWPF.Pages
                               g.Height
                           };
 
-                var cases = from o in context.Order
-                            join oi in context.OrderItem on o.ID equals oi.OrderID
+                var cases = from o in order
+                            join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                             join c in context.Case on oi.Product.Part.CaseID equals c.ID
 
                             select new
@@ -416,8 +416,8 @@ namespace PartSellerWPF.Pages
                                     .ToList()
                             };
 
-                var disk = from o in context.Order
-                           join oi in context.OrderItem on o.ID equals oi.OrderID
+                var disk = from o in order
+                           join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                            join d in context.Disk on oi.Product.Part.DiskID equals d.ID
 
                            select new
@@ -428,8 +428,8 @@ namespace PartSellerWPF.Pages
                                d.DiskTypeID,
                            };
 
-                var ram = from o in context.Order
-                          join oi in context.OrderItem on o.ID equals oi.OrderID
+                var ram = from o in order
+                          join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                           join r in context.RAM on oi.Product.Part.RAMID equals r.ID
 
                           select new
@@ -443,8 +443,8 @@ namespace PartSellerWPF.Pages
                               r.RAMTypeID,
                           };
 
-                var cooling = from o in context.Order
-                              join oi in context.OrderItem on o.ID equals oi.OrderID
+                var cooling = from o in order
+                              join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                               join c in context.Cooling on oi.Product.Part.CoolingID equals c.ID
                               join ss in context.SupportedSockets on c.ID equals ss.CoolerID
                               select new
@@ -458,8 +458,8 @@ namespace PartSellerWPF.Pages
                                   ss.SocketID
                               };
 
-                var supply = from o in context.Order
-                             join oi in context.OrderItem on o.ID equals oi.OrderID
+                var supply = from o in order
+                             join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                              join s in context.Supply on oi.Product.Part.SupplyID equals s.ID
 
                              select new
@@ -476,17 +476,23 @@ namespace PartSellerWPF.Pages
 
                 foreach (var item in cpu)
                 {
-                    if (motherboard.Count() != 0 && motherboard.FirstOrDefault().SocketID != item.SocketID)
+                    foreach (var mt in motherboard)
                     {
-                        compatibilityIssues.Add($"❌ Сокет процессора {context.Socket.FirstOrDefault(x => x.ID == item.SocketID).Name} отличается \nот сокета материнской платы {context.Socket.FirstOrDefault(x => x.ID == motherboard.FirstOrDefault().SocketID).Name}");
+                        if (mt.SocketID != item.SocketID)
+                        {
+                            compatibilityIssues.Add($"❌ Сокет процессора \n{item.Model} - {context.Socket.FirstOrDefault(x => x.ID == item.SocketID).Name} \nотличается от сокета мат.платы \n{mt.Model} - {context.Socket.FirstOrDefault(x => x.ID == mt.SocketID).Name}");
+                        }
                     }
                 }
                 
                 foreach (var item in gpu)
                 {
-                    if (cases.Count() != 0 && cases.FirstOrDefault().GPULength < item.Length)
+                    foreach (var c in cases)
                     {
-                        compatibilityIssues.Add($"❌ Видеокарта не поместится в корпус\nДлина видеокарты {item.Length} мм\nМакс.длина {cases.FirstOrDefault().GPULength} мм");
+                        if (c.GPULength < item.Length)
+                        {
+                            compatibilityIssues.Add($"❌ Видеокарта {item.Model}\n не поместится в корпус {c.Model}\nДлина видеокарты {item.Length} мм\nМакс.длина {c.GPULength} мм");
+                        }
                     }
                 }
 
@@ -498,19 +504,19 @@ namespace PartSellerWPF.Pages
                         {
                             if (mt.MaxRAMFrequencyMHz < item.MemoryFrequencyMHz)
                             {
-                                compatibilityIssues.Add($"❌ Частота оперативной памяти {item.MemoryFrequencyMHz} МГц больше \nмаксимальной частоты \nматеринской платы {motherboard.FirstOrDefault().MaxRAMFrequencyMHz} МГц");
+                                compatibilityIssues.Add($"❌ Частота оперативной памяти \n{item.Model} - {item.MemoryFrequencyMHz} МГц больше \nмаксимальной частоты \nматеринской платы {mt.Model} - {mt.MaxRAMFrequencyMHz} МГц");
                             }
                             if (mt.MaxRAMCountGB < (item.MemoryCountGB * item.Quantity))
                             {
-                                compatibilityIssues.Add($"❌ Объем оперативной памяти {item.MemoryCountGB * item.Quantity} ГБ \nпревышает максиамльное количество \nоперативной памяти \nмат. платы {motherboard.FirstOrDefault().MaxRAMCountGB} ГБ");
+                                compatibilityIssues.Add($"❌ Объем оперативной памяти \n{item.Model} - {item.MemoryCountGB * item.Quantity} ГБ \nпревышает максиамльное количество \nоперативной памяти \nмат. платы {mt.Model} - {mt.MaxRAMCountGB} ГБ");
                             }
                             if (mt.RAMSlots < (item.Count * item.Quantity))
                             {
-                                compatibilityIssues.Add($"❌ Количество плашек \nоперативной памяти {item.Count * item.Quantity} шт.\nпревышает количество слотов \nна мат. плате {motherboard.FirstOrDefault().RAMSlots} шт.");
+                                compatibilityIssues.Add($"❌ Количество плашек \nоперативной памяти \n{item.Model} - {item.Count * item.Quantity} шт.\nпревышает количество слотов \nна мат. плате {mt.Model} - {mt.RAMSlots} шт.");
                             }
                             if (mt.RAMTypeID != item.RAMTypeID)
                             {
-                                compatibilityIssues.Add($"❌ Тип оперативной памяти {context.RAMType.FirstOrDefault(x => x.ID == item.RAMTypeID).Type} отличается от\nтипа оперативной памяти на мат.плате {context.RAMType.FirstOrDefault(x => x.ID == motherboard.FirstOrDefault().RAMTypeID).Type}");
+                                compatibilityIssues.Add($"❌ Тип оперативной памяти \n{item.Model} - {context.RAMType.FirstOrDefault(x => x.ID == item.RAMTypeID).Type} отличается от\nтипа оперативной памяти на мат.плате \n{mt.Model} - {context.RAMType.FirstOrDefault(x => x.ID == mt.RAMTypeID).Type}");
                             }
                         }
                     }
@@ -522,7 +528,7 @@ namespace PartSellerWPF.Pages
                     {
                         if (!cs.SupportedMotherboardFormFactorIds.Contains((int)item.FormFactorID)) 
                         {
-                            compatibilityIssues.Add($"❌ Корпус не поддерживает форм-фактор\nматеринской платы {context.FormFactor.FirstOrDefault(x => x.ID == item.FormFactorID).Type}");
+                            compatibilityIssues.Add($"❌ Корпус {cs.Name} \nне поддерживает форм-фактор \nматеринской платы\n{item.Model} - {context.FormFactor.FirstOrDefault(x => x.ID == item.FormFactorID).Type}");
                         }
                     }
                 }
@@ -537,7 +543,7 @@ namespace PartSellerWPF.Pages
                             {
                                 if (item.Wattage < (gp.Voltage + cp.Voltage + 150))
                                 {
-                                    compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {gp.Voltage + cp.Voltage + 150}");
+                                    compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} \nв блоке питания {item.Model} \nнеобходимо {gp.Voltage + cp.Voltage + 150}");
                                 }
                             }
                         }
@@ -549,7 +555,7 @@ namespace PartSellerWPF.Pages
                         {
                             if (item.Wattage < (gp.Voltage + 150))
                             {
-                                compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {gp.Voltage + 150}");
+                                compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания {item.Model} \nнеобходимо {gp.Voltage + 150}");
                             }
                         }
                     }
@@ -559,7 +565,7 @@ namespace PartSellerWPF.Pages
                         {
                             if (item.Wattage < (cp.Voltage + 150))
                             {
-                                compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания \nнеобходимо {cp.Voltage + 150}");
+                                compatibilityIssues.Add($"❌ Недостаточно напряжения {item.Wattage} в блоке питания {item.Model} \nнеобходимо {cp.Voltage + 150}");
                             }
                         }
                     }
@@ -570,7 +576,7 @@ namespace PartSellerWPF.Pages
                         { 
                             if (!cs.SupportedSupplyFormFactorIds.Contains((int)item.FormFactorID))
                             {
-                                compatibilityIssues.Add($"❌ Корпус {cs.Name} не поддерживает форм-фактор\nблока питания {context.FormFactor.FirstOrDefault(x => x.ID == item.FormFactorID).Type}");
+                                compatibilityIssues.Add($"❌ Корпус {cs.Name} не поддерживает форм-фактор\nблока питания \n{item.Model} - {context.FormFactor.FirstOrDefault(x => x.ID == item.FormFactorID).Type}");
                             }
                         }    
                     }   
@@ -582,11 +588,11 @@ namespace PartSellerWPF.Pages
                     {
                         if (item.DiskTypeID == 1 && mb.SATASlots < item.Quantity)
                         {
-                            compatibilityIssues.Add($"❌ Кол-во SATA-дисков {item.Quantity} шт. превышает \nкол-во SATA-слотов в материнской плате \n{mb.SATASlots} шт.");
+                            compatibilityIssues.Add($"❌ Кол-во SATA-дисков {item.Quantity} шт. превышает \nкол-во SATA-слотов в материнской плате \n{mb.Model} - {mb.SATASlots} шт.");
                         }
                         if (item.DiskTypeID == 2 && mb.M2Slots < item.Quantity)
                         {
-                            compatibilityIssues.Add($"❌ Кол-во M2-дисков {item.Quantity} шт. превышает \nкол-во M2-слотов в материнской плате \n{mb.SATASlots} шт.");
+                            compatibilityIssues.Add($"❌ Кол-во M2-дисков {item.Quantity} шт. превышает \nкол-во M2-слотов в материнской плате \n{mb.Model} - {mb.SATASlots} шт.");
                         }
                     }
                     
@@ -598,13 +604,13 @@ namespace PartSellerWPF.Pages
                     {
                         if (item.CoolerTypeID == 1 && item.Height > cs.CoolerLength)
                         {
-                            compatibilityIssues.Add($"❌ Башня не поместится в корпус\nвысота башни - {item.Height} мм.\nмакс.высота - {cs.CoolerLength}");
+                            compatibilityIssues.Add($"❌ Башня {item.Model} \nне поместится в корпус {cs.Model}\nвысота башни - {item.Height} мм.\nмакс.высота - {cs.CoolerLength}");
                         }
                     }
                     
                     if (item.CoolerTypeID == 3 && item.Width > 140)
                     {
-                        compatibilityIssues.Add($"❌ Корпусные вентиляторы слишком большие, максимальная ширина - 140 мм.");
+                        compatibilityIssues.Add($"❌ Корпусный вентилятор \n{item.Model} слишком большой, \nмаксимальная ширина - 140 мм.");
                     }
                 }
 
