@@ -23,6 +23,7 @@ namespace PartSellerWPF
         public int PartID { get; set; }
         public int ProductID { get; set; }
         public string Image { get; set; }
+        public int QuantityInStock { get; set; }
         public decimal Price { get; set; }
 
         public string ComponentType => "CPU";

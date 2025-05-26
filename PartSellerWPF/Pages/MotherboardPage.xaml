@@ -49,7 +49,8 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Изображение" Width="3*" x:Name="imageLinkColumn" Binding="{Binding Image, UpdateSourceTrigger=PropertyChanged}"/>
-
+                <DataGridTextColumn Header="На складе" Width="3*" x:Name="quantityInStockColumn" Binding="{Binding QuantityInStock, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="ID" Width="3*" x:Name="partIdColumn" Binding="{Binding PartID, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace PartSellerWPF.EmployeePages
         {
             if (dataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Пожалуйста, выберите заказ для подтверждения");
+                MessageBox.Show("Пожалуйста, выберите заказ для подтверждения.");
                 return;
             }
 
@@ -74,6 +75,7 @@ namespace PartSellerWPF.EmployeePages
                 var context = Entities.GetContext();
                 var payment = context.Payment.FirstOrDefault(p => p.ID == paymentId);
                 var order = context.Order.FirstOrDefault(o => o.ID == orderId);
+                var orderItems = context.OrderItem.Where(x => x.OrderID == orderId);
 
                 if (payment == null)
                 {
@@ -83,14 +85,33 @@ namespace PartSellerWPF.EmployeePages
 
                 if (payment.Status.Equals("Подтверждение"))
                 {
+                    bool isEnough = true;
+
                     payment.Status = "Оплачен";
                     order.Status = "Подтвержден";
                     order.Date = DateTime.Now;
 
+                    foreach (var item in orderItems)
+                    {
+                        var part = context.Part.FirstOrDefault(x => x.Product.FirstOrDefault().ID == item.ProductID);
+                        part.QuantityInStock -= item.Quantity;
+
+                        if (part.QuantityInStock < 0)
+                        {
+                            isEnough = false;
+                            MessageBox.Show($"Компонента ID_{part.ID} недостаточно на складе.");
+                        }
+                    }
+
+                    if (!isEnough)
+                    {
+                        return;
+                    }
+
                     context.SaveChanges();
                     LoadData();
 
-                    MessageBox.Show("Статус успешно изменен на 'Оплачен'");
+                    MessageBox.Show("Статус успешно изменен.");
                     return;
                 }
 
@@ -106,7 +127,7 @@ namespace PartSellerWPF.EmployeePages
         {
             if (dataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Пожалуйста, выберите заказ для подтверждения");
+                MessageBox.Show("Пожалуйста, выберите заказ для подтверждения.");
                 return;
             }
 
@@ -122,7 +143,7 @@ namespace PartSellerWPF.EmployeePages
 
                 if (payment == null)
                 {
-                    MessageBox.Show("Платеж не найден");
+                    MessageBox.Show("Платеж не найден.");
                     return;
                 }
 
@@ -139,16 +160,21 @@ namespace PartSellerWPF.EmployeePages
 
                         default:
 
-                            MessageBox.Show("Невозможно установить этот статус");
+                            MessageBox.Show("Невозможно установить этот статус.");
 
                             return;
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Невозможно изменить статус неподтвержденного заказа.");
+                    return;
                 }
 
                 context.SaveChanges();
                 LoadData();
 
-                MessageBox.Show("Статус успешно изменен на 'Оплачен'");
+                MessageBox.Show("Статус успешно изменен.");
             }
             catch (Exception ex)
             {
@@ -160,7 +186,7 @@ namespace PartSellerWPF.EmployeePages
         {
             if (dataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Пожалуйста, выберите заказ для подтверждения");
+                MessageBox.Show("Пожалуйста, выберите заказ для подтверждения.");
                 return;
             }
 
@@ -173,6 +199,7 @@ namespace PartSellerWPF.EmployeePages
                 var context = Entities.GetContext();
                 var payment = context.Payment.FirstOrDefault(p => p.ID == paymentId);
                 var order = context.Order.FirstOrDefault(o => o.ID == orderId);
+                var orderItems = context.OrderItem.Where(x => x.OrderID == orderId);
 
                 if (payment == null)
                 {
@@ -185,10 +212,16 @@ namespace PartSellerWPF.EmployeePages
                     order.Status = "Отменён";
                     order.Date = DateTime.Now;
 
+                    foreach (var item in orderItems)
+                    {
+                        var part = context.Part.FirstOrDefault(x => x.Product.FirstOrDefault().ID == item.ProductID);
+                        part.QuantityInStock += item.Quantity;
+                    }
+
                     context.SaveChanges();
                     LoadData();
 
-                    MessageBox.Show("Статус успешно изменен на 'Отменён'");
+                    MessageBox.Show("Статус успешно изменен.");
                     return;
                 }
 
@@ -204,7 +237,7 @@ namespace PartSellerWPF.EmployeePages
         {
             if (dataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Пожалуйста, выберите заказ для подтверждения");
+                MessageBox.Show("Пожалуйста, выберите заказ для подтверждения.");
                 return;
             }
 
@@ -220,7 +253,7 @@ namespace PartSellerWPF.EmployeePages
 
                 if (payment == null)
                 {
-                    MessageBox.Show("Платеж не найден");
+                    MessageBox.Show("Платеж не найден.");
                     return;
                 }
 
@@ -253,11 +286,16 @@ namespace PartSellerWPF.EmployeePages
                             return;
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Невозможно изменить статус неподтвержденного заказа.");
+                    return;
+                }
 
-                context.SaveChanges();
+                    context.SaveChanges();
                 LoadData();
 
-                MessageBox.Show("Статус успешно изменен");
+                MessageBox.Show("Статус успешно изменен.");
             }
             catch (Exception ex)
             {

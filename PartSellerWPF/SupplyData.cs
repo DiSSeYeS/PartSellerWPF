@@ -22,6 +22,7 @@ namespace PartSellerWPF
         public string FormFactor { get; set; }
         public bool Permission { get; set; }
         public bool CanEdit { get; set; }
+        public int QuantityInStock { get; set; }
 
         public string ComponentType => "Supply";
     }

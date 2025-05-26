@@ -397,7 +397,6 @@ namespace PartSellerWPF.Pages
                 var cases = from o in order
                             join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                             join c in context.Case on oi.Product.Part.CaseID equals c.ID
-
                             select new
                             {
                                 Brand = c.Brand.Name,

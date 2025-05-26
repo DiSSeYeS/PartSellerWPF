@@ -65,12 +65,16 @@ namespace PartSellerWPF.Pages
                 dataGrid.CanUserAddRows = true;
                 dataGrid.CanUserDeleteRows = true;
                 imageLinkColumn.Visibility = Visibility.Visible;
+                quantityInStockColumn.Visibility = Visibility.Visible;
+                partIdColumn.Visibility = Visibility.Visible;
             }
             else
             {
                 dataGrid.CanUserAddRows = false;
                 dataGrid.CanUserDeleteRows = false;
                 imageLinkColumn.Visibility = Visibility.Hidden;
+                quantityInStockColumn.Visibility = Visibility.Hidden;
+                partIdColumn.Visibility = Visibility.Hidden;
             }
 
             try
@@ -127,6 +131,7 @@ namespace PartSellerWPF.Pages
                     Image = x.Part.Image,
                     Price = x.Product.Price,
                     FormFactor = x.FormFactor.Type,
+                    QuantityInStock = x.Part.QuantityInStock
                 }).ToList();
 
                 if (AuthManager.IsLoggedIn && AuthManager.CurrentUser.RoleID == 2)
@@ -205,6 +210,8 @@ namespace PartSellerWPF.Pages
                             newPart.SupplyID = newSupply.ID;
                             newPart.Image = editedItem.Image;
                             if (editedItem.Image != null) newPart.Image = editedItem.Image;
+                            if (editedItem.QuantityInStock > 0) newPart.QuantityInStock = editedItem.QuantityInStock;
+                            else { newPart.QuantityInStock = 0; }
 
                             context.Part.Add(newPart);
                             context.SaveChanges();
@@ -260,6 +267,15 @@ namespace PartSellerWPF.Pages
                             return;
                         }
 
+                        if (editedItem.QuantityInStock < 0)
+                        {
+                            MessageBox.Show("Количество компонентов на складе не может быть отрицательным числом",
+                                         "Ошибка",
+                                         MessageBoxButton.OK,
+                                         MessageBoxImage.Error);
+                            return;
+                        }
+
                         var part = context.Part.FirstOrDefault(p => p.ID == editedItem.PartID);
                         var supply = context.Supply.FirstOrDefault(s => s.ID == part.SupplyID);
 
@@ -278,6 +294,7 @@ namespace PartSellerWPF.Pages
                         {
                             part.Image = editedItem.Image;
                         }
+                        part.QuantityInStock = editedItem.QuantityInStock;
 
                         var priceDifference = int.Parse(editedItem.Price.ToString().Split().First()) - oldPrice;
                         if (priceDifference != 0)
