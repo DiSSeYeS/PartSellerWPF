@@ -90,8 +90,9 @@ namespace PartSellerWPF
 				context.SaveChanges();
 			}
 
+            int selectedPartID = selectedComponent.ID;
             var existingItem = currentOrder.OrderItem?
-                    .FirstOrDefault(oi => oi.ProductID == selectedComponent.ID);
+                    .FirstOrDefault(oi => oi.ProductID == context.Product.FirstOrDefault(x => x.PartID == selectedPartID).ID);
 
             int selectedID = selectedComponent.PartID;
             var partInStock = context.Part
