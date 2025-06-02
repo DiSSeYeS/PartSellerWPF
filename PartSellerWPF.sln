@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartSellerWPF", "PartSellerWPF\PartSellerWPF.csproj", "{698D3783-3FF8-41E7-B9D6-A09E26CB1793}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PartSellerSetup", "PartSellerSetup\PartSellerSetup.vdproj", "{A69EA682-30C1-BF40-6BDF-184E09575470}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{698D3783-3FF8-41E7-B9D6-A09E26CB1793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{698D3783-3FF8-41E7-B9D6-A09E26CB1793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{698D3783-3FF8-41E7-B9D6-A09E26CB1793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A69EA682-30C1-BF40-6BDF-184E09575470}.Debug|Any CPU.ActiveCfg = Debug
+		{A69EA682-30C1-BF40-6BDF-184E09575470}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
