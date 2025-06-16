@@ -27,7 +27,7 @@
                 <DataGridTextColumn Header="Бренд" Binding="{Binding Brand, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding Model, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Вольтаж" Binding="{Binding Voltage, StringFormat={}{0} Ватт, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
-                <DataGridTextColumn Header="Видеопамять" Binding="{Binding VideoMemory, StringFormat={}{0} Мб, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Видеопамять" Binding="{Binding VideoMemory, StringFormat={}{0} Гб, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Частота ядра" Binding="{Binding CoreFreq, StringFormat={}{0} МГц, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                 <DataGridTextColumn Header="Частота &#13;видеопамяти" 
                                Binding="{Binding MemoryFreq, StringFormat={}{0} МГц, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
