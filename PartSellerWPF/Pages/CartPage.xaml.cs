@@ -349,7 +349,7 @@ namespace PartSellerWPF.Pages
                                 Part = p
                             };
 
-                var motherboard = from o in order
+                var motherboard = (from o in order
                                   join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                                   join m in context.Motherboard on oi.Product.Part.MotherboardID equals m.ID
                                   join s in context.Socket on m.SocketID equals s.ID
@@ -368,9 +368,9 @@ namespace PartSellerWPF.Pages
                                      m.SATASlots,
                                      m.FormFactorID,
                                      m.NVMe
-                                  };
+                                  }).ToList();
 
-                var cpu = from o in order
+                var cpu = (from o in order
                           join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                           join c in context.CPU on oi.Product.Part.CPUID equals c.ID
                           select new
@@ -379,9 +379,9 @@ namespace PartSellerWPF.Pages
                               c.Model,
                               c.SocketID,
                               c.Voltage
-                          };
+                          }).ToList();
 
-                var gpu = from o in order
+                var gpu = (from o in order
                           join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                           join g in context.GPU on oi.Product.Part.GPUID equals g.ID
                           select new
@@ -392,9 +392,9 @@ namespace PartSellerWPF.Pages
                               g.Voltage,
                               g.Width,
                               g.Height
-                          };
+                          }).ToList();
 
-                var cases = from o in order
+                var cases = (from o in order
                             join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                             join c in context.Case on oi.Product.Part.CaseID equals c.ID
                             select new
@@ -413,9 +413,9 @@ namespace PartSellerWPF.Pages
                                     .Where(sffs => sffs.CaseID == c.ID)
                                     .Select(sffs => sffs.FormFactorID)
                                     .ToList()
-                            };
+                            }).ToList();
 
-                var disk = from o in order
+                var disk = (from o in order
                            join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                            join d in context.Disk on oi.Product.Part.DiskID equals d.ID
 
@@ -425,9 +425,9 @@ namespace PartSellerWPF.Pages
                                d.Model,
                                oi.Quantity,
                                d.DiskTypeID,
-                           };
+                           }).ToList();
 
-                var ram = from o in order
+                var ram = (from o in order
                           join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                           join r in context.RAM on oi.Product.Part.RAMID equals r.ID
 
@@ -440,9 +440,9 @@ namespace PartSellerWPF.Pages
                               r.MemoryCountGB,
                               r.MemoryFrequencyMHz,
                               r.RAMTypeID,
-                          };
+                          }).ToList();
 
-                var cooling = from o in order
+                var cooling = (from o in order
                               join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                               join c in context.Cooling on oi.Product.Part.CoolingID equals c.ID
                               join ss in context.SupportedSockets on c.ID equals ss.CoolerID
@@ -455,9 +455,9 @@ namespace PartSellerWPF.Pages
                                   c.Length,
                                   c.Height,
                                   ss.SocketID
-                              };
+                              }).ToList();
 
-                var supply = from o in order
+                var supply = (from o in order
                              join oi in context.OrderItem on o.Order.ID equals oi.OrderID
                              join s in context.Supply on oi.Product.Part.SupplyID equals s.ID
 
@@ -470,7 +470,7 @@ namespace PartSellerWPF.Pages
                                  s.Length,
                                  s.Width,
                                  s.Wattage,
-                             };
+                             }).ToList();
 
 
                 foreach (var item in cpu)
