@@ -603,7 +603,7 @@ namespace PartSellerWPF.Pages
                     {
                         if (item.CoolerTypeID == 1 && item.Height > cs.CoolerLength)
                         {
-                            compatibilityIssues.Add($"❌ Башня {item.Model} \nне поместится в корпус {cs.Model}\nвысота башни - {item.Height} мм.\nмакс.высота - {cs.CoolerLength}");
+                            compatibilityIssues.Add($"❌ Башня {item.Model} \nне поместится в корпус {cs.Model}\nвысота башни - {item.Height} мм.\nмакс.высота - {cs.CoolerLength} мм.");
                         }
                     }
                     
