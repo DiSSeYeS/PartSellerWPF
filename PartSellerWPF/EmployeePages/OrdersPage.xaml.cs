@@ -87,10 +87,6 @@ namespace PartSellerWPF.EmployeePages
                 {
                     bool isEnough = true;
 
-                    payment.Status = "Оплачен";
-                    order.Status = "Подтвержден";
-                    order.Date = DateTime.Now;
-
                     foreach (var item in orderItems)
                     {
                         var part = context.Part.FirstOrDefault(x => x.Product.FirstOrDefault().ID == item.ProductID);
@@ -99,6 +95,7 @@ namespace PartSellerWPF.EmployeePages
                         if (part.QuantityInStock < 0)
                         {
                             isEnough = false;
+                            part.QuantityInStock += item.Quantity;
                             MessageBox.Show($"Компонента ID_{part.ID} недостаточно на складе.");
                         }
                     }
@@ -107,6 +104,10 @@ namespace PartSellerWPF.EmployeePages
                     {
                         return;
                     }
+
+                    payment.Status = "Оплачен";
+                    order.Status = "Подтвержден";
+                    order.Date = DateTime.Now;
 
                     context.SaveChanges();
                     LoadData();
