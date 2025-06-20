@@ -66,9 +66,16 @@ namespace PartSellerWPF.FilterPages
             RAMGBSlider.Minimum = result.Min(x => (double)x.MemoryCountGB);
             FreqSlider.Minimum = result.Min(x => (double)x.MemoryFrequencyMHz);
             CountSlider.Minimum = result.Min(x => (double)x.Count);
+
+            ResetValues();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
         {
             BrandComboBox.SelectedIndex = -1;
             RamTypeComboBox.SelectedIndex = -1;
@@ -77,7 +84,6 @@ namespace PartSellerWPF.FilterPages
             CountSlider.Value = CountSlider.Maximum;
             PriceSlider.Value = PriceSlider.Maximum;
         }
-
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
             var filterParams = new FilterParams

@@ -74,10 +74,17 @@ namespace PartSellerWPF.FilterPages
                 GpuLengthSlider.Minimum = result.Min(x => (double)x.GPULength);
                 CoolerHeightSlider.Minimum = result.Min(x => (double)x.CoolerLength);
                 PsuLengthSlider.Minimum = result.Min(x => (double)x.SupplyLength);
+
+                ResetValues();
             }
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
         {
             BrandComboBox.SelectedIndex = -1;
             FormFactorComboBox.SelectedIndex = -1;
@@ -89,7 +96,6 @@ namespace PartSellerWPF.FilterPages
             PsuLengthSlider.Value = PsuLengthSlider.Maximum;
             PriceSlider.Value = PriceSlider.Maximum;
         }
-
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
             var filterParams = new FilterParams

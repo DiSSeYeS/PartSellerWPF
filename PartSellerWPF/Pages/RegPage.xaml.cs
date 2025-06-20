@@ -37,7 +37,7 @@ namespace PartSellerWPF.Pages
 
             string name = NameTextBox.Text.Trim();
             string lastname = LastNameTextBox.Text.Trim();
-            string login = LoginTextBox.Text.Trim();
+            string login = LoginTextBox.Text.Trim().ToLower();
             string password = PasswordBox.Password;
 
             if (ConfirmPasswordBox.Password.Trim() != password)
@@ -92,9 +92,9 @@ namespace PartSellerWPF.Pages
             if (password.Length < 10)
             {
                 MessageBox.Show("Ненадежный пароль.",
-                                              "Ошибка",
-                                              MessageBoxButton.OK,
-                                              MessageBoxImage.Error);
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
                 return;
             }
 
@@ -119,6 +119,9 @@ namespace PartSellerWPF.Pages
                     context.User.Add(newUser);
                     context.SaveChanges();
                 }
+
+                NavigationService.Navigate(new AuthPage());
+                NavigationService.RemoveBackEntry();
             }
             catch (System.Exception ex)
             {

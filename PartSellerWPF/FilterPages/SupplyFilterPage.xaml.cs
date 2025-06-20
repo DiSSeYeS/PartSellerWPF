@@ -65,9 +65,16 @@ namespace PartSellerWPF.FilterPages
             WidthSlider.Minimum = result.Min(x => (double)x.Width);
             LengthSlider.Minimum = result.Min(x => (double)x.Length);
             WattageSlider.Minimum = result.Min(x => x.Wattage);
+
+            ResetValues();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
         {
             BrandComboBox.SelectedIndex = -1;
             HeightSlider.Value = HeightSlider.Maximum;

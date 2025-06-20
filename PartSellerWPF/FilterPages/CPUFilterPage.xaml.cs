@@ -80,9 +80,15 @@ namespace PartSellerWPF.FilterPages
             MaxFreqSlider.Minimum = result.Min(x => (double)x.MaxFrequency);
             PriceSlider.Minimum = result.Min(x => (double)x.Price);
 
+            ResetValues();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
         {
             BrandComboBox.SelectedIndex = -1;
             SocketComboBox.SelectedIndex = -1;
@@ -91,11 +97,10 @@ namespace PartSellerWPF.FilterPages
             CoresSlider.Value = CoresSlider.Maximum;
             ThreadsSlider.Value = ThreadsSlider.Maximum;
             FreqSlider.Value = FreqSlider.Maximum;
-            L1Slider.Value = FreqSlider.Maximum;
-            L2Slider.Value = FreqSlider.Maximum;
-            MaxFreqSlider.Value = FreqSlider.Maximum;
+            L1Slider.Value = L1Slider.Maximum;
+            L2Slider.Value = L2Slider.Maximum;
+            MaxFreqSlider.Value = MaxFreqSlider.Maximum;
         }
-
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
             var filterParams = new FilterParams

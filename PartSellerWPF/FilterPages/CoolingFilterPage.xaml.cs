@@ -70,10 +70,20 @@ namespace PartSellerWPF.FilterPages
             HeightSlider.Maximum = result.Max(x => (double)x.Height);
             WidthSlider.Maximum = result.Max(x => (double)x.Width);
             LengthSlider.Maximum = result.Max(x => (double)x.Length);
+            PriceSlider.Minimum = result.Min(x => (double)x.Price);
+            HeightSlider.Minimum = result.Min(x => (double)x.Height);
+            WidthSlider.Minimum = result.Min(x => (double)x.Width);
+            LengthSlider.Minimum = result.Min(x => (double)x.Length);
 
+            ResetValues();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
         {
             BrandComboBox.SelectedIndex = -1;
             SocketComboBox.SelectedIndex = -1;

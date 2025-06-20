@@ -88,9 +88,16 @@ namespace PartSellerWPF.FilterPages
             RamCountSlider.Minimum = result.Min(x => x.MaxRAMCountGB);
             SataSlotsSlider.Minimum = result.Min(x => x.SATASlots);
             M2SlotsSlider.Minimum = result.Min(x => x.M2Slots);
+
+            ResetValues();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
         {
             BrandComboBox.SelectedIndex = -1;
             RamTypeComboBox.SelectedIndex = -1;
@@ -106,7 +113,6 @@ namespace PartSellerWPF.FilterPages
             SataSlotsSlider.Value = SataSlotsSlider.Maximum;
             M2SlotsSlider.Value = M2SlotsSlider.Maximum;
         }
-
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
             var filterParams = new FilterParams

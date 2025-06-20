@@ -57,9 +57,17 @@ namespace PartSellerWPF.FilterPages
             BrandComboBox.ItemsSource = query.Select(x => x.Disk.Brand).Distinct().ToList();
             DiskTypeComboBox.ItemsSource = query.Select(x => x.Disk.DiskType).Distinct().ToList();
             PriceSlider.Maximum = result.Max(x => (double)x.Price);
+            PriceSlider.Minimum = result.Min(x => (double)x.Price);
+
+            ResetValues();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
         {
             BrandComboBox.SelectedIndex = -1;
             DiskTypeComboBox.SelectedIndex = -1;

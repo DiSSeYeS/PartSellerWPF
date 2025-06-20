@@ -75,9 +75,15 @@ namespace PartSellerWPF.FilterPages
             MemoryFreqSlider.Minimum = result.Min(x => (double)x.MemoryFrequencyMHz);
             CoreFreqSlider.Minimum = result.Min(x => (double)x.CoreFrequencyMHz);
 
+            ResetValues();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
         {
             BrandComboBox.SelectedIndex = -1;
             HeightSlider.Value = HeightSlider.Maximum;
@@ -89,7 +95,6 @@ namespace PartSellerWPF.FilterPages
             MemoryFreqSlider.Value = MemoryFreqSlider.Maximum;
             CoreFreqSlider.Value = CoreFreqSlider.Maximum;
         }
-
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
             var filterParams = new FilterParams

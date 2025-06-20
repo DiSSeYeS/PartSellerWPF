@@ -40,7 +40,7 @@ namespace PartSellerWPF
                 this.Title = $"ComponentSeller - {page.Title}";
                 currentPage = page.Title;
 
-                btnCart.Visibility = currentPage == "CartPage" ? Visibility.Hidden : Visibility.Visible;
+                // btnCart.Visibility = currentPage == "CartPage" ? Visibility.Hidden : Visibility.Visible;
                 btnBack.Visibility = MainFrame.CanGoBack ? Visibility.Visible : Visibility.Hidden;
                 btnFilters.Visibility = PagesNames.Contains(currentPage) || currentPage.EndsWith("FilterPage") ? Visibility.Visible : Visibility.Hidden;
                 btnLogout.Visibility = currentPage == "AccountPage" && AuthManager.CurrentUser != null ? Visibility.Visible : Visibility.Hidden;
